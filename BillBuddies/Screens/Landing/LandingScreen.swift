@@ -47,8 +47,8 @@ struct LandingScreen: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 24)
+                    .padding(.horizontal, UIStyleConstants.Spacing.lg.rawValue)
+                    .padding(.bottom, UIStyleConstants.Spacing.lg.rawValue)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .frame(minHeight: screenHeight)

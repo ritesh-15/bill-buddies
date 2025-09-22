@@ -61,6 +61,7 @@ enum UIStyleConstants {
     enum Typography {
         case heading1
         case heading2
+        case subHeading
         case body
         case caption
 
@@ -70,6 +71,8 @@ enum UIStyleConstants {
                 return .custom(FontStyle.bold.value, size: FontSize.heading1.rawValue)
             case .heading2:
                 return .custom(FontStyle.bold.value, size: FontSize.heading2.rawValue)
+            case .subHeading:
+                return .custom(FontStyle.bold.value, size: FontSize.subHeading.rawValue)
             case .body:
                 return .custom(FontStyle.regular.value, size: FontSize.regular.rawValue)
             case .caption:
