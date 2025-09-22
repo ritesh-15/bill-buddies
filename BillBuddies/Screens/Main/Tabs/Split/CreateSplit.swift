@@ -10,7 +10,10 @@ struct CreateSplit: View {
 
     var body: some View {
         VStack {
-            TopBar(showCreate: $showCreate)
+            SplitTopNavBar(
+                title: "Split transaction",
+                imageIcon: "xmark",
+                showCreate: $showCreate)
 
             ScrollView {
                 LazyVStack(spacing: UIStyleConstants.Spacing.lg.rawValue) {
@@ -32,48 +35,23 @@ struct CreateSplit: View {
 
                     Spacer()
                 }
+                .padding(.top, UIStyleConstants.Spacing.lg.rawValue)
             }
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(.black)
         .safeAreaInset(edge: .bottom) {
-            AppButton(style: .primary) {
-                Text("Next")
-                    .font(UIStyleConstants.Typography.body.font.bold())
-            } action: {
+            Group {
+                AppButton(style: .primary) {
+                    Text("Next")
+                        .font(UIStyleConstants.Typography.body.font.bold())
+                } action: {
 
+                }
+                .padding(.vertical, UIStyleConstants.Spacing.s.rawValue)
+                .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
             }
-            .padding(.bottom, UIStyleConstants.Spacing.s.rawValue)
-            .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
-        }
-    }
-}
-
-fileprivate struct TopBar: View {
-
-    @Binding var showCreate: Bool
-
-    var body: some View {
-        HStack(alignment: .center) {
-            Text("Split transaction")
-                .font(UIStyleConstants.Typography.subHeading.font)
-                .bold()
-                .foregroundStyle(.white)
-        }
-        .frame(maxWidth: .infinity)
-        .overlay(alignment: .leading) {
-            HStack {
-                Image(systemName: "xmark")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 22, height: 22)
-                    .foregroundStyle(.white)
-                    .onTapGesture {
-                        showCreate = false
-                    }
-
-                Spacer()
-            }
+            .background(.black)
         }
     }
 }
