@@ -6,49 +6,43 @@ struct LandingScreen: View {
             GeometryReader { proxy in
                 let screenHeight = proxy.size.height
 
-                VStack(spacing: 0) {
+                VStack {
                     Image("landing_page_image")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: 350)
-                        .padding(.bottom, 53)
+                        .padding(.bottom, UIStyleConstants.Spacing.xxxl.rawValue)
 
-                    VStack(alignment: .leading, spacing: 22) {
+                    VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.lg.rawValue) {
                         Text("Splits bills not friendships")
                             .foregroundStyle(.black)
-                            .font(.custom("PlaypenSansThai-Bold", size: 42))
+                            .font(UIStyleConstants.Typography.heading1.font)
                             .lineLimit(nil)
                             .fixedSize(horizontal: false, vertical: true)
                             .layoutPriority(1)
 
                         Text("We help group of people to split expenses and bills when they are sharing cost of particular event or activity")
                             .foregroundStyle(.black)
-                            .font(.custom("PlaypenSansThai-Regular", size: 16))
+                            .font(UIStyleConstants.Typography.body.font)
                             .fixedSize(horizontal: false, vertical: true)
 
-                        Button {
-                            // Sign up action
-                        } label: {
+                        AppButton(style: .secondary) {
                             Text("Sign up")
-                                .font(.custom("PlaypenSansThai-Bold", size: 16))
-                                .frame(maxWidth: .infinity)
-                                .padding(.all, 18)
-                                .background(.black)
-                                .foregroundStyle(.white)
+                                .bold()
+                        } action: {
+
                         }
 
                         HStack(alignment: .center) {
                             Text("Already have an account ?")
-                                .font(.custom("PlaypenSansThai-Regular", size: 14))
+                                .font(UIStyleConstants.Typography.caption.font)
                                 .foregroundStyle(.black)
 
-                            Button {
-                                // Sign in action
-                            } label: {
-                                Text("Sign In")
-                                    .font(.custom("PlaypenSansThai-Bold", size: 14))
-                                    .foregroundStyle(.black)
-                                    .fontWeight(.semibold)
+                            AppButton(style: .link) {
+                                Text("Sign in")
+                                    .bold()
+                            } action: {
+
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -63,7 +57,7 @@ struct LandingScreen: View {
             .frame(height: UIScreen.main.bounds.height)
         }
         .frame(maxWidth: .infinity)
-        .background(.brandPrimary)
+        .background(UIStyleConstants.Colors.brandPrimary.value)
         .scrollBounceBehavior(.basedOnSize)
     }
 }
