@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct Groups: View {
+
+    @StateObject var viewModel = GroupsViewModel()
+
     var body: some View {
         VStack {
-            TopNavBar()
+            TopNavBar(viewModel: viewModel)
 
             ScrollView {
                 LazyVStack(spacing: UIStyleConstants.Spacing.md.rawValue) {
@@ -15,10 +18,16 @@ struct Groups: View {
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
+        .fullScreenCover(isPresented: $viewModel.showCreateGroup) {
+            CreateGroupScreen(showCreateGroup: $viewModel.showCreateGroup)
+        }
     }
 }
 
 fileprivate struct TopNavBar: View {
+
+    @ObservedObject var viewModel: GroupsViewModel
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.s.rawValue) {
@@ -35,18 +44,9 @@ fileprivate struct TopNavBar: View {
 
             Spacer()
 
-            Image(systemName: "plus")
-                .resizable()
-                .renderingMode(.template)
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 24, height: 24)
-                .padding(.all, UIStyleConstants.Spacing.md.rawValue)
-                .foregroundStyle(UIStyleConstants.Colors.brandPrimary.value)
-                .clipShape(Circle())
-                .overlay(
-                        Circle()
-                            .stroke(UIStyleConstants.Colors.brandPrimary.value, lineWidth: 1)
-                    )
+            ImageButton(imageIcon: "plus") {
+                viewModel.showCreateGroup.toggle()
+            }
         }
     }
 }

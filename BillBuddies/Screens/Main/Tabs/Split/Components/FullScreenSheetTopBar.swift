@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct SplitTopNavBar: View {
+struct FullScreenSheetTopBar: View {
 
     let title: String
     let imageIcon: String
-
     @Binding var showCreate: Bool
+    var trailingView: (() -> AnyView)? = nil
 
     var body: some View {
         HStack(alignment: .center) {
@@ -20,13 +20,7 @@ struct SplitTopNavBar: View {
 
             Spacer()
 
-            Text("2/3")
-                .font(UIStyleConstants.Typography.body.font)
-                .padding(.horizontal, UIStyleConstants.Spacing.sm.rawValue)
-                .padding(.vertical, UIStyleConstants.Spacing.xs.rawValue)
-                .background(.gray.opacity(0.5))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .foregroundStyle(UIStyleConstants.Colors.foreground.value)
+            trailingView?()
         }
         .frame(maxWidth: .infinity)
         .overlay {
@@ -40,5 +34,5 @@ struct SplitTopNavBar: View {
 }
 
 #Preview {
-    SplitTopNavBar(title: "Split transaction", imageIcon: "xmark", showCreate: .constant(false))
+    FullScreenSheetTopBar(title: "Split transaction", imageIcon: "xmark", showCreate: .constant(false))
 }

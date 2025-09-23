@@ -7,6 +7,12 @@ struct GroupCard: View {
         case groups
     }
 
+    private let colors: [UIColor] = [
+        UIColor(red: 251/255, green: 203/255, blue: 204/255, alpha: 1),
+        UIColor(red: 154/255, green: 235/255, blue: 228/255, alpha: 1),
+        UIColor(red: 241/255, green: 155/255, blue: 111/255, alpha: 1),
+    ]
+
     var visibleOn: VisibleOn = .home
 
     var body: some View {
@@ -94,7 +100,7 @@ struct GroupCard: View {
         }
         .padding(.vertical, UIStyleConstants.Spacing.md.rawValue)
         .padding(.horizontal, UIStyleConstants.Spacing.lg.rawValue)
-        .background(.brandPrimary)
+        .background(Color(uiColor: colors.randomElement() ?? .brandPrimary))
         .frame(minWidth: 350)
     }
 }

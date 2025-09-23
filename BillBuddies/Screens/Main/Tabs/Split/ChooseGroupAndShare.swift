@@ -7,7 +7,7 @@ struct ChooseGroupAndShare: View {
 
     var body: some View {
         VStack {
-            SplitTopNavBar(
+            FullScreenSheetTopBar(
                 title: "Split transaction",
                 imageIcon: "chevron.backward",
                 showCreate: $showCreate)
