@@ -39,7 +39,7 @@ struct CreateSplit: View {
             }
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
-        .background(.black)
+        .background(UIStyleConstants.Colors.background.value)
         .safeAreaInset(edge: .bottom) {
             Group {
                 AppButton(style: .primary) {
@@ -51,7 +51,7 @@ struct CreateSplit: View {
                 .padding(.vertical, UIStyleConstants.Spacing.s.rawValue)
                 .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
             }
-            .background(.black)
+            .background(UIStyleConstants.Colors.background.value)
         }
     }
 }
@@ -78,7 +78,7 @@ fileprivate struct InputField<Value>: View {
             Text(title)
                 .font(UIStyleConstants.Typography.body.font)
                 .fontWeight(.semibold)
-                .foregroundStyle(.white)
+                .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
             field
         }
@@ -87,7 +87,7 @@ fileprivate struct InputField<Value>: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay {
             Rectangle()
-                .stroke(.white, lineWidth: 1)
+                .stroke(UIStyleConstants.Colors.foreground.value, lineWidth: 1)
         }
     }
 
@@ -114,7 +114,7 @@ fileprivate struct InputField<Value>: View {
             }
             .tint(UIStyleConstants.Colors.brandPrimary.value)
             .font(UIStyleConstants.Typography.subHeading.font)
-            .foregroundStyle(.white)
+            .foregroundStyle(UIStyleConstants.Colors.foreground.value)
             .textInputAutocapitalization(.never)
         } else {
             EmptyView()
@@ -131,13 +131,13 @@ fileprivate struct EnterAmountField: View {
             Text("Enter amount to split")
                 .font(UIStyleConstants.Typography.body.font)
                 .bold()
-                .foregroundStyle(.white)
+                .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
             HStack(alignment: .center, spacing: UIStyleConstants.Spacing.md.rawValue) {
                 Text("Rs")
                     .font(UIStyleConstants.Typography.subHeading.font)
                     .bold()
-                    .foregroundStyle(.white)
+                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
                 TextField(text: $amount, prompt: Text("0")) {
 
@@ -148,7 +148,7 @@ fileprivate struct EnterAmountField: View {
                 .textCase(.lowercase)
                 .font(UIStyleConstants.Typography.heading1.font)
                 .tint(.brandPrimary)
-                .foregroundStyle(.white)
+                .foregroundStyle(UIStyleConstants.Colors.foreground.value)
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .fixedSize()

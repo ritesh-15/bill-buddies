@@ -14,7 +14,7 @@ struct HomeScreen: View {
             }
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
-        .background(.black)
+        .background(UIStyleConstants.Colors.background.value)
     }
 }
 
@@ -41,12 +41,12 @@ fileprivate struct RecentActivity: View {
                                 Text("Coffe shop")
                                     .font(UIStyleConstants.Typography.body.font)
                                     .bold()
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
                                 Text("Apr 2025 . 6:44 pm")
                                     .font(UIStyleConstants.Typography.caption.font)
                                     .fontWeight(.light)
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                             }
                         }
 
@@ -55,7 +55,7 @@ fileprivate struct RecentActivity: View {
                         Text("+₹450")
                             .font(UIStyleConstants.Typography.subHeading.font)
                             .bold()
-                            .foregroundStyle(.white)
+                            .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                     }
                     .padding(.bottom, UIStyleConstants.Spacing.sm.rawValue)
                 }
@@ -110,7 +110,7 @@ fileprivate struct SectionHeader: View {
             Text(sectionTitle)
                 .font(UIStyleConstants.Typography.subHeading.font)
                 .fontWeight(.bold)
-                .foregroundStyle(.white)
+                .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
             Spacer()
 
@@ -132,13 +132,13 @@ fileprivate struct TopNavBar: View {
             VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.xs.rawValue) {
                 Text("Hey Tom!")
                     .font(UIStyleConstants.Typography.heading2.font)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                     .bold()
 
                 Text("Split your bill with your friends")
                     .font(UIStyleConstants.Typography.body.font)
                     .fontWeight(.light)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
             }
 
             Spacer()

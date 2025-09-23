@@ -23,7 +23,7 @@ struct MainScreen: View {
             }
 
             Tab("Settings", systemImage: "gearshape", value: MainScreenViewModel.TabItem.settings) {
-                Text("Settings")
+                SettingsScreen()
             }
         }
         .tint(UIStyleConstants.Colors.brandPrimary.value)

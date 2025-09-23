@@ -18,7 +18,7 @@ struct ChooseGroupAndShare: View {
                         Text("Select group")
                             .font(UIStyleConstants.Typography.body.font)
                             .fontWeight(.semibold)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
                         HStack(alignment: .top) {
                             Avatar(url: "https://api.dicebear.com/9.x/shapes/png")
@@ -27,7 +27,7 @@ struct ChooseGroupAndShare: View {
                                 Text("Goa Vacation")
                                     .font(UIStyleConstants.Typography.body.font)
                                     .fontWeight(.bold)
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
                                 LazyHStack {
                                     Avatar(size: 24)
@@ -68,7 +68,7 @@ struct ChooseGroupAndShare: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .overlay {
                         Rectangle()
-                            .stroke(.white, lineWidth: 1)
+                            .stroke(UIStyleConstants.Colors.foreground.value, lineWidth: 1)
                     }
 
                     LazyVStack {
@@ -80,7 +80,7 @@ struct ChooseGroupAndShare: View {
                                     Text("Ritesh Khore")
                                         .font(UIStyleConstants.Typography.body.font)
                                         .bold()
-                                        .foregroundStyle(.white)
+                                        .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                                 }
 
                                 Spacer()
@@ -88,7 +88,7 @@ struct ChooseGroupAndShare: View {
                                 Text("₹ 400")
                                     .font(UIStyleConstants.Typography.subHeading.font)
                                     .bold()
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                             }
                         }
                     }
@@ -97,7 +97,7 @@ struct ChooseGroupAndShare: View {
             }
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
-        .background(.black)
+        .background(UIStyleConstants.Colors.background.value)
         .safeAreaInset(edge: .bottom) {
             Group {
                 AppButton(style: .primary) {
@@ -109,7 +109,7 @@ struct ChooseGroupAndShare: View {
                 .padding(.vertical, UIStyleConstants.Spacing.s.rawValue)
                 .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
             }
-            .background(.black)
+            .background(UIStyleConstants.Colors.background.value)
         }
     }
 }
@@ -125,12 +125,12 @@ fileprivate struct SplitBy: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 34, height: 34)
-                .foregroundStyle(.white.opacity(0.9))
+                .foregroundStyle(UIStyleConstants.Colors.foreground.value.opacity(0.9))
 
             Text(title)
                 .font(UIStyleConstants.Typography.body.font)
                 .bold()
-                .foregroundStyle(.white.opacity(0.9))
+                .foregroundStyle(UIStyleConstants.Colors.foreground.value.opacity(0.9))
         }
     }
 }

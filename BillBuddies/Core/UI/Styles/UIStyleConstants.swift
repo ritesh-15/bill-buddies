@@ -37,12 +37,20 @@ enum UIStyleConstants {
         case brandPrimary
         case secondary
         case destructive
+        case background
+        case foreground
 
         var value: Color {
             switch self {
             case .brandPrimary: return Color(.brandPrimary)
             case .secondary: return Color(.black)
             case .destructive: return Color(.red)
+            case .background: return Color(UIColor { traitCollection in
+                traitCollection.userInterfaceStyle == .dark ? .black : .white
+            })
+            case .foreground: return Color(UIColor { traitCollection in
+                traitCollection.userInterfaceStyle == .dark ? .white : .black
+            })
             }
         }
     }
@@ -56,6 +64,17 @@ enum UIStyleConstants {
         case xl = 32
         case xxl = 42
         case xxxl = 64
+    }
+
+    enum Radius: CGFloat {
+        case s = 2
+        case xs = 4
+        case sm = 8
+        case md = 12
+        case lg = 14
+        case xl = 16
+        case xxl = 22
+        case xxxl = 24
     }
 
     enum Typography {

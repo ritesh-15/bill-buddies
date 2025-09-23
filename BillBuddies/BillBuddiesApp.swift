@@ -1,17 +1,14 @@
-//
-//  BillBuddiesApp.swift
-//  BillBuddies
-//
-//  Created by Ritesh Khore on 21/09/25.
-//
-
 import SwiftUI
 
 @main
 struct BillBuddiesApp: App {
+    @StateObject private var themeManager = ThemeManager()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(themeManager)
+                .preferredColorScheme(themeManager.colorScheme)
         }
     }
 }

@@ -14,7 +14,7 @@ struct Groups: View {
             }
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
-        .background(.black)
+        .background(UIStyleConstants.Colors.background.value)
     }
 }
 
@@ -25,12 +25,12 @@ fileprivate struct TopNavBar: View {
                 Text("Groups")
                     .font(UIStyleConstants.Typography.subHeading.font)
                     .bold()
-                    .foregroundStyle(.white)
+                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
                 Text("Make your group and split bills easily")
                     .font(UIStyleConstants.Typography.caption.font)
                     .fontWeight(.light)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
             }
 
             Spacer()

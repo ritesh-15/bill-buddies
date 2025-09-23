@@ -13,7 +13,7 @@ struct SplitTopNavBar: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 22, height: 22)
-                .foregroundStyle(.white)
+                .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                 .onTapGesture {
                     showCreate = false
                 }
@@ -26,7 +26,7 @@ struct SplitTopNavBar: View {
                 .padding(.vertical, UIStyleConstants.Spacing.xs.rawValue)
                 .background(.gray.opacity(0.5))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                .foregroundStyle(.white)
+                .foregroundStyle(UIStyleConstants.Colors.foreground.value)
         }
         .frame(maxWidth: .infinity)
         .overlay {
@@ -34,7 +34,7 @@ struct SplitTopNavBar: View {
             Text(title)
                 .font(UIStyleConstants.Typography.subHeading.font)
                 .bold()
-                .foregroundStyle(.white)
+                .foregroundStyle(UIStyleConstants.Colors.foreground.value)
         }
     }
 }
