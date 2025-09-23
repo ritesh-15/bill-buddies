@@ -2,18 +2,20 @@ import SwiftUI
 
 struct Avatar: View {
 
-    static private let url = "https://api.dicebear.com/9.x/adventurer-neutral/png"
-
+    var url: String
     var size: CGFloat
     var seed: String
 
-    init(size: CGFloat = 72, seed: String = UUID().uuidString) {
+    init(url: String = "https://api.dicebear.com/9.x/adventurer-neutral/png",
+         size: CGFloat = 72,
+         seed: String = UUID().uuidString) {
         self.size = size
         self.seed = seed
+        self.url = url
     }
 
     var body: some View {
-        AsyncImage(url: URL(string: "\(Self.url)?size=\(size)&seed=\(seed)")) { image in
+        AsyncImage(url: URL(string: "\(url)?size=\(size)&seed=\(seed)")) { image in
             image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
