@@ -9,8 +9,7 @@ struct ChooseGroupAndShare: View {
         VStack {
             FullScreenSheetTopBar(
                 title: "Split transaction",
-                imageIcon: "chevron.backward",
-                showCreate: $showCreate)
+                imageIcon: "chevron.backward")
 
             ScrollView {
                 VStack(spacing: UIStyleConstants.Spacing.xxl.rawValue) {

@@ -2,8 +2,6 @@ import SwiftUI
 
 struct CreateGroupScreen: View {
 
-    @Binding var showCreateGroup: Bool
-
     // TODO: Extract to view model
     @State var groupName: String = ""
 
@@ -11,8 +9,7 @@ struct CreateGroupScreen: View {
         VStack {
             FullScreenSheetTopBar(
                 title: "Create group",
-                imageIcon: "xmark",
-                showCreate: $showCreateGroup)
+                imageIcon: "xmark")
 
             ScrollView {
                 LazyVStack(spacing: UIStyleConstants.Spacing.xl.rawValue) {
@@ -87,5 +84,5 @@ struct CreateGroupScreen: View {
 }
 
 #Preview {
-    CreateGroupScreen(showCreateGroup: .constant(true))
+    CreateGroupScreen()
 }

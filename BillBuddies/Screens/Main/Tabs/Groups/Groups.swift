@@ -18,14 +18,12 @@ struct Groups: View {
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
-        .fullScreenCover(isPresented: $viewModel.showCreateGroup) {
-            CreateGroupScreen(showCreateGroup: $viewModel.showCreateGroup)
-        }
     }
 }
 
 fileprivate struct TopNavBar: View {
 
+    @EnvironmentObject var router: NavigationRouter
     @ObservedObject var viewModel: GroupsViewModel
 
     var body: some View {
@@ -45,7 +43,7 @@ fileprivate struct TopNavBar: View {
             Spacer()
 
             ImageButton(imageIcon: "plus") {
-                viewModel.showCreateGroup.toggle()
+                router.presentFullScreen(.createGroup)
             }
         }
     }

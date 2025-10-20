@@ -6,14 +6,11 @@ struct CreateSplit: View {
     @State private var descriptionText: String = ""
     @State private var paymentDate: Date = .now
 
-    @Binding var showCreate: Bool
-
     var body: some View {
         VStack {
             FullScreenSheetTopBar(
                 title: "Split transaction",
-                imageIcon: "xmark",
-                showCreate: $showCreate) {
+                imageIcon: "xmark") {
                     AnyView(
                         Text("2/3")
                             .font(UIStyleConstants.Typography.body.font)
@@ -101,5 +98,5 @@ fileprivate struct EnterAmountField: View {
 }
 
 #Preview {
-    CreateSplit(showCreate: .constant(true))
+    CreateSplit()
 }

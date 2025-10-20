@@ -2,9 +2,10 @@ import SwiftUI
 
 struct FullScreenSheetTopBar: View {
 
+    @EnvironmentObject var router: NavigationRouter
+
     let title: String
     let imageIcon: String
-    @Binding var showCreate: Bool
     var trailingView: (() -> AnyView)? = nil
 
     var body: some View {
@@ -15,7 +16,7 @@ struct FullScreenSheetTopBar: View {
                 .frame(width: 22, height: 22)
                 .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                 .onTapGesture {
-                    showCreate = false
+                    router.dismissFullScreen()
                 }
 
             Spacer()
@@ -34,5 +35,5 @@ struct FullScreenSheetTopBar: View {
 }
 
 #Preview {
-    FullScreenSheetTopBar(title: "Split transaction", imageIcon: "xmark", showCreate: .constant(false))
+    FullScreenSheetTopBar(title: "Split transaction", imageIcon: "xmark")
 }
