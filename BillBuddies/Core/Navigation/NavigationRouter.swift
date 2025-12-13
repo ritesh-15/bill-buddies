@@ -41,7 +41,7 @@ final class NavigationRouter: ObservableObject {
         var destinationView: some View {
             Group {
                 switch self {
-                case .groupDetail(let id):
+                case .groupDetail(_):
                     GroupScreen()
                 default:
                     Text("View not configured")
@@ -65,7 +65,7 @@ final class NavigationRouter: ObservableObject {
             NavigationStack {
                 switch self {
                 case .split:
-                    CreateSplit()
+                    SplitContainerScreen()
                 case .createGroup:
                     CreateGroupScreen()
                 default:

@@ -2,40 +2,29 @@ import SwiftUI
 
 struct ChooseGroupAndShare: View {
 
-    // TODO: Remove this later
-    @State var showCreate = false
+    @EnvironmentObject var router: NavigationRouter
+    @ObservedObject var viewModel: CreateSplitViewModel
 
     var body: some View {
         VStack {
             FullScreenSheetTopBar(
                 title: "Split transaction",
-                imageIcon: "chevron.backward")
+                imageIcon: "chevron.backward",
+                overrideBackAction: {
+                    viewModel.previousStep()
+                })
 
             ScrollView {
                 VStack(spacing: UIStyleConstants.Spacing.xxl.rawValue) {
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("Select group")
+                        Text("Select a group")
                             .font(UIStyleConstants.Typography.body.font)
                             .fontWeight(.semibold)
                             .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
-                        HStack(alignment: .top) {
-                            Avatar(url: "https://api.dicebear.com/9.x/shapes/png")
-
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("Goa Vacation")
-                                    .font(UIStyleConstants.Typography.body.font)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
-
-                                LazyHStack {
-                                    Avatar(size: 24)
-                                    Avatar(size: 24)
-                                    Avatar(size: 24)
-                                }
-                            }
+                        if viewModel.isGroupSelected {
+                            GroupRow()
                         }
-                        .padding(.top, UIStyleConstants.Spacing.md.rawValue)
                     }
                     .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
                     .padding(.vertical, UIStyleConstants.Spacing.lg.rawValue)
@@ -43,6 +32,9 @@ struct ChooseGroupAndShare: View {
                     .overlay {
                         Rectangle()
                             .stroke(.white, lineWidth: 1)
+                    }
+                    .onTapGesture {
+                        viewModel.showChooseGroupScreen = true
                     }
 
                     // Split share
@@ -110,6 +102,11 @@ struct ChooseGroupAndShare: View {
             }
             .background(UIStyleConstants.Colors.background.value)
         }
+        .fullScreenCover(isPresented: $viewModel.showChooseGroupScreen) {
+            SearchAndSelectGroupScreen()
+                .environmentObject(viewModel)
+        }
+        .environmentObject(viewModel)
     }
 }
 
@@ -135,5 +132,5 @@ fileprivate struct SplitBy: View {
 }
 
 #Preview {
-    ChooseGroupAndShare()
+    ChooseGroupAndShare(viewModel: CreateSplitViewModel())
 }

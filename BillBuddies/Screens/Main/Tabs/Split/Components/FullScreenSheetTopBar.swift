@@ -7,6 +7,7 @@ struct FullScreenSheetTopBar: View {
     let title: String
     let imageIcon: String
     var trailingView: (() -> AnyView)? = nil
+    var overrideBackAction: (() -> Void)? = nil
 
     var body: some View {
         HStack(alignment: .center) {
@@ -16,7 +17,11 @@ struct FullScreenSheetTopBar: View {
                 .frame(width: 22, height: 22)
                 .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                 .onTapGesture {
-                    router.dismissFullScreen()
+                    if let overrideBackAction {
+                        overrideBackAction()
+                    } else {
+                        router.dismissFullScreen()
+                    }
                 }
 
             Spacer()
