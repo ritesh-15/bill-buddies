@@ -27,6 +27,10 @@ struct SearchAndSelectGroupScreen: View {
 
                             Spacer()
                         }
+                        .onTapGesture {
+                            viewModel.isGroupSelected = true
+                            viewModel.showChooseGroupScreen = false
+                        }
                     }
                 }
             }

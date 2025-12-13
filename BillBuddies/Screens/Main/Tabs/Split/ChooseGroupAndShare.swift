@@ -1,5 +1,45 @@
 import SwiftUI
 
+enum SplitMethod: CaseIterable {
+    case equally, amount, percent, share
+
+    var label: String {
+        switch self {
+        case .equally: return "Equally"
+        case .amount: return "Amount"
+        case .percent: return "Percent"
+        case .share: return "Share"
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .equally: return "person.2"
+        case .amount: return "indianrupeesign"
+        case .percent: return "percent"
+        case .share: return "chart.pie"
+        }
+    }
+}
+
+// MARK: - Participant Model
+
+struct Participant: Identifiable, Hashable {
+    var id: UUID
+    var name: String
+    var avatarSeed: String
+    var avatarUrl: String
+    var amount: String
+
+    init(id: UUID = UUID(), name: String, avatarSeed: String = UUID().uuidString, avatarUrl: String = "https://api.dicebear.com/9.x/adventurer-neutral/png") {
+        self.id = id
+        self.name = name
+        self.avatarSeed = avatarSeed
+        self.avatarUrl = avatarUrl
+        self.amount = ""
+    }
+}
+
 struct ChooseGroupAndShare: View {
 
     @EnvironmentObject var router: NavigationRouter
@@ -15,7 +55,7 @@ struct ChooseGroupAndShare: View {
                 })
 
             ScrollView {
-                VStack(spacing: UIStyleConstants.Spacing.xxl.rawValue) {
+                VStack(spacing: UIStyleConstants.Spacing.md.rawValue) {
                     VStack(alignment: .leading, spacing: 0) {
                         Text("Select a group")
                             .font(UIStyleConstants.Typography.body.font)
@@ -37,21 +77,21 @@ struct ChooseGroupAndShare: View {
                         viewModel.showChooseGroupScreen = true
                     }
 
-                    // Split share
+                    // Split share selection row
                     HStack {
-                        SplitBy(imageIcon: "person.2", title: "Equally")
-
-                        Spacer()
-
-                        SplitBy(imageIcon: "indianrupeesign", title: "Amount")
-
-                        Spacer()
-
-                        SplitBy(imageIcon: "percent", title: "Percent")
-
-                        Spacer()
-
-                        SplitBy(imageIcon: "chart.pie", title: "Share")
+                        ForEach(SplitMethod.allCases, id: \.self) { method in
+                            SplitBy(
+                                imageIcon: method.systemImage,
+                                title: method.label,
+                                isSelected: viewModel.selectedSplitMethod == method
+                            )
+                            .onTapGesture {
+                                viewModel.selectedSplitMethod = method
+                            }
+                            if method != SplitMethod.allCases.last {
+                                Spacer()
+                            }
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
@@ -62,27 +102,20 @@ struct ChooseGroupAndShare: View {
                             .stroke(UIStyleConstants.Colors.foreground.value, lineWidth: 1)
                     }
 
-                    LazyVStack {
-                        ForEach(1..<8) { _ in
-                            HStack(alignment: .center) {
-                                HStack(alignment: .center) {
-                                    Avatar(size: 42)
-
-                                    Text("Ritesh Khore")
-                                        .font(UIStyleConstants.Typography.body.font)
-                                        .bold()
-                                        .foregroundStyle(UIStyleConstants.Colors.foreground.value)
-                                }
-
-                                Spacer()
-
-                                Text("₹ 400")
-                                    .font(UIStyleConstants.Typography.subHeading.font)
-                                    .bold()
-                                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
-                            }
+                    // Render the appropriate view below based on selection
+                    Group {
+                        switch viewModel.selectedSplitMethod {
+                        case .equally:
+                            EquallySplitView()
+                        case .amount:
+                            AmountSplitView()
+                        case .percent:
+                            PercentSplitView()
+                        case .share:
+                            ShareSplitView()
                         }
                     }
+                    .environmentObject(viewModel)
                 }
                 .padding(.top, UIStyleConstants.Spacing.lg.rawValue)
             }
@@ -114,6 +147,7 @@ fileprivate struct SplitBy: View {
 
     let imageIcon: String
     let title: String
+    var isSelected: Bool = false
 
     var body: some View {
         VStack(alignment: .center, spacing: UIStyleConstants.Spacing.s.rawValue) {
@@ -121,16 +155,44 @@ fileprivate struct SplitBy: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 34, height: 34)
-                .foregroundStyle(UIStyleConstants.Colors.foreground.value.opacity(0.9))
+                .foregroundStyle(
+                    isSelected
+                    ? UIStyleConstants.Colors.brandPrimary.value
+                    : UIStyleConstants.Colors.foreground.value.opacity(0.9)
+                )
 
             Text(title)
                 .font(UIStyleConstants.Typography.body.font)
                 .bold()
-                .foregroundStyle(UIStyleConstants.Colors.foreground.value.opacity(0.9))
+                .foregroundStyle(
+                    isSelected
+                    ? UIStyleConstants.Colors.brandPrimary.value
+                    : UIStyleConstants.Colors.foreground.value.opacity(0.9)
+                )
         }
+        .padding(6)
+        .background(
+            isSelected
+            ? UIStyleConstants.Colors.brandPrimary.value.opacity(0.12)
+            : Color.clear
+        )
+        .foregroundStyle(
+            isSelected
+            ? UIStyleConstants.Colors.brandPrimary.value.opacity(0.12)
+            : UIStyleConstants.Colors.foreground.value.opacity(0.9)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
 #Preview {
-    ChooseGroupAndShare(viewModel: CreateSplitViewModel())
+    let viewModel = CreateSplitViewModel()
+    viewModel.participants = [
+        Participant(name: "Ritesh Khore"),
+        Participant(name: "Alex Smith"),
+        Participant(name: "Jamie Doe")
+    ]
+    viewModel.selectedParticipantIDs = [viewModel.participants.first!.id]
+    return ChooseGroupAndShare(viewModel: viewModel)
 }
+
