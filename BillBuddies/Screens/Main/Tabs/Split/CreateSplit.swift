@@ -2,9 +2,7 @@ import SwiftUI
 
 struct CreateSplit: View {
 
-    @State private var amount: String = ""
-    @State private var descriptionText: String = ""
-    @State private var paymentDate: Date = .now
+    @ObservedObject var viewModel: CreateSplitViewModel
 
     var body: some View {
         VStack {
@@ -12,7 +10,7 @@ struct CreateSplit: View {
                 title: "Split transaction",
                 imageIcon: "xmark") {
                     AnyView(
-                        Text("2/3")
+                        Text("1/3")
                             .font(UIStyleConstants.Typography.body.font)
                             .padding(.horizontal, UIStyleConstants.Spacing.sm.rawValue)
                             .padding(.vertical, UIStyleConstants.Spacing.xs.rawValue)
@@ -25,19 +23,19 @@ struct CreateSplit: View {
             ScrollView {
                 LazyVStack(spacing: UIStyleConstants.Spacing.lg.rawValue) {
                     // Enter amount
-                    EnterAmountField(amount: $amount)
+                    EnterAmountField(amount: $viewModel.amount)
 
                     // Description
                     InputField(
                         "Description (optional)",
                         placeHolder: "Describe your transaction",
-                        value: $descriptionText)
+                        value: $viewModel.description)
 
                     // Date
                     InputField(
                         "Payment date",
                         placeHolder: "Pick payment date",
-                        value: $paymentDate,
+                        value: $viewModel.paymentDate,
                         displayedComponents: .date)
 
                     Spacer()
@@ -53,7 +51,7 @@ struct CreateSplit: View {
                     Text("Next")
                         .font(UIStyleConstants.Typography.body.font.bold())
                 } action: {
-
+                    viewModel.nextStep()
                 }
                 .padding(.vertical, UIStyleConstants.Spacing.s.rawValue)
                 .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
@@ -98,5 +96,5 @@ fileprivate struct EnterAmountField: View {
 }
 
 #Preview {
-    CreateSplit()
+    CreateSplit(viewModel: CreateSplitViewModel())
 }

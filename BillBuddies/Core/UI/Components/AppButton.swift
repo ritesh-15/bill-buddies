@@ -23,7 +23,7 @@ struct AppButton<Content: View>: View {
 
     var body: some View {
         Button {
-
+            action()
         } label: {
             content()
                 .font(UIStyleConstants.Typography.body.font)

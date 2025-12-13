@@ -39,10 +39,15 @@ final class NavigationRouter: ObservableObject {
 
         @ViewBuilder
         var destinationView: some View {
-            switch self {
-            default:
-                Text("View not configured")
+            Group {
+                switch self {
+                case .groupDetail(_):
+                    GroupScreen()
+                default:
+                    Text("View not configured")
+                }
             }
+            .toolbarVisibility(.hidden, for: .tabBar)
         }
 
         @ViewBuilder
@@ -60,7 +65,7 @@ final class NavigationRouter: ObservableObject {
             NavigationStack {
                 switch self {
                 case .split:
-                    CreateSplit()
+                    SplitContainerScreen()
                 case .createGroup:
                     CreateGroupScreen()
                 default:
@@ -174,7 +179,7 @@ final class NavigationRouter: ObservableObject {
 
     func dismissFullScreen() {
         presentedFullScreen = nil
-        selectedTab = previousTab
+        // TODO: Handle split tab navigation
     }
 }
 
