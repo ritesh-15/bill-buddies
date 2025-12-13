@@ -2,9 +2,9 @@ import SwiftUI
 
 struct GroupCard: View {
 
-    enum VisibleOn {
-        case home
-        case groups
+    enum CardType {
+        case expense
+        case group
     }
 
     private let colors: [UIColor] = [
@@ -13,9 +13,29 @@ struct GroupCard: View {
         UIColor(red: 241/255, green: 155/255, blue: 111/255, alpha: 1),
     ]
 
-    var visibleOn: VisibleOn = .home
+    var cardType: CardType = .expense
+    var isCreatedByMe = false
 
     var body: some View {
+        HStack {
+            if cardType == .expense {
+                if !isCreatedByMe {
+                    // Card on left, space on right
+                    cardContent
+                    Spacer(minLength: UIStyleConstants.Spacing.xl.rawValue)
+                } else {
+                    // Space on left, card on right
+                    Spacer(minLength: UIStyleConstants.Spacing.xl.rawValue)
+                    cardContent
+                }
+            } else {
+                cardContent
+            }
+        }
+        // Remove horizontal padding from the card itself, let the HStack handle layout
+    }
+
+    private var cardContent: some View {
         VStack(spacing: UIStyleConstants.Spacing.md.rawValue) {
             HStack(alignment: .center) {
                 Text("Tickets for mueseum")
@@ -23,7 +43,7 @@ struct GroupCard: View {
                     .foregroundStyle(.black)
                     .bold()
 
-                if visibleOn == .groups {
+                if cardType == .group {
                     Group {
                         Spacer()
 
@@ -52,7 +72,7 @@ struct GroupCard: View {
 
                 Spacer()
 
-                if visibleOn == .groups {
+                if cardType == .group {
                     SplitTo()
                 } else {
                     VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.xs.rawValue) {
@@ -67,7 +87,7 @@ struct GroupCard: View {
                 }
             }
 
-            if visibleOn == .groups {
+            if cardType == .group {
                 VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.sm.rawValue) {
                     HStack(alignment: .center) {
                         Text("Paid")
@@ -102,6 +122,8 @@ struct GroupCard: View {
         .padding(.horizontal, UIStyleConstants.Spacing.lg.rawValue)
         .background(Color(uiColor: colors.randomElement() ?? .brandPrimary))
         .frame(minWidth: 350)
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 2)
     }
 }
 
@@ -144,5 +166,10 @@ fileprivate struct SplitTo: View {
 }
 
 #Preview {
-    GroupCard(visibleOn: .groups)
+    VStack {
+        GroupCard(cardType: .expense, isCreatedByMe: false)
+        GroupCard(cardType: .expense, isCreatedByMe: true)
+    }
+    .padding()
+    .background(Color.gray.opacity(0.2))
 }

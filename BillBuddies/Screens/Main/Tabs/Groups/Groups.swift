@@ -2,6 +2,7 @@ import SwiftUI
 
 struct Groups: View {
 
+    @EnvironmentObject var router: NavigationRouter
     @StateObject var viewModel = GroupsViewModel()
 
     var body: some View {
@@ -11,7 +12,10 @@ struct Groups: View {
             ScrollView {
                 LazyVStack(spacing: UIStyleConstants.Spacing.md.rawValue) {
                     ForEach(1..<10) { _ in
-                        GroupCard(visibleOn: .groups)
+                        GroupCard(cardType: .group)
+                            .onTapGesture {
+                                router.navigate(to: .groupDetail(id: "test-group"))
+                            }
                     }
                 }
             }
