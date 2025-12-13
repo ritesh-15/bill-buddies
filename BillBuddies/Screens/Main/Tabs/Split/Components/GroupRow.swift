@@ -6,7 +6,7 @@ struct GroupRow: View {
             Avatar(url: "https://api.dicebear.com/9.x/shapes/png?seed=\(UUID().uuidString)")
 
             VStack(alignment: .leading, spacing: 0) {
-                Text("Goa Vacation")
+                Text("Kerala Trip")
                     .font(UIStyleConstants.Typography.body.font)
                     .fontWeight(.bold)
                     .foregroundStyle(UIStyleConstants.Colors.foreground.value)
