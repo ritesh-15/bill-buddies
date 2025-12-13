@@ -17,6 +17,7 @@ final class NavigationRouter: ObservableObject {
         case profile
         case settings
         case editProfile
+        case statistics
 
         // Modal routes
         case split
@@ -34,6 +35,7 @@ final class NavigationRouter: ObservableObject {
             case .editProfile: return "editProfile"
             case .split: return "split"
             case .createGroup: return "createGroup"
+            case .statistics: return "statistics"
             }
         }
 
