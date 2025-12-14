@@ -18,6 +18,7 @@ final class NavigationRouter: ObservableObject {
         case settings
         case editProfile
         case statistics
+        case groupSetting
 
         // Modal routes
         case split
@@ -36,6 +37,7 @@ final class NavigationRouter: ObservableObject {
             case .split: return "split"
             case .createGroup: return "createGroup"
             case .statistics: return "statistics"
+            case .groupSetting: return "groupSetting"
             }
         }
 
@@ -45,6 +47,8 @@ final class NavigationRouter: ObservableObject {
                 switch self {
                 case .groupDetail(_):
                     GroupScreen()
+                case .groupSetting:
+                    GroupSettingsScreen()
                 default:
                     Text("View not configured")
                 }
