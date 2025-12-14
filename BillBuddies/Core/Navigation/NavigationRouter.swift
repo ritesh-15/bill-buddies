@@ -178,8 +178,12 @@ final class NavigationRouter: ObservableObject {
     }
 
     func dismissFullScreen() {
+        // Restore previous tab when dismissing split
+        if presentedFullScreen == .split {
+            selectedTab = previousTab
+        }
+
         presentedFullScreen = nil
-        // TODO: Handle split tab navigation
     }
 }
 

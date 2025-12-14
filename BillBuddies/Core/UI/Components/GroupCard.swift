@@ -15,6 +15,7 @@ struct GroupCard: View {
 
     var cardType: CardType = .expense
     var isCreatedByMe = false
+    var shoudAddSpacer = true
 
     var body: some View {
         HStack {
@@ -22,17 +23,22 @@ struct GroupCard: View {
                 if !isCreatedByMe {
                     // Card on left, space on right
                     cardContent
-                    Spacer(minLength: UIStyleConstants.Spacing.xl.rawValue)
+
+                    if shoudAddSpacer {
+                        Spacer(minLength: UIStyleConstants.Spacing.xl.rawValue)
+                    }
                 } else {
                     // Space on left, card on right
-                    Spacer(minLength: UIStyleConstants.Spacing.xl.rawValue)
+                    if shoudAddSpacer {
+                        Spacer(minLength: UIStyleConstants.Spacing.xl.rawValue)
+                    }
+
                     cardContent
                 }
             } else {
                 cardContent
             }
         }
-        // Remove horizontal padding from the card itself, let the HStack handle layout
     }
 
     private var cardContent: some View {
@@ -122,7 +128,6 @@ struct GroupCard: View {
         .padding(.horizontal, UIStyleConstants.Spacing.lg.rawValue)
         .background(Color(uiColor: colors.randomElement() ?? .brandPrimary))
         .frame(minWidth: 350)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 2)
     }
 }

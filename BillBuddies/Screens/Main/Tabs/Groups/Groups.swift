@@ -20,6 +20,7 @@ struct Groups: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden()
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
     }
