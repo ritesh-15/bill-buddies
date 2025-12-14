@@ -25,7 +25,7 @@ struct EmailVerificationScreen: View {
                     AppButton(style: .primary) {
                         Text("Verify email")
                     } action: {
-
+                        router.navigate(to: .createPassword)
                     }
                 }
 
