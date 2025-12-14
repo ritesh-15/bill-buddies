@@ -17,6 +17,8 @@ final class NavigationRouter: ObservableObject {
         case profile
         case settings
         case editProfile
+        case statistics
+        case groupSetting
 
         // Global routes
         case signup
@@ -40,6 +42,8 @@ final class NavigationRouter: ObservableObject {
             case .editProfile: return "editProfile"
             case .split: return "split"
             case .createGroup: return "createGroup"
+            case .statistics: return "statistics"
+            case .groupSetting: return "groupSetting"
             case .signup: return "signup"
             case .signin: return "signin"
             case .emailVerification: return "emailVerification"
@@ -70,6 +74,8 @@ final class NavigationRouter: ObservableObject {
                     EmailVerificationScreen()
                 case .createPassword:
                     CreatePasswordSCreen()
+                case .groupSetting:
+                    GroupSettingsScreen()
                 default:
                     Text("View not configured")
                 }

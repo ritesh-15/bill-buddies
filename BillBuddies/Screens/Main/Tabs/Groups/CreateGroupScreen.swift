@@ -2,8 +2,7 @@ import SwiftUI
 
 struct CreateGroupScreen: View {
 
-    // TODO: Extract to view model
-    @State var groupName: String = ""
+    @StateObject var viewModel = CreateGroupViewModel()
 
     var body: some View {
         VStack {
@@ -17,7 +16,7 @@ struct CreateGroupScreen: View {
                     InputField(
                         "Group name",
                         placeHolder: "Identify your group by",
-                        value: $groupName)
+                        value: $viewModel.groupName)
 
                     HStack(alignment: .center, spacing: UIStyleConstants.Spacing.md.rawValue) {
                         VStack(alignment: .leading) {
@@ -35,30 +34,19 @@ struct CreateGroupScreen: View {
                         Spacer()
 
                         ImageButton(imageIcon: "plus") {
-
+                            viewModel.shouldShowAddMembersScreen = true
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                     LazyVStack {
-                        ForEach(1..<6) { _ in
-                            HStack {
-                                Avatar()
+                        ForEach($viewModel.selectedMembers) { $member in
+                            MemberView(viewModel: viewModel, member: $member)
+                        }
 
-                                Text("Ritesh Khore")
-                                    .font(UIStyleConstants.Typography.body.font)
-                                    .foregroundStyle(UIStyleConstants.Colors.foreground.value)
-                                    .bold()
-
-                                Spacer()
-
-                                ImageButton(
-                                    imageIcon: "minus",
-                                    size: .init(width: 16, height: 16),
-                                    foregroundStyle: UIStyleConstants.Colors.destructive.value) {
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        if $viewModel.selectedMembers.isEmpty {
+                            Text("No member selected")
+                                .font(UIStyleConstants.Typography.body.font)
                         }
                     }
                 }
@@ -79,6 +67,10 @@ struct CreateGroupScreen: View {
                 .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
             }
             .background(UIStyleConstants.Colors.background.value)
+        }
+        .fullScreenCover(isPresented: $viewModel.shouldShowAddMembersScreen) {
+            AddMembersScreen()
+                .environmentObject(viewModel)
         }
     }
 }

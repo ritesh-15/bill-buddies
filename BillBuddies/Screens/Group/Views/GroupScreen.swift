@@ -43,6 +43,7 @@ struct GroupScreen: View {
 }
 
 fileprivate struct TopNavBar: View {
+
     @ObservedObject var router: NavigationRouter
 
     var body: some View {
@@ -60,14 +61,40 @@ fileprivate struct TopNavBar: View {
                         .font(UIStyleConstants.Typography.body.font)
                         .fontWeight(.bold)
 
-                    LazyHStack {
-                        ForEach(1..<5) { _ in
-                            Text("Ritesh,")
-                                .font(UIStyleConstants.Typography.caption.font)
-                        }
-                    }
-                    .fixedSize()
+                    Text("10 membmers")
+                        .font(UIStyleConstants.Typography.caption.font)
                 }
+            }
+            .onTapGesture {
+                router.navigate(to: .groupSetting)
+            }
+
+            Spacer()
+
+            Menu {
+                Button {
+
+                } label: {
+                    Text("Refresh")
+                        .font(UIStyleConstants.Typography.body.font)
+                }
+
+                Button {
+                    router.navigate(to: .groupSetting)
+                } label: {
+                    Text("Group Settings")
+                        .font(UIStyleConstants.Typography.body.font)
+                }
+
+                Button {
+
+                } label: {
+                    Text("Send feedback")
+                        .font(UIStyleConstants.Typography.body.font)
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .tint(UIStyleConstants.Colors.foreground.value)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
