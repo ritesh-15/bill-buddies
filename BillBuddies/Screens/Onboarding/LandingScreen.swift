@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct LandingScreen: View {
+
+    @EnvironmentObject var router: NavigationRouter
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             GeometryReader { proxy in
@@ -30,7 +33,7 @@ struct LandingScreen: View {
                             Text("Sign up")
                                 .bold()
                         } action: {
-
+                            router.navigate(to: .signup)
                         }
 
                         HStack(alignment: .center) {
@@ -64,4 +67,5 @@ struct LandingScreen: View {
 
 #Preview {
     LandingScreen()
+        .environmentObject(NavigationRouter())
 }

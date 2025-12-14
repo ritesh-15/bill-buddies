@@ -3,18 +3,30 @@ import SwiftUI
 struct ContentView: View {
 
     @StateObject var router = NavigationRouter()
+    private var isAuthenticated = false
 
     var body: some View {
-        MainScreen()
-            .environmentObject(router)
-            .sheet(item: $router.presentedSheet) { route in
-                route.sheetView
-                    .environmentObject(router)
+        NavigationStack(path: $router.globalPath) {
+            Group {
+                if isAuthenticated {
+                    MainScreen()
+                } else {
+                    LandingScreen()
+                }
             }
-            .fullScreenCover(item: $router.presentedFullScreen) { route in
-                route.fullScreenView
-                    .environmentObject(router)
+            .navigationDestination(for: NavigationRouter.AppRoute.self) { route in
+                route.destinationView
             }
+        }
+        .environmentObject(router)
+        .sheet(item: $router.presentedSheet) { route in
+            route.sheetView
+                .environmentObject(router)
+        }
+        .fullScreenCover(item: $router.presentedFullScreen) { route in
+            route.fullScreenView
+                .environmentObject(router)
+        }
     }
 }
 
