@@ -20,6 +20,12 @@ final class NavigationRouter: ObservableObject {
         case statistics
         case groupSetting
 
+        // Global routes
+        case signup
+        case signin
+        case emailVerification
+        case createPassword
+
         // Modal routes
         case split
         case createGroup
@@ -38,6 +44,19 @@ final class NavigationRouter: ObservableObject {
             case .createGroup: return "createGroup"
             case .statistics: return "statistics"
             case .groupSetting: return "groupSetting"
+            case .signup: return "signup"
+            case .signin: return "signin"
+            case .emailVerification: return "emailVerification"
+            case .createPassword: return "createPassword"
+            }
+        }
+
+        var isGlobalRoute: Bool {
+            switch self {
+            case .signup, .signin, .emailVerification, .createPassword:
+                return true
+            default:
+                return false
             }
         }
 
@@ -47,6 +66,14 @@ final class NavigationRouter: ObservableObject {
                 switch self {
                 case .groupDetail(_):
                     GroupScreen()
+                case .signup:
+                    SignUpScreen()
+                case .signin:
+                    SignInScreen()
+                case .emailVerification:
+                    EmailVerificationScreen()
+                case .createPassword:
+                    CreatePasswordSCreen()
                 case .groupSetting:
                     GroupSettingsScreen()
                 default:
@@ -103,9 +130,23 @@ final class NavigationRouter: ObservableObject {
     @Published var statsPath = NavigationPath()
     @Published var settingsPath = NavigationPath()
 
+    //  Navigation path for global routes (e.g Signup)
+    @Published var globalPath = NavigationPath()
+
     // Modal presentation
     @Published var presentedSheet: AppRoute?
     @Published var presentedFullScreen: AppRoute?
+
+    private func pathBinding(for route: AppRoute) -> Binding<NavigationPath> {
+        if route.isGlobalRoute {
+            return Binding(
+                get: { self.globalPath },
+                set: { self.globalPath = $0 }
+            )
+        }
+
+        return currentPath
+    }
 
     // Get the current path based on selected tab
     var currentPath: Binding<NavigationPath> {
@@ -142,16 +183,25 @@ final class NavigationRouter: ObservableObject {
     // MARK: - Navigation Methods
 
     func navigate(to route: AppRoute) {
-        currentPath.wrappedValue.append(route)
+        let path = pathBinding(for: route)
+        path.wrappedValue.append(route)
     }
 
     func navigateToRoot() {
-        currentPath.wrappedValue = NavigationPath()
+        if !globalPath.isEmpty {
+            globalPath = NavigationPath()
+        } else {
+            currentPath.wrappedValue = NavigationPath()
+        }
     }
 
     func pop() {
-        guard !currentPath.wrappedValue.isEmpty else { return }
-        currentPath.wrappedValue.removeLast()
+        // Pop from global path if it has items, otherwise from current tab
+        if !globalPath.isEmpty {
+            globalPath.removeLast()
+        } else if !currentPath.wrappedValue.isEmpty {
+            currentPath.wrappedValue.removeLast()
+        }
     }
 
     func switchTab(to tab: Tab, andNavigateTo route: AppRoute? = nil) {
@@ -185,7 +235,11 @@ final class NavigationRouter: ObservableObject {
 
     func dismissFullScreen() {
         presentedFullScreen = nil
-        // TODO: Handle split tab navigation
+
+        // Restore previous tab when dismissing split
+        if presentedFullScreen == .split {
+            selectedTab = previousTab
+        }
     }
 }
 

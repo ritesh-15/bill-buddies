@@ -6,15 +6,21 @@ struct InputField<Value>: View {
     let placeHolder: String
     @Binding var value: Value
     var displayedComponents: DatePickerComponents?
+    var textInputType: UITextContentType = .name
+    var keyboardType: UIKeyboardType = .default
 
     init(_ title: String,
          placeHolder: String,
          value: Binding<Value>,
-         displayedComponents: DatePickerComponents? = nil) {
+         displayedComponents: DatePickerComponents? = nil,
+         textInputType: UITextContentType = .name,
+         keyboardType: UIKeyboardType = .default) {
         self.title = title
         self.placeHolder = placeHolder
         self._value = value
         self.displayedComponents = displayedComponents
+        self.textInputType = textInputType
+        self.keyboardType = keyboardType
     }
 
     var body: some View {
@@ -60,6 +66,8 @@ struct InputField<Value>: View {
             .font(UIStyleConstants.Typography.subHeading.font)
             .foregroundStyle(UIStyleConstants.Colors.foreground.value)
             .textInputAutocapitalization(.never)
+            .textContentType(textInputType)
+            .keyboardType(keyboardType)
         } else {
             EmptyView()
         }
