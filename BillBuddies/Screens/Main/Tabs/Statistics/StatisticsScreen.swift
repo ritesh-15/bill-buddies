@@ -61,9 +61,8 @@ struct StatisticsScreen: View {
                             .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                             .padding()
                     } else {
+                        // TODO: For now keeping bar chart as both the chart on the screen give screen freez.
                         BarChartView(filteredAndSummed: filteredAndSummed)
-
-                        PieChartView(filteredAndSummed: filteredAndSummed)
                     }
                 }
             }
@@ -139,6 +138,20 @@ fileprivate struct PieChartView: View {
 
     var filteredAndSummed: [(category: String, total: Double)]
 
+    private var uniqueDomain: [String] {
+        // Stable, unique, sorted domain
+        Array(Set(filteredAndSummed.map { $0.category })).sorted()
+    }
+
+    private var colorRange: [Color] {
+        // Ensure range count matches domain count (repeat colors if needed)
+        let count = uniqueDomain.count
+        guard count > 0 else { return [] }
+        return (0..<count).map { index in
+            colorPalette[index % colorPalette.count]
+        }
+    }
+
     var body: some View {
         // Pie Chart
         Text("Category Share (Pie Chart)")
@@ -160,7 +173,7 @@ fileprivate struct PieChartView: View {
                 )
                 .foregroundStyle(by: .value("Category", category))
                 .annotation(position: .overlay, alignment: .center) {
-                    if total / totalSum > 0.10 {
+                    if totalSum > 0, total / totalSum > 0.10 {
                         Text(category)
                             .font(UIStyleConstants.Typography.caption.font)
                             .foregroundStyle(UIStyleConstants.Colors.foreground.value)
@@ -169,8 +182,8 @@ fileprivate struct PieChartView: View {
             }
         }
         .chartForegroundStyleScale(
-            domain: filteredAndSummed.map { $0.category },
-            range: filteredAndSummed.enumerated().map { index, _ in colorPalette[index % colorPalette.count] }
+            domain: uniqueDomain,
+            range: colorRange
         )
         .frame(height: 300)
         .padding(.bottom, UIStyleConstants.Spacing.lg.rawValue)
@@ -215,4 +228,5 @@ fileprivate struct TopNavBar: View {
 
 #Preview {
     StatisticsScreen()
+        .environmentObject(NavigationRouter())
 }
