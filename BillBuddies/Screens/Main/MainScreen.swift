@@ -31,7 +31,7 @@ struct MainScreen: View {
 
             Tab("Statistics", systemImage: "chart.bar", value: NavigationRouter.Tab.stats) {
                 NavigationStack(path: router.currentPath) {
-                    Text("Statistics")
+                    StatisticsScreen()
                         .navigationDestination(for: NavigationRouter.AppRoute.self) { route in
                             route.destinationView
                         }
@@ -59,4 +59,5 @@ struct MainScreen: View {
 
 #Preview {
     MainScreen()
+        .environmentObject(NavigationRouter())
 }
