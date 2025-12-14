@@ -21,6 +21,7 @@ final class NavigationRouter: ObservableObject {
         // Global routes
         case signup
         case signin
+        case emailVerification
 
         // Modal routes
         case split
@@ -40,12 +41,13 @@ final class NavigationRouter: ObservableObject {
             case .createGroup: return "createGroup"
             case .signup: return "signup"
             case .signin: return "signin"
+            case .emailVerification: return "emailVerification"
             }
         }
 
         var isGlobalRoute: Bool {
             switch self {
-            case .signup, .signin:
+            case .signup, .signin, .emailVerification:
                 return true
             default:
                 return false
@@ -62,6 +64,8 @@ final class NavigationRouter: ObservableObject {
                     SignUpScreen()
                 case .signin:
                     SignInScreen()
+                case .emailVerification:
+                    EmailVerificationScreen()
                 default:
                     Text("View not configured")
                 }

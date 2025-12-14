@@ -37,7 +37,7 @@ struct SignUpScreen: View {
                     AppButton(style: .primary) {
                         Text("Continue")
                     } action: {
-
+                        router.navigate(to: .emailVerification)
                     }
                 }
 
