@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SignUpScreen: View {
 
+    @EnvironmentObject var router: NavigationRouter
     @State var emailAddress: String = ""
 
     var body: some View {
@@ -11,12 +12,12 @@ struct SignUpScreen: View {
                     .font(UIStyleConstants.Typography.subHeading.font)
 
                 VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.md.rawValue) {
-                    ThirdPartySignInButtonView(
+                    ThirdPartyButton(
                         logo: "apple.logo",
                         text: "Continue with Apple",
                         isSystemLogo: true)
 
-                    ThirdPartySignInButtonView(logo: "google_logo", text: "Continue with Google")
+                    ThirdPartyButton(logo: "google_logo", text: "Continue with Google")
                 }
 
                 Divider()
@@ -29,7 +30,9 @@ struct SignUpScreen: View {
                     InputField(
                         "Email address",
                         placeHolder: "johndoe@gmail.com",
-                        value: $emailAddress)
+                        value: $emailAddress,
+                        textInputType: .emailAddress,
+                        keyboardType: .emailAddress)
 
                     AppButton(style: .primary) {
                         Text("Continue")
@@ -43,7 +46,7 @@ struct SignUpScreen: View {
                         .font(UIStyleConstants.Typography.body.font)
 
                     Button {
-
+                        router.navigate(to: .signin)
                     } label: {
                         Text("Sign In")
                             .font(UIStyleConstants.Typography.body.font)
@@ -58,44 +61,7 @@ struct SignUpScreen: View {
     }
 }
 
-fileprivate struct ThirdPartySignInButtonView: View {
-
-    let logo: String
-    let text: String
-    var isSystemLogo: Bool = false
-
-    var body: some View {
-        AppButton(style: .secondary) {
-            HStack {
-                if isSystemLogo {
-                    Image(systemName: logo)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 24, height: 24)
-                } else {
-                    Image(logo)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 24, height: 24)
-                }
-
-                Spacer()
-
-                Text(text)
-                    .font(UIStyleConstants.Typography.body.font)
-
-                Spacer()
-            }
-        } action: {
-
-        }
-        .overlay {
-            Rectangle()
-                .stroke(lineWidth: 1)
-        }
-    }
-}
-
 #Preview {
     SignUpScreen()
+        .environmentObject(NavigationRouter())
 }

@@ -45,7 +45,7 @@ struct LandingScreen: View {
                                 Text("Sign in")
                                     .bold()
                             } action: {
-
+                                router.navigate(to: .signin)
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
