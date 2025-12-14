@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct EquallySplitView: View {
+
     @EnvironmentObject var viewModel: CreateSplitViewModel
 
     var body: some View {
@@ -46,4 +47,5 @@ struct EquallySplitView: View {
 
 #Preview {
     EquallySplitView()
+        .environmentObject(CreateSplitViewModel())
 }
