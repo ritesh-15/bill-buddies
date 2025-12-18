@@ -17,7 +17,6 @@ final class NavigationRouter: ObservableObject {
         case profile
         case settings
         case editProfile
-        case statistics
         case groupSetting
 
         // Global routes
@@ -42,7 +41,6 @@ final class NavigationRouter: ObservableObject {
             case .editProfile: return "editProfile"
             case .split: return "split"
             case .createGroup: return "createGroup"
-            case .statistics: return "statistics"
             case .groupSetting: return "groupSetting"
             case .signup: return "signup"
             case .signin: return "signin"
@@ -234,12 +232,12 @@ final class NavigationRouter: ObservableObject {
     }
 
     func dismissFullScreen() {
-        presentedFullScreen = nil
-
         // Restore previous tab when dismissing split
         if presentedFullScreen == .split {
             selectedTab = previousTab
         }
+
+        presentedFullScreen = nil
     }
 }
 

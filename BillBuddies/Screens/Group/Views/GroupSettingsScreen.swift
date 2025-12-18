@@ -5,65 +5,14 @@ struct GroupSettingsScreen: View {
     @EnvironmentObject var router: NavigationRouter
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: UIStyleConstants.Spacing.lg.rawValue) {
-                UserAvatars()
+        VStack(spacing: 0) {
+            // Custom header to replace the system toolbar
+            HStack {
+                Image(systemName: "chevron.left")
+                    .onTapGesture { router.pop() }
 
-                HStack(alignment: .center, spacing: UIStyleConstants.Spacing.md.rawValue) {
-                    Text("Kerala Trip")
-                        .font(UIStyleConstants.Typography.subHeading.font)
+                Spacer()
 
-                    Button {
-
-                    } label: {
-                        Image(systemName: "pencil")
-                            .resizable()
-                            .frame(width: 18, height: 18)
-                            .tint(UIStyleConstants.Colors.foreground.value)
-                    }
-
-                }
-
-                VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.lg.rawValue) {
-                    SettingsView(icon: "person.fill.badge.plus", name: "Add member") {
-
-                    }
-
-                    SettingsView(icon: "bell.slash", name: "Mute notifications") {
-
-                    }
-
-                    SettingsView(icon: "link", name: "Invite people via link") {
-
-                    }
-
-                    SettingsView(icon: "qrcode", name: "Invite people via QR code") {
-
-                    }
-
-                    SettingsView(icon: "iphone.and.arrow.right.outward", name: "Leave group") {
-
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-                Text("Group members (10)")
-                    .font(UIStyleConstants.Typography.body.font)
-                    .bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                VStack {
-                    ForEach(1..<10) { _ in
-                        GroupMember(name: "Ritesh Khore", userName: "rkhore")
-                    }
-                }
-            }
-        }
-        .scrollIndicators(.hidden)
-        .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
-        .background(UIStyleConstants.Colors.background.value)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Button {
 
@@ -83,7 +32,69 @@ struct GroupSettingsScreen: View {
                         .tint(UIStyleConstants.Colors.foreground.value)
                 }
             }
+            .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
+            .padding(.vertical, UIStyleConstants.Spacing.md.rawValue)
+
+            ScrollView {
+                VStack(spacing: UIStyleConstants.Spacing.lg.rawValue) {
+                    UserAvatars()
+
+                    HStack(alignment: .center, spacing: UIStyleConstants.Spacing.md.rawValue) {
+                        Text("Kerala Trip")
+                            .font(UIStyleConstants.Typography.subHeading.font)
+
+                        Button {
+
+                        } label: {
+                            Image(systemName: "pencil")
+                                .resizable()
+                                .frame(width: 18, height: 18)
+                                .tint(UIStyleConstants.Colors.foreground.value)
+                        }
+
+                    }
+
+                    VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.lg.rawValue) {
+                        SettingsView(icon: "person.fill.badge.plus", name: "Add member") {
+
+                        }
+
+                        SettingsView(icon: "bell.slash", name: "Mute notifications") {
+
+                        }
+
+                        SettingsView(icon: "link", name: "Invite people via link") {
+
+                        }
+
+                        SettingsView(icon: "qrcode", name: "Invite people via QR code") {
+
+                        }
+
+                        SettingsView(icon: "iphone.and.arrow.right.outward", name: "Leave group") {
+
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Text("Group members (10)")
+                        .font(UIStyleConstants.Typography.body.font)
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    VStack {
+                        ForEach(1..<10) { _ in
+                            GroupMember(name: "Ritesh Khore", userName: "rkhore")
+                        }
+                    }
+                }
+                .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
+            }
+            .scrollIndicators(.hidden)
         }
+        .background(UIStyleConstants.Colors.background.value)
+        .toolbar(.hidden, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
         .tint(UIStyleConstants.Colors.foreground.value)
     }
 }
@@ -168,4 +179,3 @@ fileprivate struct UserAvatars: View {
     GroupSettingsScreen()
         .environmentObject(NavigationRouter())
 }
-

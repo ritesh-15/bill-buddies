@@ -20,6 +20,9 @@ struct Groups: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden()
+        .toolbar(.hidden, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
     }

@@ -8,17 +8,7 @@ struct CreateSplit: View {
         VStack {
             FullScreenSheetTopBar(
                 title: "Split transaction",
-                imageIcon: "xmark") {
-                    AnyView(
-                        Text("1/3")
-                            .font(UIStyleConstants.Typography.body.font)
-                            .padding(.horizontal, UIStyleConstants.Spacing.sm.rawValue)
-                            .padding(.vertical, UIStyleConstants.Spacing.xs.rawValue)
-                            .background(.gray.opacity(0.5))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .foregroundStyle(UIStyleConstants.Colors.foreground.value)
-                    )
-                }
+                imageIcon: "xmark")
 
             ScrollView {
                 LazyVStack(spacing: UIStyleConstants.Spacing.lg.rawValue) {

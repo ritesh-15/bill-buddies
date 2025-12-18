@@ -37,6 +37,8 @@ struct GroupScreen: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .toolbar(.hidden, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
     }
@@ -105,4 +107,3 @@ fileprivate struct TopNavBar: View {
     GroupScreen()
         .environmentObject(NavigationRouter())
 }
-

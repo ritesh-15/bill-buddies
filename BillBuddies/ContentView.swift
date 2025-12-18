@@ -3,7 +3,7 @@ import SwiftUI
 struct ContentView: View {
 
     @StateObject var router = NavigationRouter()
-    private var isAuthenticated = false
+    private var isAuthenticated = true
 
     var body: some View {
         NavigationStack(path: $router.globalPath) {
