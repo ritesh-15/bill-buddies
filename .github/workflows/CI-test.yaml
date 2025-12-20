@@ -29,4 +29,4 @@ jobs:
 
     - name: Build and Test
       run: |
-        xcodebuild -project BillBuddies.xcodeproj -scheme BillBuddiesTests -destination 'platform=iOS Simulator, OS=26.0,name=iPhone 17 Pro' test | xcpretty || exit $?
+        xcodebuild -project BillBuddies.xcodeproj -scheme BillBuddiesTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test | xcpretty || exit $?
