@@ -19,6 +19,14 @@ jobs:
       with:
         xcode-version: '26.0' # Specify your project's required Xcode version
 
+    - name: Verify Xcode, schemes & simulators
+      run: |
+        xcodebuild -version
+        xcodebuild -showsdks
+        xcrun simctl list runtimes
+        xcrun simctl list devices
+        xcodebuild -list -project BillBuddies.xcodeproj
+
     - name: Build and Test
       run: |
-        xcodebuild -workspace BillBuddies.xcworkspace -scheme BillBuddiesTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test | xcpretty || exit $?
+        xcodebuild -project BillBuddies.xcodeproj -scheme BillBuddiesTests -destination 'platform=iOS Simulator, OS=26.0,name=iPhone 17 Pro' test | xcpretty || exit $?
