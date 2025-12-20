@@ -1,0 +1,24 @@
+name: iOS CI/Test
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build_and_test:
+    runs-on: macos-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Select Xcode version
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '26.0' # Specify your project's required Xcode version
+
+    - name: Build and Test
+      run: |
+        xcodebuild -workspace BillBuddies.xcworkspace -scheme BillBuddiesTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test | xcpretty || exit $?
