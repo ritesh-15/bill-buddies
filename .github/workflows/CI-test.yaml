@@ -38,4 +38,4 @@ jobs:
         # ensure the scheme name is correct (use `xcodebuild -list -project ...` output)
         # request a simulator with iOS >= 26 (runner will pick a matching runtime/device)
         xcodebuild -project BillBuddies.xcodeproj -scheme BillBuddiesTests \
-          -destination 'platform=iOS Simulator,OS>=26.0,name=iPhone 17 Pro' test | xcpretty
+          -destination 'platform=iOS Simulator,OS=26.0,name=iPhone 17 Pro' test | xcpretty
