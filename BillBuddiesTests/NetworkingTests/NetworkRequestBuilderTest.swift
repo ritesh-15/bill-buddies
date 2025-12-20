@@ -12,7 +12,7 @@ struct NetworkRequestBuilderTest {
         #expect(request.httpMethod == HTTPMethod.get.rawValue)
         #expect(request.allHTTPHeaderFields?.isEmpty ?? true)
         #expect(request.httpBody == nil)
-        #expect(request.url?.absoluteString == "http://localhost/v1/api?")
+        #expect(request.url?.absoluteString == "http://localhost/v1/api")
     }
 
     @Test

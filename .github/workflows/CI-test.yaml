@@ -1,4 +1,4 @@
-name: iOS CI/Test
+name: BillBuddies CI
 
 on:
   pull_request:
@@ -6,7 +6,8 @@ on:
       - '**'
 
 jobs:
-  build_and_test:
+  post-merge:
+    name: Post merge
     runs-on: macos-latest
     steps:
     - name: Checkout repository
