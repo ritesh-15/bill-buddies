@@ -47,7 +47,7 @@ final class NetworkRequestBuilder {
     private var queryParameters: [String: Any] = [:]
     private var body: Data? = nil
 
-    init(baseURL: String = "http://localhost/v1/api") {
+    init(baseURL: String = "http://localhost:1337/api") {
         self.baseURL = baseURL
     }
 

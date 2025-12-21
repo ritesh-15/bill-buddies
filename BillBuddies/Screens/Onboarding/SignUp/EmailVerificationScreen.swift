@@ -3,8 +3,7 @@ import SwiftUI
 struct EmailVerificationScreen: View {
 
     @EnvironmentObject var router: NavigationRouter
-    @State var emailAddress: String = ""
-    @State var password: String = ""
+    @EnvironmentObject var viewModel: SignupViewModel
 
     var body: some View {
         ScrollView {
@@ -13,7 +12,7 @@ struct EmailVerificationScreen: View {
                     Text("Check your email")
                         .font(UIStyleConstants.Typography.subHeading.font)
 
-                    Text("We have sent an verification code to johndoe@gmail.com")
+                    Text("We have sent an verification code to \(viewModel.emailAddress)")
                         .font(UIStyleConstants.Typography.caption.font)
                         .fontWeight(.light)
                         .tint(.brandPrimary)

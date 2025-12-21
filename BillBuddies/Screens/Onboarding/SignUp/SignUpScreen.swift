@@ -3,7 +3,7 @@ import SwiftUI
 struct SignUpScreen: View {
 
     @EnvironmentObject var router: NavigationRouter
-    @State var emailAddress: String = ""
+    @EnvironmentObject var viewModel: SignupViewModel
 
     var body: some View {
         ScrollView {
@@ -30,15 +30,18 @@ struct SignUpScreen: View {
                     InputField(
                         "Email address",
                         placeHolder: "johndoe@gmail.com",
-                        value: $emailAddress,
+                        value: $viewModel.emailAddress,
                         textInputType: .emailAddress,
-                        keyboardType: .emailAddress)
+                        keyboardType: .emailAddress,
+                        errorMessage: $viewModel.emailAddressErrorMessage)
 
-                    AppButton(style: .primary) {
+                    AppButton(style: .primary, content: {
                         Text("Continue")
-                    } action: {
-                        router.navigate(to: .emailVerification)
-                    }
+                    }, action: {
+                        if viewModel.canGotoEmailVerificationScreen() {
+                            router.navigate(to: .emailVerification)
+                        }
+                    }, isLoading: $viewModel.isLoading)
                 }
 
                 HStack(alignment: .center, spacing: UIStyleConstants.Spacing.s.rawValue) {
@@ -64,4 +67,5 @@ struct SignUpScreen: View {
 #Preview {
     SignUpScreen()
         .environmentObject(NavigationRouter())
+        .environmentObject(SignupViewModel(with: DependencyContainer.shared.authService))
 }

@@ -12,25 +12,46 @@ struct AppButton<Content: View>: View {
     let style: ButtonStyle
     let content: () -> Content
     let action: () -> Void
+    @Binding var isLoading: Bool
 
+    // Designated initializer
     init(style: ButtonStyle,
          @ViewBuilder content: @escaping () -> Content,
-         action: @escaping () -> Void) {
+         action: @escaping () -> Void,
+         isLoading: Binding<Bool> = .constant(false)) {
         self.style = style
         self.content = content
         self.action = action
+        self._isLoading = isLoading
+    }
+
+    // Explicit convenience initializer matching call sites without isLoading.
+    // This ensures the exact symbol exists even across module boundaries.
+    init(style: ButtonStyle,
+         @ViewBuilder content: @escaping () -> Content,
+         action: @escaping () -> Void) {
+        self.init(style: style, content: content, action: action, isLoading: .constant(false))
     }
 
     var body: some View {
         Button {
             action()
         } label: {
-            content()
-                .font(UIStyleConstants.Typography.body.font)
-                .frame(maxWidth: frameMaxWidth)
-                .padding(padding)
-                .background(backgroundColor)
-                .foregroundStyle(foregroundColor)
+            if isLoading {
+                Text("Please wait...")
+                    .font(UIStyleConstants.Typography.body.font)
+                    .frame(maxWidth: frameMaxWidth)
+                    .padding(padding)
+                    .foregroundStyle(foregroundColor)
+                    .background(backgroundColor.opacity(0.8))
+            } else {
+                content()
+                    .font(UIStyleConstants.Typography.body.font)
+                    .frame(maxWidth: frameMaxWidth)
+                    .padding(padding)
+                    .foregroundStyle(foregroundColor)
+                    .background(backgroundColor)
+            }
         }
     }
 

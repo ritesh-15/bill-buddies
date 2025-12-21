@@ -3,7 +3,11 @@ import SwiftUI
 struct ContentView: View {
 
     @StateObject var router = NavigationRouter()
-    private var isAuthenticated = true
+
+    // For now creatign a signup view model at global level, in future plan to move it in a better place
+    @StateObject var signupViewModel = DependencyContainer.shared.singupViewModel
+
+    private var isAuthenticated = false
 
     var body: some View {
         NavigationStack(path: $router.globalPath) {
@@ -19,6 +23,7 @@ struct ContentView: View {
             }
         }
         .environmentObject(router)
+        .environmentObject(signupViewModel)
         .sheet(item: $router.presentedSheet) { route in
             route.sheetView
                 .environmentObject(router)
