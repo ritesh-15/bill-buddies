@@ -1,0 +1,42 @@
+name: BillBuddies CI
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  post-merge:
+    name: Post merge
+    runs-on: macos-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Select Xcode version
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '26.0' # Specify your project's required Xcode version
+
+    - name: Verify Xcode, schemes & simulators
+      run: |
+        xcodebuild -version
+        xcodebuild -showsdks
+        xcrun simctl list runtimes
+        xcrun simctl list devices
+        xcodebuild -list -project BillBuddies.xcodeproj
+
+    - name: Install xcpretty
+      run: |
+        gem install xcpretty --no-document
+
+    - name: Build and Test
+      shell: bash
+      run: |
+        set -o pipefail
+        # ensure the scheme name is correct (use `xcodebuild -list -project ...` output)
+        # request a simulator with iOS >= 26 (runner will pick a matching runtime/device)
+        xcodebuild -project BillBuddies.xcodeproj -scheme BillBuddiesTests \
+          -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test | xcpretty

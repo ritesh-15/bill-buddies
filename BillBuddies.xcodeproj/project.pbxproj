@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		F7E4F4F72EF712070046EB18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7B292472E8045590097613C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F7B2924E2E8045590097613C;
+			remoteInfo = BillBuddies;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		F7B2924F2E8045590097613C /* BillBuddies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BillBuddies.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7E4F4F32EF712070046EB18 /* BillBuddiesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BillBuddiesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -29,10 +40,22 @@
 			path = BillBuddies;
 			sourceTree = "<group>";
 		};
+		F7E4F4F42EF712070046EB18 /* BillBuddiesTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BillBuddiesTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F7B2924C2E8045590097613C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7E4F4F02EF712070046EB18 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -46,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				F7B292512E8045590097613C /* BillBuddies */,
+				F7E4F4F42EF712070046EB18 /* BillBuddiesTests */,
 				F7B292502E8045590097613C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				F7B2924F2E8045590097613C /* BillBuddies.app */,
+				F7E4F4F32EF712070046EB18 /* BillBuddiesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,6 +108,29 @@
 			productReference = F7B2924F2E8045590097613C /* BillBuddies.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F7E4F4F22EF712070046EB18 /* BillBuddiesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7E4F4F92EF712070046EB18 /* Build configuration list for PBXNativeTarget "BillBuddiesTests" */;
+			buildPhases = (
+				F7E4F4EF2EF712070046EB18 /* Sources */,
+				F7E4F4F02EF712070046EB18 /* Frameworks */,
+				F7E4F4F12EF712070046EB18 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F7E4F4F82EF712070046EB18 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F7E4F4F42EF712070046EB18 /* BillBuddiesTests */,
+			);
+			name = BillBuddiesTests;
+			packageProductDependencies = (
+			);
+			productName = BillBuddiesTests;
+			productReference = F7E4F4F32EF712070046EB18 /* BillBuddiesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -95,6 +143,10 @@
 				TargetAttributes = {
 					F7B2924E2E8045590097613C = {
 						CreatedOnToolsVersion = 26.0;
+					};
+					F7E4F4F22EF712070046EB18 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = F7B2924E2E8045590097613C;
 					};
 				};
 			};
@@ -113,12 +165,20 @@
 			projectRoot = "";
 			targets = (
 				F7B2924E2E8045590097613C /* BillBuddies */,
+				F7E4F4F22EF712070046EB18 /* BillBuddiesTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F7B2924D2E8045590097613C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7E4F4F12EF712070046EB18 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +195,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F7E4F4EF2EF712070046EB18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F7E4F4F82EF712070046EB18 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F7B2924E2E8045590097613C /* BillBuddies */;
+			targetProxy = F7E4F4F72EF712070046EB18 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F7B292582E80455A0097613C /* Debug */ = {
@@ -323,6 +398,46 @@
 			};
 			name = Release;
 		};
+		F7E4F4FA2EF712070046EB18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.networking.BillBuddiesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BillBuddies.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BillBuddies";
+			};
+			name = Debug;
+		};
+		F7E4F4FB2EF712070046EB18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.networking.BillBuddiesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BillBuddies.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BillBuddies";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -340,6 +455,15 @@
 			buildConfigurations = (
 				F7B2925B2E80455A0097613C /* Debug */,
 				F7B2925C2E80455A0097613C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F7E4F4F92EF712070046EB18 /* Build configuration list for PBXNativeTarget "BillBuddiesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7E4F4FA2EF712070046EB18 /* Debug */,
+				F7E4F4FB2EF712070046EB18 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
