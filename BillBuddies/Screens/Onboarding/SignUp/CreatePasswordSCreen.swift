@@ -3,8 +3,7 @@ import SwiftUI
 struct CreatePasswordSCreen: View {
 
     @EnvironmentObject var router: NavigationRouter
-    @State var confirmPassword: String = ""
-    @State var password: String = ""
+    @EnvironmentObject var viewModel: SignupViewModel
 
     var body: some View {
         ScrollView {
@@ -23,19 +22,21 @@ struct CreatePasswordSCreen: View {
                     InputField(
                         "Password",
                         placeHolder: "*******",
-                        value: $password,
-                        textInputType: .password)
+                        value: $viewModel.password,
+                        textInputType: .password,
+                        errorMessage: $viewModel.passwordErroMessage)
 
                     InputField(
                         "Confirm password",
                         placeHolder: "*******",
-                        value: $confirmPassword,
-                        textInputType: .password)
+                        value: $viewModel.confirmPassword,
+                        textInputType: .password,
+                        errorMessage: $viewModel.confirmPasswordErroMessage)
 
                     AppButton(style: .primary) {
                         Text("Confirm")
                     } action: {
-
+                        viewModel.register()
                     }
                 }
             }

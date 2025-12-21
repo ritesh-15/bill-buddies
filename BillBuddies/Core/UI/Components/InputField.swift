@@ -8,19 +8,22 @@ struct InputField<Value>: View {
     var displayedComponents: DatePickerComponents?
     var textInputType: UITextContentType = .name
     var keyboardType: UIKeyboardType = .default
+    @Binding var errorMessage: String
 
     init(_ title: String,
          placeHolder: String,
          value: Binding<Value>,
          displayedComponents: DatePickerComponents? = nil,
          textInputType: UITextContentType = .name,
-         keyboardType: UIKeyboardType = .default) {
+         keyboardType: UIKeyboardType = .default,
+         errorMessage: Binding<String> = .constant("")) {
         self.title = title
         self.placeHolder = placeHolder
         self._value = value
         self.displayedComponents = displayedComponents
         self.textInputType = textInputType
         self.keyboardType = keyboardType
+        self._errorMessage = errorMessage
     }
 
     var body: some View {
@@ -28,16 +31,24 @@ struct InputField<Value>: View {
             Text(title)
                 .font(UIStyleConstants.Typography.body.font)
                 .fontWeight(.semibold)
-                .foregroundStyle(UIStyleConstants.Colors.foreground.value)
+                .foregroundStyle(!hasErrorMessage() ? UIStyleConstants.Colors.foreground.value : UIStyleConstants.Colors.destructive.value)
 
             field
+
+            if hasErrorMessage() {
+                Text(errorMessage)
+                    .font(UIStyleConstants.Typography.caption.font)
+                    .fontWeight(.light)
+                    .foregroundStyle(UIStyleConstants.Colors.destructive.value)
+            }
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .padding(.vertical, UIStyleConstants.Spacing.sm.rawValue)
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay {
             Rectangle()
-                .stroke(UIStyleConstants.Colors.foreground.value, lineWidth: 1)
+                .stroke(!hasErrorMessage() ? UIStyleConstants.Colors.foreground.value : UIStyleConstants.Colors.destructive.value,
+                        lineWidth: 1)
         }
     }
 
@@ -71,5 +82,9 @@ struct InputField<Value>: View {
         } else {
             EmptyView()
         }
+    }
+
+    private func hasErrorMessage() -> Bool {
+        return errorMessage == nil || !errorMessage.isEmpty
     }
 }
