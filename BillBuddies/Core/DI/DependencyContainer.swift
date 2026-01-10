@@ -8,19 +8,26 @@ final class DependencyContainer {
 
     // MARK: - Repositories
 
-    lazy var authRepository: AuthRepositoryProtocol = {
-        AuthRepository()
+    lazy var networkService: NetworkServiceProtocol = {
+        NetworkService()
     }()
 
-    // MARK: - Services
-
-    lazy var authService: AuthServiceProtocol = {
-        AuthService(authRepository: authRepository)
+    lazy var authRepository: AuthRepositoryProtocol = {
+        AuthRepository(networkService: networkService)
     }()
 
     // MARK: - ViewModel
 
     lazy var singupViewModel: SignupViewModel = {
-        SignupViewModel(with: authService)
+        SignupViewModel(with: RegisterUserCase(
+            authRepository: authRepository,
+            storage: keychainStorage
+        ))
+    }()
+
+    // MARK: - Storage
+
+    lazy var keychainStorage: KeychainStorageProtocol = {
+        KeychainStorage()
     }()
 }

@@ -6,8 +6,13 @@ struct ContentView: View {
 
     // For now creatign a signup view model at global level, in future plan to move it in a better place
     @StateObject var signupViewModel = DependencyContainer.shared.singupViewModel
+    @AppStorage(KeychainStorage.accessToken) var accessToken: String?
+    @AppStorage(KeychainStorage.refreshToken) var refreshToken: String?
 
-    private var isAuthenticated = false
+    // We can make it better 🙈
+    private var isAuthenticated: Bool {
+        accessToken != nil && refreshToken != nil
+    }
 
     var body: some View {
         NavigationStack(path: $router.globalPath) {

@@ -30,6 +30,9 @@ struct SettingsScreen: View {
                     Section {
                         ForEach(section.items) { item in
                             SettingRow(item: item)
+                                .onTapGesture {
+                                    item.action?()
+                                }
                         }
                     } header: {
                         Text(section.name)
