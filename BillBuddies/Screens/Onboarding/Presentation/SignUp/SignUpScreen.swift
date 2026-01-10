@@ -67,5 +67,4 @@ struct SignUpScreen: View {
 #Preview {
     SignUpScreen()
         .environmentObject(NavigationRouter())
-        .environmentObject(SignupViewModel(with: DependencyContainer.shared.authService))
 }

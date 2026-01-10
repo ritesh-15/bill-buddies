@@ -8,12 +8,18 @@ struct Setting: Identifiable {
     let name: String
     let actionIcon: String?
     let actionView: (() -> AnyView)?
+    let action: (() -> Void)?
 
-    init(imageIcon: String, name: String, actionIcon: String? = nil, actionView: (() -> AnyView)? = nil) {
+    init(imageIcon: String,
+         name: String,
+         actionIcon: String? = nil,
+         actionView: (() -> AnyView)? = nil,
+         action: (() -> Void)? = nil) {
         self.imageIcon = imageIcon
         self.name = name
         self.actionIcon = actionIcon
         self.actionView = actionView
+        self.action = action
     }
 }
 
@@ -54,7 +60,12 @@ final class SettingsScreenViewModel: ObservableObject {
                 Setting(imageIcon: "phone", name: "Support", actionIcon: "chevron.right"),
                 Setting(imageIcon: "info.circle", name: "Report an issue", actionIcon: "chevron.right"),
                 Setting(imageIcon: "globe", name: "Language", actionIcon: "chevron.right"),
-                Setting(imageIcon: "iphone.and.arrow.right.outward", name: "Log out"),
+                Setting(imageIcon: "iphone.and.arrow.right.outward", name: "Log out", action: {
+                    // TODO: Move this logic to seperate utility class
+                    let storage = DependencyContainer.shared.keychainStorage
+                    storage.clear(for: KeychainStorage.accessToken)
+                    storage.clear(for: KeychainStorage.refreshToken)
+                }),
             ])
         ]
     }()

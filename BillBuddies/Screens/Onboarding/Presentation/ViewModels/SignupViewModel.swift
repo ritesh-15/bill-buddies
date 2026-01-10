@@ -17,10 +17,10 @@ final class SignupViewModel: ObservableObject {
 
     // MARK: - Private properties
 
-    let authService: AuthServiceProtocol
+    let registerUseCase: RegisterUserCase
 
-    init(with authService: AuthServiceProtocol) {
-        self.authService = authService
+    init(with registerUseCase: RegisterUserCase) {
+        self.registerUseCase = registerUseCase
     }
 
     // MARK: - Public methods
@@ -42,13 +42,20 @@ final class SignupViewModel: ObservableObject {
                 return
             }
 
-            do {
-                isLoading = true
-                try await authService.register(data: .init(email: emailAddress, password: password))
-            } catch let error {
-                isLoading = false
-                print("[ERROR] error:\(error.localizedDescription)")
+            isLoading = true
+
+            let result = await registerUseCase.execute(data:  .init(email: emailAddress, password: password))
+
+            switch result {
+            case .success(let data):
+                // Redirect to main page
+                print("[DEBUG] SignupViewModel \(data)")
+            case .failure(let failure):
+                // TODO: Handle errors better
+                print("[ERROR] \(failure.errorDescription ?? "")")
             }
+
+            isLoading = false
         }
     }
 

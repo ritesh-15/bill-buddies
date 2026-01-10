@@ -3,8 +3,11 @@ import SwiftUI
 struct SignInScreen: View {
 
     @EnvironmentObject var router: NavigationRouter
-    @State var emailAddress: String = ""
-    @State var password: String = ""
+    @StateObject var viewModel = SignInViewModel(
+        loginUseCase: LoginUseCase(
+            authRepository: DependencyContainer.shared.authRepository,
+            storage: DependencyContainer.shared.keychainStorage)
+    )
 
     var body: some View {
         ScrollView {
@@ -16,20 +19,22 @@ struct SignInScreen: View {
                     InputField(
                         "Email address",
                         placeHolder: "johndoe@gmail.com",
-                        value: $emailAddress,
+                        value: $viewModel.emailAddress,
                         textInputType: .emailAddress,
-                        keyboardType: .emailAddress)
+                        keyboardType: .emailAddress,
+                        errorMessage: $viewModel.emailAddressErrorMessage)
 
                     InputField(
                         "Password",
                         placeHolder: "*******",
-                        value: $password,
-                        textInputType: .password)
+                        value: $viewModel.password,
+                        textInputType: .password,
+                        errorMessage: $viewModel.passwordErrorMessage)
 
                     AppButton(style: .primary) {
                         Text("Log In")
                     } action: {
-
+                        viewModel.login()
                     }
                 }
 
