@@ -4,6 +4,8 @@ struct SettingsScreen: View {
 
     @Environment(\.colorScheme) private var systemColorScheme
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var authManager: AuthManager
+    @EnvironmentObject private var router: NavigationRouter
     @StateObject private var viewModel = SettingsScreenViewModel()
 
     var body: some View {
@@ -48,6 +50,7 @@ struct SettingsScreen: View {
         .background(UIStyleConstants.Colors.background.value)
         .onAppear {
             viewModel.themeManager = themeManager
+            viewModel.configure(authManager: authManager, router: router)
         }
     }
 }

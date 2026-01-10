@@ -37,6 +37,10 @@ final class SettingsScreenViewModel: ObservableObject {
 
     // MARK: - Properites
 
+    private var authManager: AuthManager?
+    private var router: NavigationRouter?
+    private let toastManager = DependencyContainer.shared.toastManager
+
     lazy var sections: [SettingSection] = {
         return [
             SettingSection(name: "Account", items: [
@@ -61,10 +65,9 @@ final class SettingsScreenViewModel: ObservableObject {
                 Setting(imageIcon: "info.circle", name: "Report an issue", actionIcon: "chevron.right"),
                 Setting(imageIcon: "globe", name: "Language", actionIcon: "chevron.right"),
                 Setting(imageIcon: "iphone.and.arrow.right.outward", name: "Log out", action: {
-                    // TODO: Move this logic to seperate utility class
-                    let storage = DependencyContainer.shared.keychainStorage
-                    storage.clear(for: KeychainStorage.accessToken)
-                    storage.clear(for: KeychainStorage.refreshToken)
+                    self.authManager?.logout()
+                    self.toastManager.show(message: "Logged out succesfully!", style: .success)
+                    self.router?.resetAllPaths()
                 }),
             ])
         ]
@@ -77,6 +80,11 @@ final class SettingsScreenViewModel: ObservableObject {
     }
 
     // MARK: - Public methods
+
+    func configure(authManager: AuthManager, router: NavigationRouter) {
+        self.authManager = authManager
+        self.router = router
+    }
 
     func toggleDarkMode(isDarkMode: Bool) {
         withAnimation(.easeInOut(duration: 0.3)) {
