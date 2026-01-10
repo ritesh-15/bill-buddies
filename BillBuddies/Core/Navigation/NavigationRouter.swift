@@ -239,5 +239,21 @@ final class NavigationRouter: ObservableObject {
 
         presentedFullScreen = nil
     }
+
+    func resetAllPaths() {
+        homePath = NavigationPath()
+        groupsPath = NavigationPath()
+        statsPath = NavigationPath()
+        settingsPath = NavigationPath()
+        globalPath = NavigationPath()
+
+        // Reset to home tab
+        selectedTab = .home
+        previousTab = .home
+
+        // Dismiss any presented sheets or full screens
+        presentedSheet = nil
+        presentedFullScreen = nil
+    }
 }
 

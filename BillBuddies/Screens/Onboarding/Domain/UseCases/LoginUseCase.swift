@@ -14,9 +14,12 @@ final class LoginUseCase {
         let result = await authRespository.login(data: data)
 
         if case .success(let data) = result {
-            // Save the current user information in storage
+            // Save tokens
             storage.save(with: KeychainStorage.accessToken, data: data.token)
             storage.save(with: KeychainStorage.refreshToken, data: data.refreshToken)
+
+            // Save user as JSON Data
+            storage.save(with: KeychainStorage.me, data: data.user)
         }
 
         return result

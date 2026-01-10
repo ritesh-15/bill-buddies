@@ -3,6 +3,7 @@ import SwiftUI
 struct SignUpScreen: View {
 
     @EnvironmentObject var router: NavigationRouter
+    @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var viewModel: SignupViewModel
 
     var body: some View {
@@ -61,6 +62,9 @@ struct SignUpScreen: View {
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
+        .onAppear {
+            viewModel.configure(authManager: authManager, router: router)
+        }
     }
 }
 

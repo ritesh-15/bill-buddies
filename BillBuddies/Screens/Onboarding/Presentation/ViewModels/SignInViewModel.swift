@@ -17,6 +17,8 @@ final class SignInViewModel: ObservableObject {
     // MARK: - Private properties
 
     private let loginUseCase: LoginUseCase
+    private var authManager: AuthManager?
+    private var router: NavigationRouter?
     private let toastManager: ToastManager = DependencyContainer.shared.toastManager
 
     init(loginUseCase: LoginUseCase) {
@@ -24,6 +26,11 @@ final class SignInViewModel: ObservableObject {
     }
 
     // MARK: - Public methods
+
+    func configure(authManager: AuthManager, router: NavigationRouter) {
+        self.authManager = authManager
+        self.router = router
+    }
 
     func canGotoEmailVerificationScreen() -> Bool {
         if emailAddress.isEmpty || !isValidEmail(emailAddress) {
@@ -58,6 +65,8 @@ final class SignInViewModel: ObservableObject {
             case .success(let data):
                 print("[DEBUG] login response: \(data)")
                 toastManager.show(message: "Login successful!", style: .success)
+                authManager?.login(accessToken: data.token, refreshToken: data.refreshToken)
+                router?.resetAllPaths()
             case .failure(let error):
                 toastManager.show(message: error.errorDescription ?? "Something went wrong please try again later!", style: .error)
                 print("[ERROR] error: \(error.errorDescription ?? "")")

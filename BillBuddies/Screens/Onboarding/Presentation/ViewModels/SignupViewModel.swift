@@ -18,6 +18,9 @@ final class SignupViewModel: ObservableObject {
     // MARK: - Private properties
 
     private let registerUseCase: RegisterUserCase
+    private var authManager: AuthManager?
+    private var router: NavigationRouter?
+
     private let toastManager: ToastManager = DependencyContainer.shared.toastManager
 
     init(with registerUseCase: RegisterUserCase) {
@@ -25,6 +28,11 @@ final class SignupViewModel: ObservableObject {
     }
 
     // MARK: - Public methods
+
+    func configure(authManager: AuthManager, router: NavigationRouter) {
+        self.authManager = authManager
+        self.router = router
+    }
 
     func canGotoEmailVerificationScreen() -> Bool {
         if emailAddress.isEmpty || !isValidEmail(emailAddress) {
@@ -49,9 +57,9 @@ final class SignupViewModel: ObservableObject {
 
             switch result {
             case .success(let data):
-                // Redirect to main page
-                print("[DEBUG] SignupViewModel \(data)")
                 toastManager.show(message: "Registration succesfull!", style: .success)
+                authManager?.login(accessToken: data.token, refreshToken: data.refreshToken)
+                router?.resetAllPaths()
             case .failure(let failure):
                 // TODO: Handle errors better
                 toastManager.show(message: failure.errorDescription ?? "Something weng wrong please try again later!", style: .error)
