@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import Combine
 
 final class SignInViewModel: ObservableObject {
@@ -16,6 +17,7 @@ final class SignInViewModel: ObservableObject {
     // MARK: - Private properties
 
     private let loginUseCase: LoginUseCase
+    private let toastManager: ToastManager = DependencyContainer.shared.toastManager
 
     init(loginUseCase: LoginUseCase) {
         self.loginUseCase = loginUseCase
@@ -55,7 +57,9 @@ final class SignInViewModel: ObservableObject {
             switch result {
             case .success(let data):
                 print("[DEBUG] login response: \(data)")
+                toastManager.show(message: "Login successful!", style: .success)
             case .failure(let error):
+                toastManager.show(message: error.errorDescription ?? "Something went wrong please try again later!", style: .error)
                 print("[ERROR] error: \(error.errorDescription ?? "")")
             }
         }
@@ -69,4 +73,3 @@ final class SignInViewModel: ObservableObject {
         return emailPredicate.evaluate(with: email)
     }
 }
-

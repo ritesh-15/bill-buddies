@@ -39,6 +39,7 @@ enum UIStyleConstants {
         case destructive
         case background
         case foreground
+        case backgroundSecondary
 
         var value: Color {
             switch self {
@@ -51,6 +52,7 @@ enum UIStyleConstants {
             case .foreground: return Color(UIColor { traitCollection in
                 traitCollection.userInterfaceStyle == .dark ? .white : .black
             })
+            case .backgroundSecondary: return Color(cgColor: .init(red: 18/255, green: 18/255, blue: 18/255, alpha: 1))
             }
         }
     }

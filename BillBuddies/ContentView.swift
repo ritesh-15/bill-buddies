@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
 
     @StateObject var router = NavigationRouter()
+    @StateObject var toastManager = DependencyContainer.shared.toastManager
 
     // For now creatign a signup view model at global level, in future plan to move it in a better place
     @StateObject var signupViewModel = DependencyContainer.shared.singupViewModel
@@ -37,6 +38,11 @@ struct ContentView: View {
             route.fullScreenView
                 .environmentObject(router)
         }
+        .toast(
+            isPresented: $toastManager.isShowing,
+            message: toastManager.message,
+            icon: toastManager.style.icon,
+            iconColor: toastManager.style.color)
     }
 }
 
