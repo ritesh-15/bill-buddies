@@ -14,7 +14,7 @@ struct GroupsResponseMapper {
             documentId: dto.documentId,
             name: dto.name,
             description: dto.description,
-            category: GroupCategory(rawValue: dto.category) ?? .other,
+            category: GroupCategory(rawValue: dto.category ?? "") ?? .other,
             simplifyDebts: dto.simplifyDebts,
             createdAt: dto.createdAt,
             creator: toDomain(dto.creator),

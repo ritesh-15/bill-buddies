@@ -3,20 +3,20 @@ import SwiftUI
 struct MemberView: View {
 
     @ObservedObject var viewModel: CreateGroupViewModel
-    @Binding var member: Member
+    @Binding var member: MembersModel
     var shouldShowCheckBox: Bool = false
 
     var body: some View {
         HStack(alignment: .center) {
-            Avatar(size: 52)
+            Avatar(size: 52, seed: member.documentId)
 
             VStack(alignment: .leading) {
-                Text("\(member.memberName)")
+                Text("\(member.username)")
                     .font(UIStyleConstants.Typography.body.font)
                     .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                     .bold()
 
-                Text("\(member.memberUsername)")
+                Text("\(member.documentId)")
                     .font(UIStyleConstants.Typography.caption.font)
             }
 
@@ -40,5 +40,5 @@ struct MemberView: View {
 #Preview {
     MemberView(
         viewModel: CreateGroupViewModel(),
-        member: .constant(.init(memberName: "Ritesh", memberUsername: "rkhore")))
+        member: .constant(.init(id: 1, username: "df", documentId: "dfd")))
 }

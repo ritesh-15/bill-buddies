@@ -36,6 +36,9 @@ struct AddMembersScreen: View {
         }
         .padding(UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
+        .task {
+            viewModel.fetchMembers()
+        }
     }
 }
 

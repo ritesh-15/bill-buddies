@@ -14,8 +14,8 @@ struct GroupsModel: Identifiable {
     let id: Int
     let documentId: String
     let name: String
-    let description: String
-    let category: GroupCategory
+    let description: String?
+    let category: GroupCategory?
     let simplifyDebts: Bool
     let createdAt: String
     let creator: CreatorModel

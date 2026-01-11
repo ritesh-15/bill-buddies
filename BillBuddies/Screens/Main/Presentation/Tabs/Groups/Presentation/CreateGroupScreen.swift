@@ -2,6 +2,9 @@ import SwiftUI
 
 struct CreateGroupScreen: View {
 
+    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var router: NavigationRouter
+
     @StateObject var viewModel = CreateGroupViewModel()
 
     var body: some View {
@@ -16,7 +19,10 @@ struct CreateGroupScreen: View {
                     InputField(
                         "Group name",
                         placeHolder: "Identify your group by",
-                        value: $viewModel.groupName)
+                        value: $viewModel.groupName,
+                        textInputType: .name,
+                        keyboardType: .default,
+                        errorMessage: $viewModel.groupNameError)
 
                     HStack(alignment: .center, spacing: UIStyleConstants.Spacing.md.rawValue) {
                         VStack(alignment: .leading) {
@@ -61,7 +67,7 @@ struct CreateGroupScreen: View {
                     Text("Create")
                         .font(UIStyleConstants.Typography.body.font.bold())
                 } action: {
-
+                    viewModel.createGroup()
                 }
                 .padding(.vertical, UIStyleConstants.Spacing.s.rawValue)
                 .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
@@ -71,6 +77,9 @@ struct CreateGroupScreen: View {
         .fullScreenCover(isPresented: $viewModel.shouldShowAddMembersScreen) {
             AddMembersScreen()
                 .environmentObject(viewModel)
+        }
+        .onAppear {
+            viewModel.configure(authManager: authManager, router: router)
         }
     }
 }

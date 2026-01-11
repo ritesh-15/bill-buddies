@@ -51,7 +51,8 @@ extension DTOGroups {
 // MARK: - DTODatum
 struct DTODatum: Codable {
     let id: Int
-    let documentId, name, description, category: String
+    let documentId, name: String
+    let description, category: String?
     let simplifyDebts: Bool
     let createdAt, updatedAt, publishedAt: String
     let creator: DTOCreator

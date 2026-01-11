@@ -3,6 +3,8 @@ import Foundation
 protocol GroupsRepositoryProtocol: AnyObject {
 
     func fetchGroups(userId: String) async -> Result<[GroupsModel], NetworkError>
+
+    func createGroup(group: CreateGroupModel) async -> Result<CreateGroupResponseModel, NetworkError>
 }
 
 final class GroupsRepository: GroupsRepositoryProtocol {
@@ -27,6 +29,7 @@ final class GroupsRepository: GroupsRepositoryProtocol {
                 .addQuery("populate[members][fields][2]", value: "username")
                 .addQuery("filters[$or][0][creator][documentId][$eq]", value: userId)
                 .addQuery("filters[$or][1][members][documentId][$in]", value: userId)
+                .addQuery("sort[createdAt]", value: "desc")
                 .build()
 
             let result: NetworkResult<DTOGroups> = await networkService.request(request)
@@ -34,6 +37,30 @@ final class GroupsRepository: GroupsRepositoryProtocol {
             switch result {
             case .success(let data):
                 return .success(GroupsResponseMapper.toDomain(data))
+            case .failure(let networkError):
+                return .failure(networkError)
+            }
+        } catch let error as NetworkError {
+            return .failure(error)
+        } catch _ {
+            return .failure(.unknown)
+        }
+    }
+
+    func createGroup(group: CreateGroupModel) async -> Result<CreateGroupResponseModel, NetworkError> {
+        do {
+            let request = try NetworkRequestBuilder()
+                .method(method: .post)
+                .setPath(path: "/groups")
+                .addHeader(key: "Content-Type", value: "application/json")
+                .setJSONBody(group)
+                .build()
+
+            let result: NetworkResult<DTOCreateGroupResponse> = await networkService.request(request)
+
+            switch result {
+            case .success(let data):
+                return .success(CreateGroupResponseMapper.toDomain(data))
             case .failure(let networkError):
                 return .failure(networkError)
             }
