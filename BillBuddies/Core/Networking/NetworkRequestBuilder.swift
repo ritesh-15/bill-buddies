@@ -27,7 +27,7 @@ enum NetworkError: Error, LocalizedError {
         case .invalidURL: return "Invalid URL"
         case .noData: return "No data received"
         case .decodingError(let error): return "Decoding failed: \(error.localizedDescription)"
-        case .serverError(let code, let message): return "Server error \(code): \(message ?? "")"
+        case .serverError(let code, let message): return "\(message ?? "")"
         case .networkError(let error): return "Network error: \(error.localizedDescription)"
         case .unauthorized: return "Unauthorized access"
         case .unknown: return "Unknown error occurred"

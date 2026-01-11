@@ -30,4 +30,10 @@ final class DependencyContainer {
     lazy var keychainStorage: KeychainStorageProtocol = {
         KeychainStorage()
     }()
+
+    // MARK: - ToastManager
+
+    lazy var toastManager: ToastManager = {
+        ToastManager()
+    }()
 }

@@ -17,7 +17,8 @@ final class SignupViewModel: ObservableObject {
 
     // MARK: - Private properties
 
-    let registerUseCase: RegisterUserCase
+    private let registerUseCase: RegisterUserCase
+    private let toastManager: ToastManager = DependencyContainer.shared.toastManager
 
     init(with registerUseCase: RegisterUserCase) {
         self.registerUseCase = registerUseCase
@@ -50,9 +51,10 @@ final class SignupViewModel: ObservableObject {
             case .success(let data):
                 // Redirect to main page
                 print("[DEBUG] SignupViewModel \(data)")
+                toastManager.show(message: "Registration succesfull!", style: .success)
             case .failure(let failure):
                 // TODO: Handle errors better
-                print("[ERROR] \(failure.errorDescription ?? "")")
+                toastManager.show(message: failure.errorDescription ?? "Something weng wrong please try again later!", style: .error)
             }
 
             isLoading = false
