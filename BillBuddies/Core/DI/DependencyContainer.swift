@@ -20,10 +20,13 @@ final class DependencyContainer {
         GroupsRepository(networkService: networkService)
     }()
 
+<<<<<<< HEAD
     lazy var membersRepository: MembersRepositoryProtocol = {
         MembersRepository(networkService: networkService)
     }()
 
+=======
+>>>>>>> main
     // MARK: - ViewModel
 
     lazy var singupViewModel: SignupViewModel = {
