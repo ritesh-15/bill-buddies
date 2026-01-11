@@ -137,7 +137,7 @@ fileprivate struct TopNavBar: View {
     var body: some View {
         HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.xs.rawValue) {
-                Text("Hey \(user?.username ?? "")!")
+                Text("Hey \(user?.username ?? "there")!")
                     .font(UIStyleConstants.Typography.heading2.font)
                     .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                     .bold()
