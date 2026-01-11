@@ -1,5 +1,11 @@
 import SwiftUI
 
+// For now declaring group card member protocol here
+protocol GroupCardMemberProtocol: Identifiable {
+    var id: Int { get set }
+    var documentId: String {get set}
+}
+
 struct GroupCard: View {
 
     enum CardType {
@@ -15,7 +21,8 @@ struct GroupCard: View {
 
     var cardType: CardType = .expense
     var title: String
-    var members: [MemberModel] = []
+    var members: [GroupCardMemberProtocol] = []
+    var total: Int = 0
     var isCreatedByMe = false
     var shoudAddSpacer = true
 
@@ -73,7 +80,7 @@ struct GroupCard: View {
                         .font(UIStyleConstants.Typography.body.font)
                         .foregroundStyle(UIStyleConstants.Colors.secondary.value)
 
-                    Text("₹ 4569")
+                    Text("₹ \(total)")
                         .font(UIStyleConstants.Typography.subHeading.font)
                         .foregroundStyle(UIStyleConstants.Colors.secondary.value)
                 }
@@ -113,7 +120,7 @@ struct GroupCard: View {
                 }
             } else {
                 HStack(alignment: .bottom) {
-                    SplitTo()
+                    SplitTo(members: members)
 
                     Spacer()
 
@@ -159,7 +166,7 @@ fileprivate struct ProgressBar: View {
 
 fileprivate struct SplitTo: View {
 
-    var members: [MemberModel] = []
+    var members: [GroupCardMemberProtocol] = []
 
     var body: some View {
         VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.sm.rawValue) {
@@ -168,7 +175,7 @@ fileprivate struct SplitTo: View {
                 .foregroundStyle(UIStyleConstants.Colors.secondary.value)
 
             HStack {
-                ForEach(members.suffix(3)) { member in
+                ForEach(members.suffix(3), id: \.id) { member in
                     Avatar(size: 42, seed: member.documentId)
                 }
             }

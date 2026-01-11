@@ -28,8 +28,8 @@ struct CreatorModel: Identifiable {
     let username: String
 }
 
-struct MemberModel: Identifiable {
-    let id: Int
-    let documentId: String
+struct MemberModel: Identifiable, GroupCardMemberProtocol {
+    var id: Int
+    var documentId: String
     let username: String
 }
