@@ -62,8 +62,8 @@ final class NavigationRouter: ObservableObject {
         var destinationView: some View {
             Group {
                 switch self {
-                case .groupDetail(_):
-                    GroupScreen()
+                case .groupDetail(let groupId):
+                    GroupScreen(groupId: groupId)
                 case .signup:
                     SignUpScreen()
                 case .signin:

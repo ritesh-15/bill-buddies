@@ -2,19 +2,28 @@ import SwiftUI
 
 struct GroupScreen: View {
 
+    var groupId: String
+
     @EnvironmentObject var router: NavigationRouter
+    @EnvironmentObject var authManager: AuthManager
+    @StateObject private var viewModel = GroupDetailsViewModel()
 
     var body: some View {
-        VStack(spacing: UIStyleConstants.Spacing.sm.rawValue) {
-            TopNavBar(router: router)
+        let spacingSM = UIStyleConstants.Spacing.sm.rawValue
+        let spacingMD = UIStyleConstants.Spacing.md.rawValue
+        let bgColor = UIStyleConstants.Colors.background.value
+
+        VStack(spacing: spacingSM) {
+            TopNavBar(viewModel: viewModel)
 
             Divider()
 
             ZStack(alignment: .bottomTrailing) {
                 ScrollView {
-                    LazyVStack(spacing: UIStyleConstants.Spacing.md.rawValue) {
-                        ForEach(1..<10) { index in
-                            GroupCard(cardType: .expense, title: "Expenses", isCreatedByMe: index % 3 == 0)
+                    LazyVStack(spacing: spacingMD) {
+                        let currentUserId = authManager.me()?.id
+                        ForEach(viewModel.groupDetails?.expenses ?? []) { expense in
+                            GroupExpenseRow(expense: expense, currentUserId: currentUserId)
                         }
                     }
                 }
@@ -32,20 +41,47 @@ struct GroupScreen: View {
                         .shadow(color: .black.opacity(0.23), radius: 6, x: 0, y: 4)
                         .accessibilityLabel("Add Expense")
                 }
-                .padding(.all, UIStyleConstants.Spacing.md.rawValue)
+                .padding(.all, spacingMD)
             }
         }
         .navigationBarBackButtonHidden()
         .toolbar(.hidden, for: .navigationBar)
         .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
-        .background(UIStyleConstants.Colors.background.value)
+        .background(bgColor)
+        .task {
+            viewModel.fetchGroupDetails(groupId: groupId)
+        }
+    }
+}
+
+fileprivate struct GroupExpenseRow: View {
+    let expense: GroupDetailResponseModel.Expense
+    let currentUserId: String?
+
+    init(expense: GroupDetailResponseModel.Expense, currentUserId: String?) {
+        self.expense = expense
+        self.currentUserId = currentUserId
+    }
+
+    var body: some View {
+        let isCreatedByMe = expense.paidBy.documentId == currentUserId
+        GroupCard(
+            cardType: .expense,
+            title: expense.description,
+            members: expense.splitShares.map({ share in
+                return share.ownedBy
+            }),
+            total: expense.amount,
+            isCreatedByMe: isCreatedByMe,
+        )
     }
 }
 
 fileprivate struct TopNavBar: View {
 
-    @ObservedObject var router: NavigationRouter
+    @EnvironmentObject var router: NavigationRouter
+    @ObservedObject var viewModel: GroupDetailsViewModel
 
     var body: some View {
         HStack(alignment: .center, spacing: UIStyleConstants.Spacing.md.rawValue) {
@@ -58,11 +94,11 @@ fileprivate struct TopNavBar: View {
                 Avatar(size: 46)
 
                 VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.s.rawValue) {
-                    Text("Trip to kerala")
+                    Text(viewModel.groupDetails?.name ?? "")
                         .font(UIStyleConstants.Typography.body.font)
                         .fontWeight(.bold)
 
-                    Text("10 membmers")
+                    Text("\(viewModel.groupDetails?.members.count ?? 0) members")
                         .font(UIStyleConstants.Typography.caption.font)
                 }
             }
@@ -103,6 +139,7 @@ fileprivate struct TopNavBar: View {
 }
 
 #Preview {
-    GroupScreen()
+    GroupScreen(groupId: "12")
         .environmentObject(NavigationRouter())
 }
+

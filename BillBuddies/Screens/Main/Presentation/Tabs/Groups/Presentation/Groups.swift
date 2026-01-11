@@ -16,8 +16,8 @@ struct Groups: View {
                     if viewModel.groups.count > 0 {
                         ForEach(viewModel.groups) { group in
                             GroupCard(cardType: .group, title: group.name, members: group.members)
-                                .onTapGesture {
-                                    router.navigate(to: .groupDetail(id: group.documentId))
+                            .onTapGesture {
+                                router.navigate(to: .groupDetail(id: group.documentId))
                                 }
                         }
                     } else {
