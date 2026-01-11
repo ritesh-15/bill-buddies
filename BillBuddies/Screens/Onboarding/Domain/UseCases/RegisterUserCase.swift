@@ -14,9 +14,13 @@ final class RegisterUserCase {
         let result = await authRespository.register(data: data)
 
         if case .success(let data) = result {
-            // Save the current user information in storage
+            // Save tokens
             storage.save(with: KeychainStorage.accessToken, data: data.token)
             storage.save(with: KeychainStorage.refreshToken, data: data.refreshToken)
+
+            if let encodedData = User.encodeToJSON(user: data.user) {
+                storage.save(with: KeychainStorage.me, data: encodedData)
+            }
         }
 
         return result

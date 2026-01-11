@@ -10,14 +10,17 @@ final class SignupViewModel: ObservableObject {
     @Published var confirmPassword: String = ""
 
     @Published var emailAddressErrorMessage: String = ""
-    @Published var passwordErroMessage: String = ""
-    @Published var confirmPasswordErroMessage: String = ""
+    @Published var passwordErrorMessage: String = ""
+    @Published var confirmPasswordErrorMessage: String = ""
 
     @Published var isLoading: Bool = false
 
     // MARK: - Private properties
 
     private let registerUseCase: RegisterUserCase
+    private var authManager: AuthManager?
+    private var router: NavigationRouter?
+
     private let toastManager: ToastManager = DependencyContainer.shared.toastManager
 
     init(with registerUseCase: RegisterUserCase) {
@@ -25,6 +28,11 @@ final class SignupViewModel: ObservableObject {
     }
 
     // MARK: - Public methods
+
+    func configure(authManager: AuthManager, router: NavigationRouter) {
+        self.authManager = authManager
+        self.router = router
+    }
 
     func canGotoEmailVerificationScreen() -> Bool {
         if emailAddress.isEmpty || !isValidEmail(emailAddress) {
@@ -49,12 +57,11 @@ final class SignupViewModel: ObservableObject {
 
             switch result {
             case .success(let data):
-                // Redirect to main page
-                print("[DEBUG] SignupViewModel \(data)")
                 toastManager.show(message: "Registration succesfull!", style: .success)
+                authManager?.login(accessToken: data.token, refreshToken: data.refreshToken, user: data.user)
+                router?.resetAllPaths()
             case .failure(let failure):
-                // TODO: Handle errors better
-                toastManager.show(message: failure.errorDescription ?? "Something weng wrong please try again later!", style: .error)
+                toastManager.show(message: failure.errorDescription ?? "Something went wrong please try again later!", style: .error)
             }
 
             isLoading = false
@@ -65,25 +72,25 @@ final class SignupViewModel: ObservableObject {
 
     private func isValidPasswords() -> Bool {
         if password.isEmpty {
-            passwordErroMessage = "Password cannot be empty"
-            confirmPasswordErroMessage = ""
+            passwordErrorMessage = "Password cannot be empty"
+            confirmPasswordErrorMessage = ""
             return false
         }
 
-        if confirmPasswordErroMessage.isEmpty || password != confirmPassword {
-            confirmPasswordErroMessage = "Confirm password and password must be same"
-            passwordErroMessage = ""
+        if confirmPasswordErrorMessage.isEmpty || password != confirmPassword {
+            confirmPasswordErrorMessage = "Confirm password and password must be same"
+            passwordErrorMessage = ""
             return false
         }
 
         if password.count < 6 {
-            passwordErroMessage = "Password length must be greater than 6 characters"
-            confirmPasswordErroMessage = ""
+            passwordErrorMessage = "Password length must be greater than 6 characters"
+            confirmPasswordErrorMessage = ""
             return false
         }
 
-        passwordErroMessage = ""
-        confirmPasswordErroMessage = ""
+        passwordErrorMessage = ""
+        confirmPasswordErrorMessage = ""
         return true
     }
 

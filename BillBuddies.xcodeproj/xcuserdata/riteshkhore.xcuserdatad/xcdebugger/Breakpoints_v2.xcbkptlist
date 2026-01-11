@@ -7,32 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B17DFDC0-1746-417D-9D0D-7FAAF5682742"
-            shouldBeEnabled = "No"
+            uuid = "8A79DB80-135F-492B-8AF2-B379DB625885"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BillBuddies/Screens/Main/Tabs/Groups/CreateGroupScreen.swift"
+            filePath = "BillBuddies/Core/Storage/KeychainStorage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "body"
-            landmarkType = "24">
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "retrive(for:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1628EB82-E1E0-463B-B9A1-B6565AF94FDE"
-            shouldBeEnabled = "No"
+            uuid = "65A759A1-984C-4063-B053-EC7CC6C30D29"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BillBuddies/Screens/Main/Tabs/Statistics/StatisticsScreen.swift"
+            filePath = "BillBuddies/Core/Storage/KeychainStorage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "init()"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "save(with:data:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

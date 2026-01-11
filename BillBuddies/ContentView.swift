@@ -3,22 +3,16 @@ import SwiftUI
 struct ContentView: View {
 
     @StateObject var router = NavigationRouter()
+    @StateObject var authManager = AuthManager()
     @StateObject var toastManager = DependencyContainer.shared.toastManager
 
     // For now creatign a signup view model at global level, in future plan to move it in a better place
     @StateObject var signupViewModel = DependencyContainer.shared.singupViewModel
-    @AppStorage(KeychainStorage.accessToken) var accessToken: String?
-    @AppStorage(KeychainStorage.refreshToken) var refreshToken: String?
-
-    // We can make it better 🙈
-    private var isAuthenticated: Bool {
-        accessToken != nil && refreshToken != nil
-    }
 
     var body: some View {
         NavigationStack(path: $router.globalPath) {
             Group {
-                if isAuthenticated {
+                if authManager.isAuthenticated {
                     MainScreen()
                 } else {
                     LandingScreen()
@@ -28,7 +22,9 @@ struct ContentView: View {
                 route.destinationView
             }
         }
+        .id(authManager.isAuthenticated) 
         .environmentObject(router)
+        .environmentObject(authManager)
         .environmentObject(signupViewModel)
         .sheet(item: $router.presentedSheet) { route in
             route.sheetView

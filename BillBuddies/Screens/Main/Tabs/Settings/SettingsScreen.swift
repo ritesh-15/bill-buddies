@@ -4,7 +4,14 @@ struct SettingsScreen: View {
 
     @Environment(\.colorScheme) private var systemColorScheme
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var authManager: AuthManager
+    @EnvironmentObject private var router: NavigationRouter
+
     @StateObject private var viewModel = SettingsScreenViewModel()
+
+    private var user: User? {
+        authManager.me()
+    }
 
     var body: some View {
         VStack {
@@ -19,7 +26,7 @@ struct SettingsScreen: View {
                 VStack {
                     Avatar(size: 120)
 
-                    Text("Ritesh Khore")
+                    Text("\(user?.username ?? "there")")
                         .font(UIStyleConstants.Typography.heading2.font)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -48,6 +55,7 @@ struct SettingsScreen: View {
         .background(UIStyleConstants.Colors.background.value)
         .onAppear {
             viewModel.themeManager = themeManager
+            viewModel.configure(authManager: authManager, router: router)
         }
     }
 }

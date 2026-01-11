@@ -3,10 +3,12 @@ import SwiftUI
 struct SignInScreen: View {
 
     @EnvironmentObject var router: NavigationRouter
+    @EnvironmentObject var authManager: AuthManager
+
     @StateObject var viewModel = SignInViewModel(
         loginUseCase: LoginUseCase(
             authRepository: DependencyContainer.shared.authRepository,
-            storage: DependencyContainer.shared.keychainStorage)
+            storage: DependencyContainer.shared.keychainStorage),
     )
 
     var body: some View {
@@ -71,6 +73,9 @@ struct SignInScreen: View {
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
+        .onAppear {
+            viewModel.configure(authManager: authManager, router: router)
+        }
     }
 }
 
