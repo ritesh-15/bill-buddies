@@ -18,10 +18,8 @@ final class RegisterUserCase {
             storage.save(with: KeychainStorage.accessToken, data: data.token)
             storage.save(with: KeychainStorage.refreshToken, data: data.refreshToken)
 
-            // Save user as JSON Data
-            let encoder = JSONEncoder()
-            if let userData = try? encoder.encode(data.user) {
-                storage.save(with: KeychainStorage.me, data: userData)
+            if let encodedData = User.encodeToJSON(user: data.user) {
+                storage.save(with: KeychainStorage.me, data: encodedData)
             }
         }
 

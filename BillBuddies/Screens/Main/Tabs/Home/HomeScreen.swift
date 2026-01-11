@@ -128,12 +128,16 @@ fileprivate struct SectionHeader: View {
 
 fileprivate struct TopNavBar: View {
 
-    let user: User? = DependencyContainer.shared.keychainStorage.retrive(for: KeychainStorage.me)
+    @EnvironmentObject var authManager: AuthManager
+    // Retrieve the stored user JSON as Data and decode it to User
+    private var user: User? {
+        authManager.me()
+    }
 
     var body: some View {
         HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.xs.rawValue) {
-                Text("Hey \(user?.username)!")
+                Text("Hey \(user?.username ?? "")!")
                     .font(UIStyleConstants.Typography.heading2.font)
                     .foregroundStyle(UIStyleConstants.Colors.foreground.value)
                     .bold()

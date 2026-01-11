@@ -66,8 +66,21 @@ struct InputField<Value>: View {
             .datePickerStyle(.compact)
             .font(UIStyleConstants.Typography.subHeading.font)
             .tint(UIStyleConstants.Colors.brandPrimary.value)
-        } else if Value.self == String.self {
+        } else if Value.self == String.self && textInputType != .password {
             TextField(text: Binding<String>(
+                get: { value as! String },
+                set: { value = $0 as! Value }
+            ), prompt: Text(placeHolder)) {
+
+            }
+            .tint(UIStyleConstants.Colors.brandPrimary.value)
+            .font(UIStyleConstants.Typography.subHeading.font)
+            .foregroundStyle(UIStyleConstants.Colors.foreground.value)
+            .textInputAutocapitalization(.never)
+            .textContentType(textInputType)
+            .keyboardType(keyboardType)
+        }  else if Value.self == String.self && (textInputType == .password || textInputType == .newPassword) {
+            SecureField(text: Binding<String>(
                 get: { value as! String },
                 set: { value = $0 as! Value }
             ), prompt: Text(placeHolder)) {
