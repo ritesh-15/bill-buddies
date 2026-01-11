@@ -1,0 +1,4 @@
+*.xcbkptlist
+# Or specifically
+*.xcodeproj/xcuserdata/
+
