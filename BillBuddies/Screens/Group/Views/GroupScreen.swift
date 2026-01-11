@@ -3,7 +3,6 @@ import SwiftUI
 struct GroupScreen: View {
 
     @EnvironmentObject var router: NavigationRouter
-    @State var message = ""
 
     var body: some View {
         VStack(spacing: UIStyleConstants.Spacing.sm.rawValue) {
@@ -15,7 +14,7 @@ struct GroupScreen: View {
                 ScrollView {
                     LazyVStack(spacing: UIStyleConstants.Spacing.md.rawValue) {
                         ForEach(1..<10) { index in
-                            GroupCard(cardType: .expense, isCreatedByMe: index % 3 == 0)
+                            GroupCard(cardType: .expense, title: "Expenses", isCreatedByMe: index % 3 == 0)
                         }
                     }
                 }
