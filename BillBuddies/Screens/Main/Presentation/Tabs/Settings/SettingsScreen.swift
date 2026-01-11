@@ -26,7 +26,7 @@ struct SettingsScreen: View {
                 VStack {
                     Avatar(size: 120)
 
-                    Text("\(user?.username ?? "")")
+                    Text("\(user?.username ?? "there")")
                         .font(UIStyleConstants.Typography.heading2.font)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
