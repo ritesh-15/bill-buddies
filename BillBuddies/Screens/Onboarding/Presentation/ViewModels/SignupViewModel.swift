@@ -10,8 +10,8 @@ final class SignupViewModel: ObservableObject {
     @Published var confirmPassword: String = ""
 
     @Published var emailAddressErrorMessage: String = ""
-    @Published var passwordErroMessage: String = ""
-    @Published var confirmPasswordErroMessage: String = ""
+    @Published var passwordErrorMessage: String = ""
+    @Published var confirmPasswordErrorMessage: String = ""
 
     @Published var isLoading: Bool = false
 
@@ -58,11 +58,10 @@ final class SignupViewModel: ObservableObject {
             switch result {
             case .success(let data):
                 toastManager.show(message: "Registration succesfull!", style: .success)
-                authManager?.login(accessToken: data.token, refreshToken: data.refreshToken)
+                authManager?.login(accessToken: data.token, refreshToken: data.refreshToken, user: data.user)
                 router?.resetAllPaths()
             case .failure(let failure):
-                // TODO: Handle errors better
-                toastManager.show(message: failure.errorDescription ?? "Something weng wrong please try again later!", style: .error)
+                toastManager.show(message: failure.errorDescription ?? "Something went wrong please try again later!", style: .error)
             }
 
             isLoading = false
@@ -73,25 +72,25 @@ final class SignupViewModel: ObservableObject {
 
     private func isValidPasswords() -> Bool {
         if password.isEmpty {
-            passwordErroMessage = "Password cannot be empty"
-            confirmPasswordErroMessage = ""
+            passwordErrorMessage = "Password cannot be empty"
+            confirmPasswordErrorMessage = ""
             return false
         }
 
-        if confirmPasswordErroMessage.isEmpty || password != confirmPassword {
-            confirmPasswordErroMessage = "Confirm password and password must be same"
-            passwordErroMessage = ""
+        if confirmPasswordErrorMessage.isEmpty || password != confirmPassword {
+            confirmPasswordErrorMessage = "Confirm password and password must be same"
+            passwordErrorMessage = ""
             return false
         }
 
         if password.count < 6 {
-            passwordErroMessage = "Password length must be greater than 6 characters"
-            confirmPasswordErroMessage = ""
+            passwordErrorMessage = "Password length must be greater than 6 characters"
+            confirmPasswordErrorMessage = ""
             return false
         }
 
-        passwordErroMessage = ""
-        confirmPasswordErroMessage = ""
+        passwordErrorMessage = ""
+        confirmPasswordErrorMessage = ""
         return true
     }
 

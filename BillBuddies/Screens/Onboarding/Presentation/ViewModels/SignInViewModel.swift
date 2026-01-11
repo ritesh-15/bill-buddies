@@ -63,13 +63,11 @@ final class SignInViewModel: ObservableObject {
 
             switch result {
             case .success(let data):
-                print("[DEBUG] login response: \(data)")
-                toastManager.show(message: "Login successful!", style: .success)
-                authManager?.login(accessToken: data.token, refreshToken: data.refreshToken)
+                toastManager.show(message: "Login successfull!", style: .success)
+                authManager?.login(accessToken: data.token, refreshToken: data.refreshToken, user: data.user)
                 router?.resetAllPaths()
             case .failure(let error):
                 toastManager.show(message: error.errorDescription ?? "Something went wrong please try again later!", style: .error)
-                print("[ERROR] error: \(error.errorDescription ?? "")")
             }
         }
     }

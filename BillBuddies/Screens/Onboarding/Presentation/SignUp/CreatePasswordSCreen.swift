@@ -24,14 +24,14 @@ struct CreatePasswordSCreen: View {
                         placeHolder: "*******",
                         value: $viewModel.password,
                         textInputType: .password,
-                        errorMessage: $viewModel.passwordErroMessage)
+                        errorMessage: $viewModel.passwordErrorMessage)
 
                     InputField(
                         "Confirm password",
                         placeHolder: "*******",
                         value: $viewModel.confirmPassword,
                         textInputType: .password,
-                        errorMessage: $viewModel.confirmPasswordErroMessage)
+                        errorMessage: $viewModel.confirmPasswordErrorMessage)
 
                     AppButton(style: .primary) {
                         Text("Confirm")

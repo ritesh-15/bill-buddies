@@ -9,6 +9,7 @@ final class AuthManager: ObservableObject {
 
     @AppStorage(KeychainStorage.accessToken) private var accessToken: String?
     @AppStorage(KeychainStorage.refreshToken) private var refreshToken: String?
+    @AppStorage(KeychainStorage.me) private var user: Data?
 
     init() {
         // Initialize authentication state
@@ -19,19 +20,26 @@ final class AuthManager: ObservableObject {
         isAuthenticated = accessToken != nil && refreshToken != nil
     }
 
-    func login(accessToken: String, refreshToken: String) {
+    func login(accessToken: String, refreshToken: String, user: User) {
         self.accessToken = accessToken
         self.refreshToken = refreshToken
+        self.user = User.encodeToJSON(user: user)
         isAuthenticated = true
     }
 
     func logout() {
         accessToken = nil
         refreshToken = nil
-
-        // Also clear stored user
-        DependencyContainer.shared.keychainStorage.clear(for: KeychainStorage.me)
+        user = nil
 
         isAuthenticated = false
+    }
+
+    func me() -> User? {
+        if let user {
+            return User.decodeToUser(data: user)
+        }
+
+        return nil
     }
 }
