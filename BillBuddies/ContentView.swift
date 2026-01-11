@@ -29,10 +29,22 @@ struct ContentView: View {
         .sheet(item: $router.presentedSheet) { route in
             route.sheetView
                 .environmentObject(router)
+                .environmentObject(authManager)
+                .toast(
+                    isPresented: $toastManager.isShowing,
+                    message: toastManager.message,
+                    icon: toastManager.style.icon,
+                    iconColor: toastManager.style.color)
         }
         .fullScreenCover(item: $router.presentedFullScreen) { route in
             route.fullScreenView
                 .environmentObject(router)
+                .environmentObject(authManager)
+                .toast(
+                    isPresented: $toastManager.isShowing,
+                    message: toastManager.message,
+                    icon: toastManager.style.icon,
+                    iconColor: toastManager.style.color)
         }
         .toast(
             isPresented: $toastManager.isShowing,
