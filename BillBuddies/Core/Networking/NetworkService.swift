@@ -6,13 +6,56 @@ protocol NetworkServiceProtocol {
     func request<T: Decodable>(_ request: URLRequest) async -> NetworkResult<T>
 }
 
+// MARK: - AuthenticationNetworkInterceptor
+
+final class AuthenticationNetworkInterceptor: URLProtocol {
+
+    override class func canInit(with request: URLRequest) -> Bool {
+        return true
+    }
+
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+        request
+    }
+
+    override func startLoading() {
+        var mutableRequest = request
+
+        // Infer generic type from the variable type, and handle optional safely
+        let accessToken: String? = DependencyContainer.shared.keychainStorage.retrive(for: KeychainStorage.accessToken)
+
+        if let token = accessToken, !token.isEmpty {
+            // Prefer standard Authorization header with Bearer scheme
+            mutableRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+
+        // Proceed with the modified request
+        let task = URLSession.shared.dataTask(with: mutableRequest) { data, response, error in
+            if let data = data {
+                self.client?.urlProtocol(self, didLoad: data)
+            }
+            if let response = response {
+                self.client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+            }
+            self.client?.urlProtocolDidFinishLoading(self)
+        }
+        task.resume()
+    }
+
+    override func stopLoading() {
+        // No-op
+    }
+}
+
 // MARK: - Network Service Implementation
 
 final class NetworkService: NetworkServiceProtocol {
     private let session: URLSession
 
-    init(session: URLSession = .shared) {
-        self.session = session
+    init() {
+        let config = URLSessionConfiguration.default
+        config.protocolClasses = [AuthenticationNetworkInterceptor.self]
+        self.session = URLSession(configuration: config)
     }
 
     func request<T: Decodable>(_ request: URLRequest) async -> NetworkResult<T> {

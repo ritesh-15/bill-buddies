@@ -14,6 +14,8 @@ struct GroupCard: View {
     ]
 
     var cardType: CardType = .expense
+    var title: String
+    var members: [MemberModel] = []
     var isCreatedByMe = false
     var shoudAddSpacer = true
 
@@ -44,7 +46,7 @@ struct GroupCard: View {
     private var cardContent: some View {
         VStack(spacing: UIStyleConstants.Spacing.md.rawValue) {
             HStack(alignment: .center) {
-                Text("Tickets for mueseum")
+                Text(title)
                     .font(UIStyleConstants.Typography.subHeading.font)
                     .foregroundStyle(.black)
                     .bold()
@@ -79,7 +81,7 @@ struct GroupCard: View {
                 Spacer()
 
                 if cardType == .group {
-                    SplitTo()
+                    SplitTo(members: members)
                 } else {
                     VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.xs.rawValue) {
                         Text("You owe")
@@ -156,6 +158,9 @@ fileprivate struct ProgressBar: View {
 }
 
 fileprivate struct SplitTo: View {
+
+    var members: [MemberModel] = []
+
     var body: some View {
         VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.sm.rawValue) {
             Text("Split to")
@@ -163,8 +168,9 @@ fileprivate struct SplitTo: View {
                 .foregroundStyle(UIStyleConstants.Colors.secondary.value)
 
             HStack {
-                Avatar(size: 42)
-                Avatar(size: 42)
+                ForEach(members.suffix(3)) { member in
+                    Avatar(size: 42, seed: member.documentId)
+                }
             }
         }
     }
@@ -172,8 +178,8 @@ fileprivate struct SplitTo: View {
 
 #Preview {
     VStack {
-        GroupCard(cardType: .expense, isCreatedByMe: false)
-        GroupCard(cardType: .expense, isCreatedByMe: true)
+        GroupCard(cardType: .expense, title: "Bus ticket", isCreatedByMe: false)
+        GroupCard(cardType: .expense, title: "Bus ticket", isCreatedByMe: true)
     }
     .padding()
     .background(Color.gray.opacity(0.2))

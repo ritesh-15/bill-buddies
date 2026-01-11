@@ -3,6 +3,8 @@ import SwiftUI
 struct Groups: View {
 
     @EnvironmentObject var router: NavigationRouter
+    @EnvironmentObject var authManager: AuthManager
+
     @StateObject var viewModel = GroupsViewModel()
 
     var body: some View {
@@ -11,11 +13,16 @@ struct Groups: View {
 
             ScrollView {
                 LazyVStack(spacing: UIStyleConstants.Spacing.md.rawValue) {
-                    ForEach(1..<10) { _ in
-                        GroupCard(cardType: .group)
-                            .onTapGesture {
-                                router.navigate(to: .groupDetail(id: "test-group"))
-                            }
+                    if viewModel.groups.count > 0 {
+                        ForEach(viewModel.groups) { group in
+                            GroupCard(cardType: .group, title: group.name, members: group.members)
+                                .onTapGesture {
+                                    router.navigate(to: .groupDetail(id: group.documentId))
+                                }
+                        }
+                    } else {
+                        Text("No groups found, you can create one!")
+                            .font(UIStyleConstants.Typography.body.font)
                     }
                 }
             }
@@ -25,6 +32,13 @@ struct Groups: View {
         .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
+        .task {
+            viewModel.configure(authManager: authManager)
+            viewModel.fetchGroups()
+        }
+        .refreshable {
+            viewModel.fetchGroups()
+        }
     }
 }
 

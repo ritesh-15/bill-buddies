@@ -16,6 +16,10 @@ final class DependencyContainer {
         AuthRepository(networkService: networkService)
     }()
 
+    lazy var groupsRepository: GroupsRepositoryProtocol = {
+        GroupsRepository(networkService: networkService)
+    }()
+
     // MARK: - ViewModel
 
     lazy var singupViewModel: SignupViewModel = {

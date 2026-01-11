@@ -93,7 +93,7 @@ fileprivate struct RecentBillSplits: View {
             ScrollView(.horizontal) {
                 LazyHStack {
                     ForEach(1..<4) { _ in
-                        GroupCard(cardType: .expense, shoudAddSpacer: false)
+                        GroupCard(cardType: .expense, title: "Bill", shoudAddSpacer: false)
                     }
                 }
             }
