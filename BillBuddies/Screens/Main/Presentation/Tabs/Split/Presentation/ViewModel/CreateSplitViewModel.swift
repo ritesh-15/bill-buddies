@@ -67,9 +67,15 @@ class CreateSplitViewModel: ObservableObject {
             selectedParticipantIDs.insert(participant.id)
         }
 
-        // Re-calculate the equal split amount once the participent is toggled
-        if selectedSplitMethod == .equally {
+        switch selectedSplitMethod {
+        case .equally:
             recalculateEquallySplitAmount()
+        case .amount:
+            recalculateCustomSplitAmount()
+        case .percent:
+            print("[DEBUG] in-progress")
+        case .share:
+            print("[DEBUG] in-progress")
         }
     }
 
@@ -132,6 +138,12 @@ class CreateSplitViewModel: ObservableObject {
         self.participants = participients
     }
 
+    func onChangeSelectMethod(method: SplitMethod) {
+        if method == .equally {
+            recalculateEquallySplitAmount()
+        }
+    }
+
     // MARK: - Private methods
 
     private func recalculateEquallySplitAmount() {
@@ -146,6 +158,19 @@ class CreateSplitViewModel: ObservableObject {
                 newMember.amount = 0
             } else {
                 newMember.amount = equalSplit
+            }
+
+            return newMember
+        }
+    }
+
+    private func recalculateCustomSplitAmount() {
+        self.participants = participants.map { member in
+            var newMember = member
+            let isMemberSelected = selectedParticipantIDs.contains(member.id)
+            
+            if !isMemberSelected {
+                newMember.amount = 0
             }
 
             return newMember

@@ -61,6 +61,9 @@ struct ChooseGroupAndShare: View {
                         Rectangle()
                             .stroke(UIStyleConstants.Colors.foreground.value, lineWidth: 1)
                     }
+                    .onChange(of: viewModel.selectedSplitMethod) { _, newValue in
+                        viewModel.onChangeSelectMethod(method: newValue)
+                    }
 
                     // Render the appropriate view below based on selection
                     Group {
