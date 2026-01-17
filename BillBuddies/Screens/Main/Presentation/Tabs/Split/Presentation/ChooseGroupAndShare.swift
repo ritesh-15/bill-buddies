@@ -23,7 +23,7 @@ struct ChooseGroupAndShare: View {
                             .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
                         if let group = viewModel.selectedGroup {
-                            GroupRow(groupId: group.documentId, groupName: group.name)
+                            GroupRow(groupId: group.documentId, groupName: group.name, members: group.members)
                         }
                     }
                     .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)

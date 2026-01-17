@@ -25,7 +25,11 @@ struct PercentSplitView: View {
 
                     Spacer()
 
-                    SplitAmountInputField(amount: $participant.amount, inputType: .percentage)
+                    SplitAmountInputField(amount: $participant.percentage, inputType: .percentage, onFocusChange: { isFocused in
+                        if isFocused && !viewModel.selectedParticipantIDs.contains(participant.id) {
+                            viewModel.toggleParticipantSelection(participant: participant)
+                        }
+                    })
                 }
                 .padding(.vertical, 4)
                 .contentShape(Rectangle())

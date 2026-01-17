@@ -4,6 +4,7 @@ struct GroupRow: View {
 
     var groupId: String
     var groupName: String
+    var members: [MemberModel] = []
 
     var body: some View {
         HStack(alignment: .top) {
@@ -16,9 +17,9 @@ struct GroupRow: View {
                     .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
                 LazyHStack {
-                    Avatar(size: 24)
-                    Avatar(size: 24)
-                    Avatar(size: 24)
+                    ForEach(members) { member in
+                        Avatar(size: 24, seed: member.documentId)
+                    }
                 }
             }
         }
