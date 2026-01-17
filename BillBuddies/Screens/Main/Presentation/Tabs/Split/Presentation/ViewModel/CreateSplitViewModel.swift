@@ -55,11 +55,22 @@ class CreateSplitViewModel: ObservableObject {
     }
 
     func toggleParticipantSelection(participant: Participant) {
-//        if selectedParticipantIDs.contains(participant.id) {
-//            selectedParticipantIDs.remove(participant.id)
-//        } else {
-//            selectedParticipantIDs.insert(participant.id)
-//        }
+        // At least one member should be selected at any point of time
+        if selectedParticipantIDs.count == 1, selectedParticipantIDs.contains(participant.id) {
+            toastManager.show(message: "At least one member should be selected!", style: .warning)
+            return
+        }
+
+        if selectedParticipantIDs.contains(participant.id) {
+            selectedParticipantIDs.remove(participant.id)
+        } else {
+            selectedParticipantIDs.insert(participant.id)
+        }
+
+        // Re-calculate the equal split amount once the participent is toggled
+        if selectedSplitMethod == .equally {
+            recalculateEquallySplitAmount()
+        }
     }
 
     func nextStep() {
@@ -107,11 +118,37 @@ class CreateSplitViewModel: ObservableObject {
     func selectGroup(group: GroupsModel) {
         self.selectedGroup = group
 
-        // Convert members to participients
+        // Calculate equally split amount
+        let equalSplit = (Double(amount) ?? 0) / Double(group.members.count)
 
+        // Convert members to participients
         let participients = group.members.map { member in
-            Participant(id: member.documentId, name: member.username)
+            var participient = Participant(id: member.documentId, name: member.username)
+            participient.amount = equalSplit
+            return participient
         }
+        // For the first time select all the participients
+        self.selectedParticipantIDs = Set(participients.map(\.id))
         self.participants = participients
+    }
+
+    // MARK: - Private methods
+
+    private func recalculateEquallySplitAmount() {
+        // Calculate equally split amount
+        let equalSplit = (Double(amount) ?? 0) / Double(selectedParticipantIDs.count)
+
+        self.participants = participants.map { member in
+            var newMember = member
+            let isMemberSelected = selectedParticipantIDs.contains(member.id)
+
+            if !isMemberSelected {
+                newMember.amount = 0
+            } else {
+                newMember.amount = equalSplit
+            }
+
+            return newMember
+        }
     }
 }

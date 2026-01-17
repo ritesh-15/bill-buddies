@@ -25,7 +25,9 @@ struct EquallySplitView: View {
 
                     Spacer()
 
-                    Text("₹ 400")
+                    // Format amount to upto 2 decimals after
+                    let formated = String(format: "%.2f", Double(truncating: participant.amount as NSNumber))
+                    Text("₹ \(formated)")
                         .font(UIStyleConstants.Typography.subHeading.font)
                         .bold()
                         .foregroundStyle(UIStyleConstants.Colors.foreground.value)
