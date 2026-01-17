@@ -24,13 +24,14 @@ struct AmountSplitView: View {
 
                     Spacer()
 
-                    SplitAmountInputField(amount: $participant.amount)
+                    SplitAmountInputField(amount: $participant.amount, onFocusChange: { isFocused in
+                        if isFocused && !viewModel.selectedParticipantIDs.contains(participant.id) {
+                            viewModel.toggleParticipantSelection(participant: participant)
+                        }
+                    })
                 }
                 .padding(.vertical, 4)
                 .contentShape(Rectangle())
-                .onTapGesture {
-                    viewModel.toggleParticipantSelection(participant: participant)
-                }
             }
 
             if viewModel.participants.isEmpty {
@@ -45,3 +46,4 @@ struct AmountSplitView: View {
     AmountSplitView()
         .environmentObject(CreateSplitViewModel())
 }
+
