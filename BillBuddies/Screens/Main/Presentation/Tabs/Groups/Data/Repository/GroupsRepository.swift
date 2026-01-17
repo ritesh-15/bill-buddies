@@ -2,7 +2,7 @@ import Foundation
 
 protocol GroupsRepositoryProtocol: AnyObject {
 
-    func fetchGroups(userId: String) async -> Result<[GroupsModel], NetworkError>
+    func fetchGroups(userId: String, query: String?) async -> Result<[GroupsModel], NetworkError>
 
     func createGroup(group: CreateGroupModel) async -> Result<CreateGroupResponseModel, NetworkError>
 
@@ -17,8 +17,10 @@ final class GroupsRepository: GroupsRepositoryProtocol {
         self.networkService = networkService
     }
 
-    func fetchGroups(userId: String) async -> Result<[GroupsModel], NetworkError> {
+    func fetchGroups(userId: String, query: String? = "") async -> Result<[GroupsModel], NetworkError> {
         do {
+            let searchQuery = query ?? ""
+
             let request = try NetworkRequestBuilder()
                 .method(method: .get)
                 .setPath(path: "/groups")
@@ -29,8 +31,9 @@ final class GroupsRepository: GroupsRepositoryProtocol {
                 .addQuery("populate[members][fields][0]", value: "id")
                 .addQuery("populate[members][fields][1]", value: "documentId")
                 .addQuery("populate[members][fields][2]", value: "username")
-                .addQuery("filters[$or][0][creator][documentId][$eq]", value: userId)
-                .addQuery("filters[$or][1][members][documentId][$in]", value: userId)
+                .addQuery("filters[$or][2][id][$eq]=", value: searchQuery)
+                .addQuery("filters[$or][3][documentId][$eq]=", value: searchQuery)
+                .addQuery("filters[$or][4][name][$containsi]=", value: searchQuery)
                 .addQuery("sort[createdAt]", value: "desc")
                 .build()
 

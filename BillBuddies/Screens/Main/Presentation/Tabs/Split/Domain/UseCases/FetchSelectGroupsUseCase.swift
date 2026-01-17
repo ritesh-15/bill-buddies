@@ -1,6 +1,6 @@
 import Foundation
 
-final class FetchGroupsUseCase {
+final class FetchSelectGroupsUseCase {
 
     private let groupsRepository: GroupsRepositoryProtocol
 
@@ -8,8 +8,8 @@ final class FetchGroupsUseCase {
         self.groupsRepository = groupsRepository
     }
 
-    func execute(userId: String) async -> Result<[GroupsModel], NetworkError> {
-        let result = await groupsRepository.fetchGroups(userId: userId, query: "")
+    func execute(userId: String, query: String) async -> Result<[GroupsModel], NetworkError> {
+        let result = await groupsRepository.fetchGroups(userId: userId, query: query)
         return result
     }
 }

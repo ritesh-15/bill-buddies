@@ -25,13 +25,13 @@ enum SplitMethod: CaseIterable {
 // MARK: - Participant Model
 
 struct Participant: Identifiable, Hashable {
-    var id: UUID
+    var id: String
     var name: String
     var avatarSeed: String
     var avatarUrl: String
     var amount: String
 
-    init(id: UUID = UUID(), name: String, avatarSeed: String = UUID().uuidString, avatarUrl: String = "https://api.dicebear.com/9.x/adventurer-neutral/png") {
+    init(id: String, name: String, avatarSeed: String = UUID().uuidString, avatarUrl: String = "https://api.dicebear.com/9.x/adventurer-neutral/png") {
         self.id = id
         self.name = name
         self.avatarSeed = avatarSeed
@@ -62,8 +62,8 @@ struct ChooseGroupAndShare: View {
                             .fontWeight(.semibold)
                             .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
-                        if viewModel.isGroupSelected {
-                            GroupRow()
+                        if let group = viewModel.selectedGroup {
+                            GroupRow(groupId: group.documentId, groupName: group.name)
                         }
                     }
                     .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
@@ -188,9 +188,7 @@ fileprivate struct SplitBy: View {
 #Preview {
     let viewModel = CreateSplitViewModel()
     viewModel.participants = [
-        Participant(name: "Ritesh Khore"),
-        Participant(name: "Alex Smith"),
-        Participant(name: "Jamie Doe")
+        Participant(id: "d", name: "Test")
     ]
     viewModel.selectedParticipantIDs = [viewModel.participants.first!.id]
     return ChooseGroupAndShare(viewModel: viewModel)

@@ -1,12 +1,16 @@
 import SwiftUI
 
 struct GroupRow: View {
+
+    var groupId: String
+    var groupName: String
+
     var body: some View {
         HStack(alignment: .top) {
-            Avatar(url: "https://api.dicebear.com/9.x/shapes/png?seed=\(UUID().uuidString)")
+            Avatar(url: "https://api.dicebear.com/9.x/shapes/png?seed=\(groupId)")
 
             VStack(alignment: .leading, spacing: 0) {
-                Text("Kerala Trip")
+                Text(groupName)
                     .font(UIStyleConstants.Typography.body.font)
                     .fontWeight(.bold)
                     .foregroundStyle(UIStyleConstants.Colors.foreground.value)
@@ -23,5 +27,5 @@ struct GroupRow: View {
 }
 
 #Preview {
-    GroupRow()
+    GroupRow(groupId: "dfdf", groupName: "Kerala Coders")
 }
