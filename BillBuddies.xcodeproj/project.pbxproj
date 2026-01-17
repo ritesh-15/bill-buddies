@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F748F8322F1C01F20019C94F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F748F8312F1C01F20019C94F /* Kingfisher */; };
+		F748F8342F1C022F0019C94F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F748F8332F1C022F0019C94F /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F7E4F4F72EF712070046EB18 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F748F8342F1C022F0019C94F /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,17 +65,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F748F8322F1C01F20019C94F /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F748F8302F1C01F20019C94F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F7B292462E8045590097613C = {
 			isa = PBXGroup;
 			children = (
 				F7B292512E8045590097613C /* BillBuddies */,
 				F7E4F4F42EF712070046EB18 /* BillBuddiesTests */,
+				F748F8302F1C01F20019C94F /* Frameworks */,
 				F7B292502E8045590097613C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -103,6 +118,7 @@
 			);
 			name = BillBuddies;
 			packageProductDependencies = (
+				F748F8332F1C022F0019C94F /* Kingfisher */,
 			);
 			productName = BillBuddies;
 			productReference = F7B2924F2E8045590097613C /* BillBuddies.app */;
@@ -126,6 +142,7 @@
 			);
 			name = BillBuddiesTests;
 			packageProductDependencies = (
+				F748F8312F1C01F20019C94F /* Kingfisher */,
 			);
 			productName = BillBuddiesTests;
 			productReference = F7E4F4F32EF712070046EB18 /* BillBuddiesTests.xctest */;
@@ -159,6 +176,9 @@
 			);
 			mainGroup = F7B292462E8045590097613C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F748F82F2F1BF6C50019C94F /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F7B292502E8045590097613C /* Products */;
 			projectDirPath = "";
@@ -469,6 +489,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F748F82F2F1BF6C50019C94F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F748F8312F1C01F20019C94F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F748F82F2F1BF6C50019C94F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		F748F8332F1C022F0019C94F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F748F82F2F1BF6C50019C94F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F7B292472E8045590097613C /* Project object */;
 }

@@ -91,7 +91,7 @@ fileprivate struct TopNavBar: View {
                 }
 
             HStack(alignment: .center, spacing: UIStyleConstants.Spacing.md.rawValue) {
-                Avatar(size: 46)
+                Avatar(url: "https://api.dicebear.com/9.x/shapes/png", size: 46, seed: viewModel.groupDetails?.documentId ?? "")
 
                 VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.s.rawValue) {
                     Text(viewModel.groupDetails?.name ?? "")

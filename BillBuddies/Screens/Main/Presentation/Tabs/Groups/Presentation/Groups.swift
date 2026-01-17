@@ -33,8 +33,12 @@ struct Groups: View {
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
         .task {
-            viewModel.configure(authManager: authManager)
-            viewModel.fetchGroups()
+            // For now adding temprory fix for the issue
+            // Issue is that when redirects to group settings page somehow task get called again and again which causes multiple fetch group request at a point
+            if viewModel.groups.isEmpty {
+                viewModel.configure(authManager: authManager)
+                viewModel.fetchGroups()
+            }
         }
         .refreshable {
             viewModel.fetchGroups()

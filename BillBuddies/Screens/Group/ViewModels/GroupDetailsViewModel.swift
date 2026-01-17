@@ -19,6 +19,7 @@ final class GroupDetailsViewModel: ObservableObject {
 
     // MARK: - Public methods
 
+    @MainActor
     func fetchGroupDetails(groupId: String) {
         Task {
             let result = await fetchGroupDetailsUseCase.execute(groupId: groupId)

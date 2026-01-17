@@ -15,12 +15,17 @@ final class GroupsViewModel: ObservableObject {
     private let toastManager = DependencyContainer.shared.toastManager
     private let fetchGroupsUseCase = FetchGroupsUseCase(groupsRepository: DependencyContainer.shared.groupsRepository)
 
+    init() {
+
+    }
+
     // MARK: - Public methods
 
     func configure(authManager: AuthManager) {
         self.authManager = authManager
     }
 
+    @MainActor
     func fetchGroups() {
         Task {
             guard let me = authManager?.me() else {
@@ -31,10 +36,8 @@ final class GroupsViewModel: ObservableObject {
 
             switch result {
             case .success(let data):
-                print("[DEBUG] \(data)")
                 self.groups = data
             case .failure(let error):
-                print("[ERROR] \(error)")
                 toastManager.show(message: error.errorDescription ?? "Something went wrong please try again later!", style: .error)
             }
         }

@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 protocol KeychainStorageProtocol: AnyObject {
 
@@ -23,7 +24,7 @@ final class KeychainStorage: KeychainStorageProtocol {
             UserDefaults.standard.set(data, forKey: key)
         default:
             // No-op
-            print("[DEBUG] KeychainStorage:unknown field")
+            Logger.general.info("KeychainStorage: Cannot save \(type(of: data))")
         }
     }
 

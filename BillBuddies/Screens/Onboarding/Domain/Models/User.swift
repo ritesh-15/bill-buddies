@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 struct User: Codable {
     let id: String
@@ -11,7 +12,7 @@ struct User: Codable {
             let encoded = try encoder.encode(user)
             return encoded
         } catch let error {
-            print("[ERROR] \(error.localizedDescription)")
+            Logger.general.error("Failed to encode user: \(error.localizedDescription)")
             return nil
         }
     }
@@ -22,7 +23,7 @@ struct User: Codable {
             let user = try decoder.decode(User.self, from: data)
             return user
         } catch let error {
-            print("[ERROR] \(error.localizedDescription)")
+            Logger.general.error("Failed to decode user: \(error.localizedDescription)")
             return nil
         }
     }

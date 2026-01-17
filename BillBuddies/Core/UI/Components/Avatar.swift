@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 struct Avatar: View {
 
@@ -15,19 +16,27 @@ struct Avatar: View {
     }
 
     var body: some View {
-        AsyncImage(url: URL(string: "\(url)?size=\(size)&seed=\(seed)")) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: size, height: size)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .clipped()
-        } placeholder: {
-            Rectangle()
-                .frame(width: size, height: size)
-                .background(.gray.opacity(0.4))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-        }
+        KFImage(URL(string: "\(url)?size=\(size)&seed=\(seed)"))
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: size, height: size)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .clipped()
+
+
+//        AsyncImage(url: URL(string: "\(url)?size=\(size)&seed=\(seed)")) { image in
+//            image
+//                .resizable()
+//                .aspectRatio(contentMode: .fill)
+//                .frame(width: size, height: size)
+//                .clipShape(RoundedRectangle(cornerRadius: 8))
+//                .clipped()
+//        } placeholder: {
+//            Rectangle()
+//                .frame(width: size, height: size)
+//                .background(.gray.opacity(0.4))
+//                .clipShape(RoundedRectangle(cornerRadius: 8))
+//        }
     }
 }
 
