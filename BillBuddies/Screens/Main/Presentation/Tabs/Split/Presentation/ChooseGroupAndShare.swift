@@ -91,7 +91,7 @@ struct ChooseGroupAndShare: View {
                     Text("Split")
                         .font(UIStyleConstants.Typography.body.font.bold())
                 } action: {
-
+                    viewModel.createSplit()
                 }
                 .padding(.vertical, UIStyleConstants.Spacing.s.rawValue)
                 .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)

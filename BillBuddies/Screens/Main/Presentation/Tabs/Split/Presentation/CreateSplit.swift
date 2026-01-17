@@ -3,6 +3,8 @@ import SwiftUI
 struct CreateSplit: View {
 
     @ObservedObject var viewModel: CreateSplitViewModel
+    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var router: NavigationRouter
 
     var body: some View {
         VStack {
@@ -47,6 +49,9 @@ struct CreateSplit: View {
                 .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
             }
             .background(UIStyleConstants.Colors.background.value)
+        }
+        .onAppear {
+            viewModel.configure(authManager: authManager, router: router)
         }
     }
 }

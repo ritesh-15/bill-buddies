@@ -24,6 +24,10 @@ final class DependencyContainer {
         MembersRepository(networkService: networkService)
     }()
 
+    lazy var expenseRepository: ExpenseRepositoryProtocol = {
+        ExpenseRepository(networkService: networkService)
+    }()
+
     // MARK: - ViewModel
 
     lazy var singupViewModel: SignupViewModel = {

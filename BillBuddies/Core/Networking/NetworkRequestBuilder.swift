@@ -90,6 +90,16 @@ final class NetworkRequestBuilder {
         return self
     }
 
+    // Use this to preserve exact key names (e.g., keep "paidBy" instead of "paid_by")
+    @discardableResult
+    func setJSONBodyPreservingKeys<T: Encodable>(_ encodable: T) -> NetworkRequestBuilder {
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .useDefaultKeys
+        self.body = try? encoder.encode(encodable)
+        self.addHeader(key: "Content-Type", value: "application/json")
+        return self
+    }
+
     // MARK: - Strapi Specific
 
     @discardableResult
@@ -144,3 +154,4 @@ final class NetworkRequestBuilder {
         return request
     }
 }
+
