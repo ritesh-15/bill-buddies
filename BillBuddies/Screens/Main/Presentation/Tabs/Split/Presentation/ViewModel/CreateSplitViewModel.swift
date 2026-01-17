@@ -73,9 +73,9 @@ class CreateSplitViewModel: ObservableObject {
         case .amount:
             recalculateCustomSplitAmount()
         case .percent:
-            print("[DEBUG] in-progress")
+            recalculatePercentageSplit()
         case .share:
-            print("[DEBUG] in-progress")
+            recalculateShareSplit()
         }
     }
 
@@ -131,6 +131,7 @@ class CreateSplitViewModel: ObservableObject {
         let participients = group.members.map { member in
             var participient = Participant(id: member.documentId, name: member.username)
             participient.amount = equalSplit
+            participient.share = 1
             return participient
         }
         // For the first time select all the participients
@@ -171,6 +172,32 @@ class CreateSplitViewModel: ObservableObject {
             
             if !isMemberSelected {
                 newMember.amount = 0
+            }
+
+            return newMember
+        }
+    }
+
+    private func recalculatePercentageSplit() {
+        self.participants = participants.map { member in
+            var newMember = member
+            let isMemberSelected = selectedParticipantIDs.contains(member.id)
+
+            if !isMemberSelected {
+                newMember.percentage = 0
+            }
+
+            return newMember
+        }
+    }
+
+    private func recalculateShareSplit() {
+        self.participants = participants.map { member in
+            var newMember = member
+            let isMemberSelected = selectedParticipantIDs.contains(member.id)
+
+            if !isMemberSelected {
+                newMember.share = 0
             }
 
             return newMember

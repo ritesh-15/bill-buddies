@@ -25,7 +25,9 @@ struct ShareSplitView: View {
 
                     Spacer()
 
-                    SplitShareField()
+                    if viewModel.selectedParticipantIDs.contains(participant.id) {
+                        SplitShareField(share: $participant.share)
+                    }
                 }
                 .padding(.vertical, 4)
                 .contentShape(Rectangle())
@@ -44,10 +46,12 @@ struct ShareSplitView: View {
 
 struct SplitShareField: View {
 
+    @Binding var share: Int
+
     var body: some View {
         HStack {
             Button {
-
+                share = max(0, share - 1)
             } label: {
                 Image(systemName: "minus")
                     .frame(width: 32, height: 32)
@@ -57,12 +61,12 @@ struct SplitShareField: View {
                     .clipShape(Circle())
             }
 
-            Text("2")
+            Text("\(share)")
                 .font(UIStyleConstants.Typography.subHeading.font)
                 .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
             Button {
-
+                share = share + 1
             } label: {
                 Image(systemName: "plus")
                     .frame(width: 32, height: 32)

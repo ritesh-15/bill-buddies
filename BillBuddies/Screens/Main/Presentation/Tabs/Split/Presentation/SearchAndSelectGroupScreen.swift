@@ -24,7 +24,7 @@ struct SearchAndSelectGroupScreen: View {
 
                     ForEach(viewModel.searchGroups) { group in
                         HStack {
-                            GroupRow(groupId: group.documentId, groupName: group.name)
+                            GroupRow(groupId: group.documentId, groupName: group.name, members: group.members)
 
                             Spacer()
                         }
