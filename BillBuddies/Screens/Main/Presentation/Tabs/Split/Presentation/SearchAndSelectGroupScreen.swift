@@ -4,6 +4,7 @@ struct SearchAndSelectGroupScreen: View {
 
     @EnvironmentObject var router: NavigationRouter
     @EnvironmentObject var viewModel: CreateSplitViewModel
+    @EnvironmentObject var authManager: AuthManager
 
     var body: some View {
         VStack {
@@ -21,14 +22,14 @@ struct SearchAndSelectGroupScreen: View {
                         placeHolder: "Enter name of a group",
                         value: $viewModel.groupNameSearchText)
 
-                    ForEach(1..<10) { _ in
+                    ForEach(viewModel.searchGroups) { group in
                         HStack {
-                            GroupRow()
+                            GroupRow(groupId: group.documentId, groupName: group.name)
 
                             Spacer()
                         }
                         .onTapGesture {
-                            viewModel.isGroupSelected = true
+                            viewModel.selectGroup(group: group)
                             viewModel.showChooseGroupScreen = false
                         }
                     }
@@ -38,6 +39,10 @@ struct SearchAndSelectGroupScreen: View {
         }
         .padding(UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
+        .task {
+            viewModel.configure(authManager: authManager)
+            viewModel.fetchSelectGroups()
+        }
     }
 }
 
