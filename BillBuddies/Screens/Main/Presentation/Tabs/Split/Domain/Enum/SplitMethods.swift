@@ -12,6 +12,19 @@ enum SplitMethod: CaseIterable {
         }
     }
 
+    var title: String {
+        switch self {
+        case .equally:
+            return "Equal"
+        case .amount:
+            return "Amount"
+        case .percent:
+            return "Percentage"
+        case .share:
+            return "Share"
+        }
+    }
+
     var systemImage: String {
         switch self {
         case .equally: return "person.2"

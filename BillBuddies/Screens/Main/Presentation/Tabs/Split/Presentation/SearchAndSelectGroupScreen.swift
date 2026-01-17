@@ -40,7 +40,6 @@ struct SearchAndSelectGroupScreen: View {
         .padding(UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
         .task {
-            viewModel.configure(authManager: authManager)
             viewModel.fetchSelectGroups()
         }
     }
