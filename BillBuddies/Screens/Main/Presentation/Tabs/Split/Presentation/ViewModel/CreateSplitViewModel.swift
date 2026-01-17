@@ -40,15 +40,10 @@ class CreateSplitViewModel: ObservableObject {
     private var authManager: AuthManager?
     private var router: NavigationRouter?
     private var cancellables = Set<AnyCancellable>()
+    private var hasSetupSearchObservation = false
 
     init() {
-        $groupNameSearchText
-            .debounce(for: .milliseconds(500), scheduler: RunLoop.main) // Wait 0.5s
-            .removeDuplicates()
-            .sink { [weak self] query in
-                self?.fetchSelectGroups(query: query)
-            }
-            .store(in: &cancellables)
+        // Intentionally left empty. We will start observing search text after dependencies are configured.
     }
 
     // MARK: - Public methods
@@ -56,6 +51,9 @@ class CreateSplitViewModel: ObservableObject {
     func configure(authManager: AuthManager, router: NavigationRouter) {
         self.authManager = authManager
         self.router = router
+
+        // Set up the debounced search observation only once, after dependencies are injected.
+        setupSearchObservationIfNeeded()
     }
 
     func toggleParticipantSelection(participant: Participant) {
@@ -150,6 +148,11 @@ class CreateSplitViewModel: ObservableObject {
     }
 
     func createSplit() {
+        if selectedGroup == nil {
+            toastManager.show(message: "Please select a group to split with!", style: .error)
+            return
+        }
+
         guard let me = authManager?.me(),
               let selectedGroup else {
             return
@@ -219,6 +222,22 @@ class CreateSplitViewModel: ObservableObject {
     }
 
     // MARK: - Private methods
+
+    private func setupSearchObservationIfNeeded() {
+        guard !hasSetupSearchObservation else { return }
+        hasSetupSearchObservation = true
+
+        $groupNameSearchText
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main) // Wait 0.5s
+            .removeDuplicates()
+            .sink { [weak self] query in
+                if query.isEmpty {
+                    return
+                }
+                self?.fetchSelectGroups(query: query)
+            }
+            .store(in: &cancellables)
+    }
 
     private func recalculateEquallySplitAmount() {
         // Calculate equally split amount

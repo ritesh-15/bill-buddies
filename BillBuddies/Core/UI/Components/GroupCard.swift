@@ -21,7 +21,7 @@ struct GroupCard: View {
 
     var cardType: CardType = .expense
     var title: String
-    var members: [GroupCardMemberProtocol] = []
+    var members: [any GroupCardMemberProtocol] = []
     var total: Int = 0
     var isCreatedByMe = false
     var shoudAddSpacer = true
@@ -89,7 +89,7 @@ struct GroupCard: View {
 
                 if cardType == .group {
                     SplitTo(members: members)
-                } else {
+                } else if !isCreatedByMe {
                     VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.xs.rawValue) {
                         Text("You owe")
                             .font(UIStyleConstants.Typography.body.font)
@@ -166,7 +166,7 @@ fileprivate struct ProgressBar: View {
 
 fileprivate struct SplitTo: View {
 
-    var members: [GroupCardMemberProtocol] = []
+    var members: [any GroupCardMemberProtocol] = []
 
     var body: some View {
         VStack(alignment: .leading, spacing: UIStyleConstants.Spacing.sm.rawValue) {

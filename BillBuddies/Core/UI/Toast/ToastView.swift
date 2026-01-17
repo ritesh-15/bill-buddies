@@ -21,7 +21,7 @@ struct ToastView: View {
                 .multilineTextAlignment(.leading)
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
-        .padding(.vertical, UIStyleConstants.Spacing.md.rawValue)
+        .padding(.vertical, UIStyleConstants.Spacing.lg.rawValue)
         .frame(maxWidth: .infinity, alignment: .leading) // expand to full width
         .background(UIStyleConstants.Colors.backgroundSecondary.value)
         .clipShape(RoundedRectangle(cornerRadius: UIStyleConstants.Radius.sm.rawValue))
