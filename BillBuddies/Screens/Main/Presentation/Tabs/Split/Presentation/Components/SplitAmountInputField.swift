@@ -7,8 +7,38 @@ struct SplitAmountInputField: View {
         case percentage
     }
 
-    @Binding var amount: String
+    @Binding var amount: Double
     var inputType: FieldInput = .amount
+
+    // A simple number formatter for display; adjust as needed
+    private static let formatter: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .decimal
+        f.maximumFractionDigits = 2
+        f.minimumFractionDigits = 0
+        return f
+    }()
+
+    // Bridge a Double binding to a String binding for TextField
+    private var amountStringBinding: Binding<String> {
+        Binding<String>(
+            get: {
+                // Show empty when zero to encourage input, or format value
+                if amount == 0 { return "" }
+                return SplitAmountInputField.formatter.string(from: NSNumber(value: amount)) ?? "\(amount)"
+            },
+            set: { newValue in
+                // Normalize decimal separator to dot
+                let normalized = newValue.replacingOccurrences(of: ",", with: ".")
+                if let number = Double(normalized) {
+                    amount = number
+                } else if newValue.isEmpty {
+                    amount = 0
+                }
+                // If invalid input, we simply ignore and keep the last valid amount
+            }
+        )
+    }
 
     var body: some View {
         HStack(alignment: .center, spacing: UIStyleConstants.Spacing.md.rawValue) {
@@ -19,16 +49,14 @@ struct SplitAmountInputField: View {
                     .foregroundStyle(UIStyleConstants.Colors.foreground.value)
             }
 
-            TextField(text: $amount, prompt: Text("0")) {
-
-            }
-            .multilineTextAlignment(.leading)
-            .keyboardType(.numberPad)
-            .textInputAutocapitalization(.never)
-            .textCase(.lowercase)
-            .font(UIStyleConstants.Typography.subHeading.font)
-            .tint(.brandPrimary)
-            .foregroundStyle(UIStyleConstants.Colors.foreground.value)
+            TextField(text: amountStringBinding, prompt: Text("0")) { }
+                .multilineTextAlignment(.leading)
+                .keyboardType(.decimalPad)
+                .textInputAutocapitalization(.never)
+                .textCase(.lowercase)
+                .font(UIStyleConstants.Typography.subHeading.font)
+                .tint(.brandPrimary)
+                .foregroundStyle(UIStyleConstants.Colors.foreground.value)
 
             if inputType == .percentage {
                 Text("%")
@@ -42,7 +70,6 @@ struct SplitAmountInputField: View {
     }
 }
 
-
 #Preview {
-    SplitAmountInputField(amount: .constant(""))
+    SplitAmountInputField(amount: .constant(0))
 }

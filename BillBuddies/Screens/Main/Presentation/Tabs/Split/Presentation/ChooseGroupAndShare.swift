@@ -1,45 +1,5 @@
 import SwiftUI
 
-enum SplitMethod: CaseIterable {
-    case equally, amount, percent, share
-
-    var label: String {
-        switch self {
-        case .equally: return "Equally"
-        case .amount: return "Amount"
-        case .percent: return "Percent"
-        case .share: return "Share"
-        }
-    }
-
-    var systemImage: String {
-        switch self {
-        case .equally: return "person.2"
-        case .amount: return "indianrupeesign"
-        case .percent: return "percent"
-        case .share: return "chart.pie"
-        }
-    }
-}
-
-// MARK: - Participant Model
-
-struct Participant: Identifiable, Hashable {
-    var id: String
-    var name: String
-    var avatarSeed: String
-    var avatarUrl: String
-    var amount: String
-
-    init(id: String, name: String, avatarSeed: String = UUID().uuidString, avatarUrl: String = "https://api.dicebear.com/9.x/adventurer-neutral/png") {
-        self.id = id
-        self.name = name
-        self.avatarSeed = avatarSeed
-        self.avatarUrl = avatarUrl
-        self.amount = ""
-    }
-}
-
 struct ChooseGroupAndShare: View {
 
     @EnvironmentObject var router: NavigationRouter
