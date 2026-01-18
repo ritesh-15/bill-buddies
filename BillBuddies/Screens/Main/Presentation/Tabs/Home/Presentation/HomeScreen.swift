@@ -1,20 +1,30 @@
 import SwiftUI
 
 struct HomeScreen: View {
+
+    @EnvironmentObject var authManager: AuthManager
+    @StateObject var viewModel = HomeScreenViewModel()
+
     var body: some View {
         VStack {
             TopNavBar()
 
             ScrollView {
-                RecentBillSplits()
+                RecentBillSplits(viewModel: viewModel)
 
-                Friends()
+                Friends(viewModel: viewModel)
 
                 RecentActivity()
             }
         }
         .padding(.horizontal, UIStyleConstants.Spacing.md.rawValue)
         .background(UIStyleConstants.Colors.background.value)
+        .onAppear {
+            viewModel.configure(authManager: authManager)
+        }.task {
+            viewModel.fetchMembers()
+            viewModel.fetchRecentExpenses()
+        }
     }
 }
 
@@ -66,6 +76,9 @@ fileprivate struct RecentActivity: View {
 }
 
 fileprivate struct Friends: View {
+
+    @ObservedObject var viewModel: HomeScreenViewModel
+
     var body: some View {
         VStack {
             SectionHeader(sectionTitle: "Friends") {
@@ -74,8 +87,8 @@ fileprivate struct Friends: View {
 
             ScrollView(.horizontal) {
                 LazyHStack {
-                    ForEach(1..<10) { _ in
-                        Avatar()
+                    ForEach(viewModel.members) { member in
+                        Avatar(seed: member.documentId)
                     }
                 }
             }
@@ -84,6 +97,9 @@ fileprivate struct Friends: View {
 }
 
 fileprivate struct RecentBillSplits: View {
+
+    @ObservedObject var viewModel: HomeScreenViewModel
+
     var body: some View {
         VStack {
             SectionHeader(sectionTitle: "Recent bill splits") {
@@ -91,11 +107,20 @@ fileprivate struct RecentBillSplits: View {
             }
 
             ScrollView(.horizontal) {
-                LazyHStack {
-                    ForEach(1..<4) { _ in
-                        GroupCard(cardType: .expense, title: "Bill", shoudAddSpacer: false)
+                LazyHStack(spacing: UIStyleConstants.Spacing.lg.rawValue) {
+                    ForEach(viewModel.recentExpenses) { expense in
+                        GroupCard(
+                            cardType: .expense,
+                            title: expense.description ?? "",
+                            members: expense.splitShares.map({ expense in
+                                expense.ownedBy
+                            }),
+                            total: Int(expense.amount),
+                            shoudAddSpacer: false)
+                        .frame(width: 300, height: 250) // fixed width to avoid overlap
                     }
                 }
+                .contentMargins(.horizontal, UIStyleConstants.Spacing.lg.rawValue) // iOS 17+ nice edges
             }
         }
     }
@@ -160,3 +185,4 @@ fileprivate struct TopNavBar: View {
 #Preview {
     HomeScreen()
 }
+
