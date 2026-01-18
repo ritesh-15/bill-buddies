@@ -17,7 +17,7 @@ final class NavigationRouter: ObservableObject {
         case profile
         case settings
         case editProfile
-        case groupSetting
+        case groupSetting(groupId: String)
 
         // Global routes
         case signup
@@ -72,8 +72,8 @@ final class NavigationRouter: ObservableObject {
                     EmailVerificationScreen()
                 case .createPassword:
                     CreatePasswordSCreen()
-                case .groupSetting:
-                    GroupSettingsScreen()
+                case .groupSetting(let groupId):
+                    GroupSettingsScreen(groupId: groupId)
                 default:
                     Text("View not configured")
                 }

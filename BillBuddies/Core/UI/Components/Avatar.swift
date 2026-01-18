@@ -22,21 +22,6 @@ struct Avatar: View {
             .frame(width: size, height: size)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .clipped()
-
-
-//        AsyncImage(url: URL(string: "\(url)?size=\(size)&seed=\(seed)")) { image in
-//            image
-//                .resizable()
-//                .aspectRatio(contentMode: .fill)
-//                .frame(width: size, height: size)
-//                .clipShape(RoundedRectangle(cornerRadius: 8))
-//                .clipped()
-//        } placeholder: {
-//            Rectangle()
-//                .frame(width: size, height: size)
-//                .background(.gray.opacity(0.4))
-//                .clipShape(RoundedRectangle(cornerRadius: 8))
-//        }
     }
 }
 

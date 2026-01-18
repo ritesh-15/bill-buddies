@@ -7,6 +7,8 @@ protocol GroupsRepositoryProtocol: AnyObject {
     func createGroup(group: CreateGroupModel) async -> Result<CreateGroupResponseModel, NetworkError>
 
     func fetchGroupDetails(groupId: String) async -> Result<GroupDetailResponseModel, NetworkError>
+
+    func fetchGroupMembers(groupId: String) async -> Result<GroupMembersModel, NetworkError>
 }
 
 final class GroupsRepository: GroupsRepositoryProtocol {
@@ -99,6 +101,33 @@ final class GroupsRepository: GroupsRepositoryProtocol {
             switch result {
             case .success(let data):
                 return .success(CreateGroupResponseMapper.toDomain(data))
+            case .failure(let networkError):
+                return .failure(networkError)
+            }
+        } catch let error as NetworkError {
+            return .failure(error)
+        } catch _ {
+            return .failure(.unknown)
+        }
+    }
+
+    func fetchGroupMembers(groupId: String) async -> Result<GroupMembersModel, NetworkError> {
+        do {
+            let request = try NetworkRequestBuilder()
+                .method(method: .get)
+                .setPath(path: "/groups/\(groupId)")
+                .addHeader(key: "Content-Type", value: "application/json")
+                .addQuery("populate[members][fields][0]", value: "id")
+                .addQuery("populate[members][fields][1]", value: "username")
+                .addQuery("fields[0]", value: "name")
+                .addQuery("fields[1]", value: "id")
+                .build()
+
+            let result: NetworkResult<GroupMembersDto> = await networkService.request(request)
+
+            switch result {
+            case .success(let data):
+                return .success(GroupMembersResponseMapper.toDomain(data))
             case .failure(let networkError):
                 return .failure(networkError)
             }

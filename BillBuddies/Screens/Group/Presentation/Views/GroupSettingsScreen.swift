@@ -2,7 +2,10 @@ import SwiftUI
 
 struct GroupSettingsScreen: View {
 
+    var groupId: String
+
     @EnvironmentObject var router: NavigationRouter
+    @StateObject var viewModel = GroupSettingsViewModel()
 
     var body: some View {
         VStack(spacing: 0) {
@@ -37,10 +40,10 @@ struct GroupSettingsScreen: View {
 
             ScrollView {
                 VStack(spacing: UIStyleConstants.Spacing.lg.rawValue) {
-                    UserAvatars()
+                    UserAvatars(viewModel: viewModel)
 
                     HStack(alignment: .center, spacing: UIStyleConstants.Spacing.md.rawValue) {
-                        Text("Kerala Trip")
+                        Text("\(viewModel.groupDetails?.name ?? "")")
                             .font(UIStyleConstants.Typography.subHeading.font)
 
                         Button {
@@ -77,14 +80,14 @@ struct GroupSettingsScreen: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                    Text("Group members (10)")
+                    Text("Group members (\(viewModel.groupDetails?.members.count ?? 0))")
                         .font(UIStyleConstants.Typography.body.font)
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     VStack {
-                        ForEach(1..<10) { _ in
-                            GroupMember(name: "Ritesh Khore", userName: "rkhore")
+                        ForEach(viewModel.groupDetails?.members ?? []) { member in
+                            GroupMember(name: member.username, userName: member.documentId)
                         }
                     }
                 }
@@ -96,6 +99,9 @@ struct GroupSettingsScreen: View {
         .toolbar(.hidden, for: .navigationBar)
         .navigationBarTitleDisplayMode(.inline)
         .tint(UIStyleConstants.Colors.foreground.value)
+        .task {
+            viewModel.fetchGroupMembers(groupId: groupId)
+        }
     }
 }
 
@@ -153,21 +159,31 @@ fileprivate struct SettingsView: View {
 
 fileprivate struct UserAvatars: View {
 
-    let avatarSeeds = ["one", "two", "three", "four"]
+    @ObservedObject var viewModel: GroupSettingsViewModel
+
+    private let avatarSize: CGFloat = 52
+    private let overlap: CGFloat = 40
+
+    var members: [GroupMembersModel.Member] {
+        viewModel.groupDetails?.members ?? []
+    }
 
     var body: some View {
         HStack {
             ZStack {
-                ForEach(Array(avatarSeeds.enumerated()), id: \.offset) { index, seed in
-                    Avatar(size: 52, seed: seed)
-                        .offset(x: CGFloat(index - (avatarSeeds.count - 1) / 2) * -40)
+                let maxCount = min(5, members.count)
+                let centerIndex = (maxCount - 1) / 2
+                ForEach(members.indices.prefix(maxCount), id: \.self) { index in
+                    let member = members[index]
+                    let xOffset = CGFloat(index - centerIndex) * -overlap
+                    Avatar(size: avatarSize, seed: member.documentId)
+                        .offset(x: xOffset)
                         .zIndex(Double(index))
                 }
             }
-            // Frame is now based on the total "spread" of avatars
             .frame(
-                width: 52 + CGFloat(avatarSeeds.count - 1) * 40,
-                height: 52
+                width: avatarSize + CGFloat(max(0, members.count - 1)) * overlap,
+                height: avatarSize
             )
         }
         .frame(maxWidth: .infinity, alignment: .center)
@@ -176,6 +192,6 @@ fileprivate struct UserAvatars: View {
 }
 
 #Preview {
-    GroupSettingsScreen()
+    GroupSettingsScreen(groupId: "")
         .environmentObject(NavigationRouter())
 }
