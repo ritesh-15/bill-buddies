@@ -136,7 +136,7 @@ struct GroupCard: View {
         .padding(.vertical, UIStyleConstants.Spacing.md.rawValue)
         .padding(.horizontal, UIStyleConstants.Spacing.lg.rawValue)
         .background(Color(uiColor: colors.randomElement() ?? .brandPrimary))
-        .frame(minWidth: 350)
+        // Removed conflicting minWidth to allow parent to size the card predictably
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 2)
     }
 }
@@ -200,3 +200,4 @@ struct SplitTo: View {
     .padding()
     .background(Color.gray.opacity(0.2))
 }
+
