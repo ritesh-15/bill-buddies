@@ -164,7 +164,7 @@ fileprivate struct ProgressBar: View {
     }
 }
 
-fileprivate struct SplitTo: View {
+struct SplitTo: View {
 
     var members: [any GroupCardMemberProtocol] = []
 
@@ -174,9 +174,18 @@ fileprivate struct SplitTo: View {
                 .font(UIStyleConstants.Typography.body.font)
                 .foregroundStyle(UIStyleConstants.Colors.secondary.value)
 
-            HStack {
-                ForEach(members.suffix(3), id: \.id) { member in
+            HStack(spacing: 0) {
+                ForEach(Array(members.prefix(3).enumerated()), id: \.element.id) { index, member in
                     Avatar(size: 42, seed: member.documentId)
+                        .offset(x: CGFloat(index) * -12)
+                        .zIndex(Double(3 - index))
+                }
+
+                if members.count > 3 {
+                    Text("+\(members.count - 3)")
+                        .font(UIStyleConstants.Typography.body.font)
+                        .foregroundStyle(UIStyleConstants.Colors.secondary.value)
+                        .offset(x: -12)
                 }
             }
         }
