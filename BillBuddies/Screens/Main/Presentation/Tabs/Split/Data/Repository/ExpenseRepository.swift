@@ -12,6 +12,8 @@ protocol ExpenseRepositoryProtocol: AnyObject {
     func createExpense(expense: ExpenseRequestModel) async -> Result<CreateExpenseModel, NetworkError>
 
     func fetchRecentExpenses(userId: String) async -> Result<[RecentExpensesModel], NetworkError>
+
+    func fetchExpenseDetails(expenseId: String) async -> Result<ExpenseDetailModel, NetworkError>
 }
 
 final class ExpenseRepository: ExpenseRepositoryProtocol {
@@ -69,6 +71,40 @@ final class ExpenseRepository: ExpenseRepositoryProtocol {
             switch result {
             case .success(let data):
                 return .success(RecentExpensesResponseMapper.toDomain(data))
+            case .failure(let networkError):
+                return .failure(networkError)
+            }
+        } catch let error as NetworkError {
+            return .failure(error)
+        } catch _ {
+            return .failure(.unknown)
+        }
+    }
+
+    func fetchExpenseDetails(expenseId: String) async -> Result<ExpenseDetailModel, NetworkError> {
+        do {
+            let request = try NetworkRequestBuilder()
+                .method(method: .get)
+                .setPath(path: "/expenses/\(expenseId)")
+                .addHeader(key: "Content-Type", value: "application/json")
+                .addQuery("fields[0]", value: "id")
+                .addQuery("fields[1]", value: "description")
+                .addQuery("fields[2]", value: "createdAt")
+                .addQuery("fields[3]", value: "amount")
+                .addQuery("populate[paidBy][fields][0]", value: "id")
+                .addQuery("populate[paidBy][fields][1]", value: "username")
+                .addQuery("populate[splitShares][fields][0]", value: "id")
+                .addQuery("populate[splitShares][fields][1]", value: "amount")
+                .addQuery("populate[splitShares][fields][2]", value: "isPaid")
+                .addQuery("populate[splitShares][populate][ownedBy][fields][0]", value: "id")
+                .addQuery("populate[splitShares][populate][ownedBy][fields][1]", value: "username")
+                .build()
+
+            let result: NetworkResult<ExpenseDetailsResponseDto> = await networkService.request(request)
+
+            switch result {
+            case .success(let data):
+                return .success(ExpenseDetailResponseMapper.toDomain(data))
             case .failure(let networkError):
                 return .failure(networkError)
             }
