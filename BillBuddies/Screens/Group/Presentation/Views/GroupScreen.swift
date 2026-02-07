@@ -27,6 +27,9 @@ struct GroupScreen: View {
                             ExpenseView(expense: expense, currentUserId: currentUserId)
                                 .frame(maxWidth: UIScreen.main.bounds.width * 0.7)
                                 .frame(maxWidth: .infinity, alignment: isPaidByMe ? .trailing : .leading)
+                                .onTapGesture {
+                                    router.navigate(to: .expenseDetail(id: expense.documentId))
+                                }
                         }
                     }
                 }

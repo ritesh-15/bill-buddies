@@ -74,6 +74,8 @@ final class NavigationRouter: ObservableObject {
                     CreatePasswordSCreen()
                 case .groupSetting(let groupId):
                     GroupSettingsScreen(groupId: groupId)
+                case .expenseDetail(let expenseId):
+                    ExpenseDetailScreen(expenseId: expenseId)
                 default:
                     Text("View not configured")
                 }
