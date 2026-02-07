@@ -1,10 +1,18 @@
 import Foundation
+import SwiftData
 
 final class DependencyContainer {
 
     static let shared: DependencyContainer = DependencyContainer()
 
-    private init() {}
+    private var container: ModelContainer?
+
+    private init() {
+    }
+
+    func configure(container: ModelContainer) {
+        self.container = container
+    }
 
     // MARK: - Repositories
 
@@ -17,7 +25,8 @@ final class DependencyContainer {
     }()
 
     lazy var groupsRepository: GroupsRepositoryProtocol = {
-        GroupsRepository(networkService: networkService)
+        // Avoid force unwrap, identify better approach here
+        GroupsRepository(networkService: networkService, groupsLocalDataSource: GroupsLocalDataStore(context: container!.mainContext))
     }()
 
     lazy var membersRepository: MembersRepositoryProtocol = {

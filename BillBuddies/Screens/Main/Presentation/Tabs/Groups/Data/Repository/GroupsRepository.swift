@@ -14,12 +14,43 @@ protocol GroupsRepositoryProtocol: AnyObject {
 final class GroupsRepository: GroupsRepositoryProtocol {
 
     private let networkService: NetworkServiceProtocol
+    private let groupsLocalDataSource: GroupsLocalDataStoreProtocol
 
-    init(networkService: NetworkServiceProtocol) {
+    init(networkService: NetworkServiceProtocol, groupsLocalDataSource: GroupsLocalDataStoreProtocol) {
         self.networkService = networkService
+        self.groupsLocalDataSource = groupsLocalDataSource
     }
 
     func fetchGroups(userId: String, query: String? = "") async -> Result<[GroupsModel], NetworkError> {
+        do {
+            // Try local first
+            let localEntities = try groupsLocalDataSource.fetchAll()
+            if !localEntities.isEmpty {
+                let domain = localEntities.map(GroupsEntityMapper.toDomain)
+
+                // Fire remote refresh in background
+                Task {
+                    await refreshGroupsRemote(query: query)
+                }
+
+                return .success(domain)
+            }
+
+            return await fetchGroupsRemoteAndCache(query: query)
+        }  catch _ {
+            return .failure(.unknown)
+        }
+    }
+
+    private func refreshGroupsRemote(query: String?) async {
+        _ = await fetchGroupsRemoteAndCache(query: query)
+    }
+
+    // TODO: Create remote data source and move this method in that
+    private func fetchGroupsRemoteAndCache(
+        query: String?
+    ) async -> Result<[GroupsModel], NetworkError> {
+
         do {
             let searchQuery = query ?? ""
 
@@ -39,17 +70,23 @@ final class GroupsRepository: GroupsRepositoryProtocol {
                 .addQuery("sort[createdAt]", value: "desc")
                 .build()
 
-            let result: NetworkResult<DTOGroups> = await networkService.request(request)
+            let result: NetworkResult<DTOGroups> =
+                await networkService.request(request)
 
             switch result {
+
             case .success(let data):
+
+                let entities = GroupsResponseMapper.toEntity(data)
+                try groupsLocalDataSource.saveAll(entities)
+
                 return .success(GroupsResponseMapper.toDomain(data))
-            case .failure(let networkError):
-                return .failure(networkError)
+
+            case .failure(let error):
+                return .failure(error)
             }
-        } catch let error as NetworkError {
-            return .failure(error)
-        } catch _ {
+
+        } catch {
             return .failure(.unknown)
         }
     }

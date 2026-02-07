@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
 
@@ -8,6 +9,10 @@ struct ContentView: View {
 
     // For now creatign a signup view model at global level, in future plan to move it in a better place
     @StateObject var signupViewModel = DependencyContainer.shared.singupViewModel
+
+    init() {
+        DependencyContainer.shared.configure(container: modelContainer)
+    }
 
     var body: some View {
         NavigationStack(path: $router.globalPath) {
@@ -51,7 +56,21 @@ struct ContentView: View {
             message: toastManager.message,
             icon: toastManager.style.icon,
             iconColor: toastManager.style.color)
+        .modelContainer(modelContainer)
     }
+
+    var modelContainer: ModelContainer = {
+        do {
+            return try ModelContainer(
+                for: SDExpenseEntity.self,
+                SDGroupEntity.self,
+                SDSplitShareEntity.self,
+                SDMemberEntity.self,
+            )
+        } catch let error {
+            fatalError("Failed to register model: \(error)")
+        }
+    }()
 }
 
 #Preview {
