@@ -43,6 +43,10 @@ final class DependencyContainer {
         KeychainStorage()
     }()
 
+    lazy var authManager: AuthManager = {
+        AuthManager()
+    }()
+
     // MARK: - ToastManager
 
     lazy var toastManager: ToastManager = {

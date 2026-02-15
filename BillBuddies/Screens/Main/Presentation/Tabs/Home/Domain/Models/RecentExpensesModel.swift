@@ -6,6 +6,8 @@ struct RecentExpensesModel: Codable, Identifiable {
     let description: String?
     let amount: Double
     let splitShares: [SplitShare]
+    // This will be the amount current user owed
+    var youOwe: Int? = nil
 
     struct SplitShare: Codable {
         let id: Int

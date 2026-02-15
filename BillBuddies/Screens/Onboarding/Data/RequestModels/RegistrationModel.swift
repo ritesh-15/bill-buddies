@@ -8,6 +8,7 @@ struct RegistrationModel: Codable {
     init(email: String, password: String) {
         self.email = email
         self.password = password
-        self.username = email
+        // Remove the part after '@' symbol
+        self.username = email.replacingOccurrences(of: "@.*", with: "", options: .regularExpression)
     }
 }

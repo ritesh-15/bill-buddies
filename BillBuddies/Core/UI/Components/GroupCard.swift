@@ -25,6 +25,7 @@ struct GroupCard: View {
     var total: Int = 0
     var isCreatedByMe = false
     var shoudAddSpacer = true
+    var youOwe: Int = 0
 
     var body: some View {
         HStack {
@@ -95,7 +96,7 @@ struct GroupCard: View {
                             .font(UIStyleConstants.Typography.body.font)
                             .foregroundStyle(UIStyleConstants.Colors.secondary.value)
 
-                        Text("₹ 960")
+                        Text("₹ \(youOwe)")
                             .font(UIStyleConstants.Typography.subHeading.font)
                             .foregroundStyle(UIStyleConstants.Colors.secondary.value)
                     }
