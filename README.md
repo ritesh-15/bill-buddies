@@ -8,6 +8,28 @@ Instead of only building feature screens, this project demonstrates how to struc
 
 ---
 
+## Screenshots
+
+| Home | Settings | Statistics |
+| - | - | - |
+| <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 03 44" src="https://github.com/user-attachments/assets/97edfe52-0316-4561-bf4f-85e5d6e188f0" />| <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 04 43" src="https://github.com/user-attachments/assets/79a9c514-579d-4eba-816c-636a7f7b977e" /> | <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 04 40" src="https://github.com/user-attachments/assets/745244bf-8525-4579-be3c-d165d32405e7" /> |
+
+| Onboarding | SignUp | SignIn |
+| - | - | - |
+| <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 02 51" src="https://github.com/user-attachments/assets/27c22fb0-2324-4334-ad63-f6325e7c19ee" />| <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 03 26" src="https://github.com/user-attachments/assets/84b79f5a-5ebc-4bf3-956f-085b81708989" /> | <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 02 58" src="https://github.com/user-attachments/assets/c8f1b0f6-f45e-4b83-bcb6-6aee02d56245" />|
+
+| Groups | Creating Group | Group Detail |
+| - | - | - |
+| <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 04 19" src="https://github.com/user-attachments/assets/f57b55ec-a298-4081-8728-cfe5143ce9a3" /> | <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 04 14" src="https://github.com/user-attachments/assets/86ba5448-a8e0-4f8d-8ac5-61f4ee2ae5da" /> | <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 04 28" src="https://github.com/user-attachments/assets/5ec7931d-919b-4db4-ad03-76c419507a3a" /> |
+
+| Create Split | Split Details | Splits |
+| - | - | - |
+| <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 04 37" src="https://github.com/user-attachments/assets/2adeeb08-c086-4d53-a762-af959aed65a8" /> | <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 04 32" src="https://github.com/user-attachments/assets/59bb1c9d-3aca-4252-bf34-118effeedc7b" /> | <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-15 at 20 04 25" src="https://github.com/user-attachments/assets/3b38ac2e-f9d6-4b12-98b7-defff9dde0d0" /> |
+
+
+---
+
+
 ## ✨ Features
 
 - 🔐 Onboarding, Sign Up & Sign In flow  
@@ -48,7 +70,7 @@ This keeps business logic, UI, and data layers clearly separated and easier to s
 
 ### Layered Structure
 
-
+<img width="1536" height="1024" alt="architecture" src="https://github.com/user-attachments/assets/a06b4b16-25a4-416b-ad8d-0e708e67a769" />
 
 ### Benefits
 
@@ -136,6 +158,19 @@ Production-style logging support included:
 - Debug tracing
 - Flow tracking
 - Easier issue diagnosis
+
+## ⚙️ CI / CD (GitHub Actions)
+
+CI/CD pipelines were configured using **GitHub Actions** to automate:
+
+- Project build on each push / pull request
+- Automated test execution
+- Continuous validation of code health
+- Early failure detection
+
+This ensures safer merges and consistent build verification — similar to production team workflows.
+
+> Note: The pipeline is currently disabled to avoid unnecessary CI usage costs on a personal project, but the workflow configuration is included in the repository for reference and reuse.
 
 ---
 
