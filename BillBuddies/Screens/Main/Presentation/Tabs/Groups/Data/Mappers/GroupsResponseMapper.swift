@@ -39,4 +39,27 @@ struct GroupsResponseMapper {
             username: dto.username
         )
     }
+
+    static func toEntity(_ dto: DTOGroups) -> [SDGroupEntity] {
+        return dto.data.map { dto in
+            let entity = SDGroupEntity(
+                name: dto.name,
+                category: dto.category ?? "",
+                simplifyDebts: false,
+                id: dto.id,
+                documentId: dto.documentId,
+                isDeleted: false,
+                isSynced: true)
+
+            entity.members = dto.members.map({ memberDto in
+                return SDMemberEntity(
+                    id: memberDto.id,
+                    documentId: memberDto.documentId,
+                    isDeleted: false,
+                    isSynced: true,
+                    username: memberDto.username)
+            })
+            return entity
+        }
+    }
 }
