@@ -24,6 +24,7 @@ struct RecentExpensesDto: Codable {
         let id: Int
         let documentId: String
         let ownedBy: OwnedBy
+        let amount: Double
     }
 
     // MARK: - OwnedBy

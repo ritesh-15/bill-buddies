@@ -22,8 +22,8 @@ struct HomeScreen: View {
         .onAppear {
             viewModel.configure(authManager: authManager)
         }.task {
-            viewModel.fetchMembers()
-            viewModel.fetchRecentExpenses()
+            async let _ = viewModel.fetchMembers()
+            async let _ = viewModel.fetchRecentExpenses()
         }
     }
 }
@@ -116,7 +116,9 @@ fileprivate struct RecentBillSplits: View {
                                 expense.ownedBy
                             }),
                             total: Int(expense.amount),
-                            shoudAddSpacer: false)
+                            isCreatedByMe: expense.youOwe == nil,
+                            shoudAddSpacer: false,
+                            youOwe: expense.youOwe ?? 0)
                         .frame(width: 300, height: 250) // fixed width to avoid overlap
                     }
                 }

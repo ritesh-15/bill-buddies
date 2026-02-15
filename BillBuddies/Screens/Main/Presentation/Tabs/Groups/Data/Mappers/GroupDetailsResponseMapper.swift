@@ -47,7 +47,16 @@ struct GroupDetailsResponseMapper: ResponseMapperProtocol {
 
     static private func toDomain(_ dtos: [DTOGroupDetailResponse.DTOExpense]) -> [GroupDetailResponseModel.Expense] {
         return dtos.map { dto in
-            GroupDetailResponseModel.Expense(
+            // Calculate you owe
+            var youOwe: Double = 0
+
+            if let currentUserId = DependencyContainer.shared.authManager.me()?.id {
+               youOwe = dto.splitShares.first{ split in
+                    split.ownedBy.documentId == currentUserId
+                }?.amount ?? 0
+            }
+
+            return GroupDetailResponseModel.Expense(
                 id: dto.id,
                 documentId: dto.documentId,
                 description: dto.description,
@@ -56,7 +65,8 @@ struct GroupDetailsResponseMapper: ResponseMapperProtocol {
                 paidBy: GroupDetailResponseModel.PaidBy(
                     id: dto.paidBy.id,
                     documentId: dto.paidBy.documentId
-                )
+                ),
+                youOwe: Int(youOwe)
             )
         }
     }

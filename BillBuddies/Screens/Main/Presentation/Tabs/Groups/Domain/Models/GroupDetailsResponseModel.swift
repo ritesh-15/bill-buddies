@@ -20,8 +20,12 @@ struct GroupDetailResponseModel: Codable, Identifiable {
         let amount: Int
         let splitShares: [SplitShare]
         let paidBy: PaidBy
+
+        // This will be the amount current user owed
+        var youOwe: Int = 0
     }
 
+    
     struct SplitShare: Codable, Identifiable {
         let id: Int
         let documentId: String

@@ -69,6 +69,7 @@ final class GroupsRepository: GroupsRepositoryProtocol {
                 .addQuery("populate[expenses][fields][2]", value: "amount")
                 .addQuery("populate[expenses][populate][paidBy][fields][0]", value: "id")
                 .addQuery("populate[expenses][populate][splitShares][fields][0]", value: "id")
+                .addQuery("populate[expenses][populate][splitShares][fields][1]", value: "amount")
                 .addQuery("populate[expenses][populate][splitShares][populate][ownedBy][fields][0]", value: "id")
                 .build()
 

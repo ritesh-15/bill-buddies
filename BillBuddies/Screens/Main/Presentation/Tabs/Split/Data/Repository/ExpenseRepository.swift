@@ -59,10 +59,11 @@ final class ExpenseRepository: ExpenseRepositoryProtocol {
                 .addQuery("fields[2]", value: "date")
                 .addQuery("fields[3]", value: "amount")
                 .addQuery("populate[splitShares][fields][0]", value: "id")
+                .addQuery("populate[splitShares][fields][1]", value: "amount")
                 .addQuery("populate[splitShares][populate][ownedBy][fields][0]", value: "id")
                 .addQuery("filters[$or][0][paidBy][documentId][$eq]", value: userId)
                 .addQuery("filters[$or][1][splitShares][paidTo][documentId][$eq]", value: userId)
-                .addQuery("filters[$or][1][splitShares][ownedBy][documentId][$eq]", value: userId)
+                .addQuery("filters[$or][2][splitShares][ownedBy][documentId][$eq]", value: userId)
                 .addQuery("sort[createdAt]", value: "desc")
                 .build()
 

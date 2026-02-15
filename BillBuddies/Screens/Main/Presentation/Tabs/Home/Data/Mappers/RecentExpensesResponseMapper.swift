@@ -14,13 +14,23 @@ final class RecentExpensesResponseMapper: ResponseMapperProtocol {
 
     static func toDomain(_ dto: RecentExpensesDto) -> [RecentExpensesModel] {
         return dto.data.map { model in
-            RecentExpensesModel(
+            // Calculate you owe
+            var youOwe: Double? = nil
+
+            if let currentUserId = DependencyContainer.shared.authManager.me()?.id {
+                youOwe = model.splitShares.first{ split in
+                    split.ownedBy.documentId == currentUserId
+                }?.amount
+            }
+
+            return RecentExpensesModel(
                 id: model.id,
                 documentId: model.documentId,
                 date: model.date,
                 description: model.description,
                 amount: model.amount,
-                splitShares: toDomain(model.splitShares)
+                splitShares: toDomain(model.splitShares),
+                youOwe: (youOwe != nil) ? Int(youOwe ?? 0) : nil
             )
         }
     }

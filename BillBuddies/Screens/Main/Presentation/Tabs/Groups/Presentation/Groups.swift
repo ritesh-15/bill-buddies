@@ -15,7 +15,9 @@ struct Groups: View {
                 LazyVStack(spacing: UIStyleConstants.Spacing.md.rawValue) {
                     if viewModel.groups.count > 0 {
                         ForEach(viewModel.groups) { group in
-                            GroupCard(cardType: .group, title: group.name, members: group.members)
+                            // For now we don't have a logic to calculate total expense for a group. Passing random value for now
+                            let total = Int.random(in: 1000...10000)
+                            GroupCard(cardType: .group, title: group.name, members: group.members, total: total)
                             .onTapGesture {
                                 router.navigate(to: .groupDetail(id: group.documentId))
                                 }

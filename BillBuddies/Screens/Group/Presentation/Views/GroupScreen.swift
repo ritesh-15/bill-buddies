@@ -117,7 +117,7 @@ fileprivate struct ExpenseView: View {
                         Text("You owe")
                             .font(UIStyleConstants.Typography.body.font)
 
-                        Text("₹ 960")
+                        Text("₹ \(expense.youOwe)")
                             .font(UIStyleConstants.Typography.subHeading.font)
                     }
                 }

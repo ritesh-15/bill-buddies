@@ -43,6 +43,7 @@ struct DTOGroupDetailResponse: Codable {
         let id: Int
         let documentId: String
         let ownedBy: DTOOwnedBy
+        let amount: Double
     }
 
     // MARK: - DTOOwnedBy
